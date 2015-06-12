@@ -82,6 +82,7 @@
     <None Include="Scripts\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{ccae9459-8842-467f-ad6c-f4c29fc240af}</SharePointProjectItemId>
     </None>
+    <Content Include="Pages\CreateReview.aspx" />
     <Content Include="Pages\Reviews.aspx" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular-route.js" />

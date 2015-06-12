@@ -3,5 +3,6 @@
   <Module Name="Pages">
     <File Path="Pages\Default.aspx" Url="Pages/Default.aspx" ReplaceContent="TRUE" />
     <File Path="Pages\Reviews.aspx" Url="Pages/Reviews.aspx" ReplaceContent="TRUE" />
+    <File Path="Pages\CreateReview.aspx" Url="Pages/CreateReview.aspx" ReplaceContent="TRUE" />
   </Module>
 </Elements>

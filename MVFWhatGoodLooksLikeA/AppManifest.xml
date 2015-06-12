@@ -8,7 +8,7 @@
 >
   <Properties>
     <Title>MVFWhatGoodLooksLikeA</Title>
-    <StartPage>~appWebUrl/Pages/Reviews.aspx?SPHostTitle={HostTitle}&amp;SPHostLogoUrl={HostLogoUrl}&amp;SPHostUrl={HostUrl}&amp;SPAppWebUrl={AppWebUrl}</StartPage>
+    <StartPage>~appWebUrl/Pages/CreateReview.aspx?SPHostTitle={HostTitle}&amp;SPHostLogoUrl={HostLogoUrl}&amp;SPHostUrl={HostUrl}&amp;SPAppWebUrl={AppWebUrl}</StartPage>
   </Properties>
 
   <AppPrincipal>

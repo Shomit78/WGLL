@@ -30,7 +30,7 @@
         hostweburl = decodeURIComponent(JSRequest.QueryString["SPHostUrl"]);
         appweburl = decodeURIComponent(JSRequest.QueryString["SPAppWebUrl"]);
 
-        var restQueryUrl = appweburl + "/_api/SP.AppContextSite(@target)/web/lists/getByTitle('" + listName + "')/items?$select=" + select + "&@target='" + hostweburl + "'";
+        var restQueryUrl = appweburl + "/_api/SP.AppContextSite(@target)/web/lists/getByTitle('" + listName + "')/items?$select=" + select + "&$orderby=Title&@target='" + hostweburl + "'";
 
         var executor = new SP.RequestExecutor(appweburl);
         executor.executeAsync({
