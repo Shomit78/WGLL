@@ -4,7 +4,7 @@
 var context = SP.ClientContext.get_current();
 var user = context.get_web().get_currentUser();
 
-var myApp = angular.module('myApp', ['ui.bootstrap', 'ngSanitize']);
+var myApp = angular.module('myApp', ['ui.bootstrap', 'ngSanitize', 'ngRoute']);
 
 var hostweburl;
 var appweburl;

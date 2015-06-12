@@ -6,6 +6,7 @@
 <asp:Content ContentPlaceHolderId="PlaceHolderAdditionalPageHead" runat="server">
      <script type="text/javascript" src="../Scripts/jquery-1.9.1.min.js"></script>
     <script src="../Scripts/angular.js"></script>
+    <script src="../Scripts/angular-route.js"></script>
     <script src="../Scripts/angular-ui/ui-bootstrap.js"></script>
     <script src="../Scripts/angular-sanitize.js"></script>
     <script src="../Scripts/bootstrap.min.js"></script>
@@ -13,6 +14,7 @@
 
     <!-- Add your CSS styles to the following file -->
     <link rel="Stylesheet" type="text/css" href="../Content/App.css" />
+    <link href="../Content/bootstrap.css" rel="stylesheet" />
 
     <!-- Add your JavaScript to the following file -->
     <script src="../Scripts/App.js"></script>
@@ -22,14 +24,40 @@
     <script src="../Scripts/Controllers/VisitTypesController.js"></script>
     <script src="../Scripts/Controllers/SubsetsController.js"></script>
     <script src="../Scripts/Controllers/CriteriaController.js"></script>
+    <script src="../Scripts/Controllers/ReviewsController.js"></script>
 </asp:Content>
 
 <asp:Content ContentPlaceHolderId="PlaceHolderMain" runat="server">
-    <div ng-app="myApp">
-        <ul>
-            <li>List of existing reviews created by the current user with status = saved or submitted</li>
-            <li>Button to create new review</li>
-        </ul>
+    <div class="container-fluid" ng-app="myApp">
+        <div class="row" ng-controller="ReviewsController">
+            <table class="table">
+                <caption>Current Reviews</caption>
+                <thead>
+                    <tr>
+                        <th>Reference</th>
+                        <th>Store</th>
+                        <th>Visit Type</th>
+                        <th>Status</th>
+                        <th>Author</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="review in reviews">
+                        <td>{{ review.title }}</td>
+                        <td>{{ review.store }}</td>
+                        <td>{{ review.visitType }}</td>
+                        <td>{{ review.status }}</td>
+                        <td>{{ review.Author }}</td>
+                        <td>{{ review.Created }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr />
+            <div class="col-sm-12">
+                <input type="button" value="Create Review" />
+            </div>
+        </div>
     </div>
     <SharePoint:ScriptLink name="clienttemplates.js" runat="server" LoadAfterUI="true" Localizable="false" />
     <SharePoint:ScriptLink name="clientforms.js" runat="server" LoadAfterUI="true" Localizable="false" />

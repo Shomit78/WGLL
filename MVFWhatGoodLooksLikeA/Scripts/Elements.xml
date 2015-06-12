@@ -26,5 +26,9 @@
     <File Path="Scripts\angular-sanitize.min.js" Url="Scripts/angular-sanitize.min.js" ReplaceContent="TRUE" />
     <File Path="Scripts\angular-sanitize.js" Url="Scripts/angular-sanitize.js" ReplaceContent="TRUE" />
     <File Path="Scripts\Controllers\CriteriaController.js" Url="Scripts/Controllers/CriteriaController.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\Controllers\ReviewsController.js" Url="Scripts/Controllers/ReviewsController.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\angular-route.min.js.map" Url="Scripts/angular-route.min.js.map" ReplaceContent="TRUE" />
+    <File Path="Scripts\angular-route.min.js" Url="Scripts/angular-route.min.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\angular-route.js" Url="Scripts/angular-route.js" ReplaceContent="TRUE" />
   </Module>
 </Elements>

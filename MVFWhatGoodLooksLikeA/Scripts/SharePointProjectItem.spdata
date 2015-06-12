@@ -27,5 +27,9 @@
     <ProjectItemFile Source="angular-sanitize.min.js" Target="Scripts\" Type="ElementFile" />
     <ProjectItemFile Source="angular-sanitize.js" Target="Scripts\" Type="ElementFile" />
     <ProjectItemFile Source="Controllers\CriteriaController.js" Target="Scripts\Controllers\" Type="ElementFile" />
+    <ProjectItemFile Source="Controllers\ReviewsController.js" Target="Scripts\Controllers\" Type="ElementFile" />
+    <ProjectItemFile Source="angular-route.min.js.map" Target="Scripts\" Type="ElementFile" />
+    <ProjectItemFile Source="angular-route.min.js" Target="Scripts\" Type="ElementFile" />
+    <ProjectItemFile Source="angular-route.js" Target="Scripts\" Type="ElementFile" />
   </Files>
 </ProjectItem>

@@ -10,6 +10,7 @@
 <asp:Content ContentPlaceHolderID="PlaceHolderAdditionalPageHead" runat="server">
     <script type="text/javascript" src="../Scripts/jquery-1.9.1.min.js"></script>
     <script src="../Scripts/angular.js"></script>
+    <script src="../Scripts/angular-route.js"></script>
     <script src="../Scripts/angular-ui/ui-bootstrap.js"></script>
     <script src="../Scripts/angular-sanitize.js"></script>
     <script src="../Scripts/bootstrap.min.js"></script>
@@ -17,6 +18,7 @@
 
     <!-- Add your CSS styles to the following file -->
     <link rel="Stylesheet" type="text/css" href="../Content/App.css" />
+    <link href="../Content/bootstrap.css" rel="stylesheet" />
 
     <!-- Add your JavaScript to the following file -->
     <script src="../Scripts/App.js"></script>

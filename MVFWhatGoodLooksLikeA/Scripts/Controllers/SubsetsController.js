@@ -4,12 +4,12 @@
         $scope.subsets = [];
         var subsetFilter = "SubsetActive eq 1";
 
-        $.when(SharePointJSOMService.getItemsWithParams($scope, 'Subsets', 'Title,ID,SubsetDetail,SubsetOrder', '', subsetFilter, 'SubsetOrder'))
+        $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Subsets', 'Title,ID,SubsetDetail,SubsetOrder', '', subsetFilter, 'SubsetOrder'))
         .done(function (jsonObject) {
             angular.forEach(jsonObject.d.results, function (subset) {
                 var crit = [];
                 var filter = "Subset/ID eq " + subset.ID;
-                $.when(SharePointJSOMService.getItemsWithParams($scope, 'Criteria', 'Title,ID,CriteriaDetail,Subset/ID', 'Subset/ID', filter, 'CriteriaOrder'))
+                $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Criteria', 'Title,ID,CriteriaDetail,Subset/ID', 'Subset/ID', filter, 'CriteriaOrder'))
                 .done(function (jsonObject) {
                     angular.forEach(jsonObject.d.results, function (criteria) {
                         crit.push({

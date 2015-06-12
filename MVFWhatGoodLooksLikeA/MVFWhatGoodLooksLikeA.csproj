@@ -70,6 +70,7 @@
     <Content Include="Lists\Reviews\Schema.xml" />
     <Content Include="Pages\Elements.xml" />
     <Content Include="Pages\Default.aspx" />
+    <None Include="Scripts\angular-route.min.js.map" />
     <None Include="Scripts\angular-sanitize.min.js.map" />
     <None Include="SharePointProjectItem.spdata">
       <SharePointProjectItemId>{22163a1f-9ef0-4736-8b67-276e06396fd9}</SharePointProjectItemId>
@@ -83,6 +84,8 @@
     </None>
     <Content Include="Pages\Reviews.aspx" />
     <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular-route.js" />
+    <Content Include="Scripts\angular-route.min.js" />
     <Content Include="Scripts\angular-sanitize.js" />
     <Content Include="Scripts\angular-sanitize.min.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
@@ -95,6 +98,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Controllers\CriteriaController.js" />
     <Content Include="Scripts\Controllers\RegionsController.js" />
+    <Content Include="Scripts\Controllers\ReviewsController.js" />
     <Content Include="Scripts\Controllers\StoresController.js" />
     <Content Include="Scripts\Controllers\SubsetsController.js" />
     <Content Include="Scripts\Controllers\VisitTypesController.js" />

@@ -3,7 +3,7 @@
     function OnLoad() {
         $scope.regions = [];
 
-        $.when(SharePointJSOMService.getItems($scope, 'Regions'))
+        $.when(SharePointJSOMService.getItemsFromHostWeb($scope, 'Regions'))
         .done(function (jsonObject) {
             angular.forEach(jsonObject.d.results, function (region) {
                 $scope.regions.push({

@@ -3,7 +3,7 @@
     function OnLoad() {
         $scope.stores = [];
 
-        $.when(SharePointJSOMService.getItems($scope, 'Stores'))
+        $.when(SharePointJSOMService.getItemsFromHostWeb($scope, 'Stores'))
         .done(function (jsonObject) {
             angular.forEach(jsonObject.d.results, function (store) {
                 $scope.stores.push({

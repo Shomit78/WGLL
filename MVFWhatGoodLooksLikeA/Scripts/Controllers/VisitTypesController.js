@@ -3,7 +3,7 @@
     function OnLoad() {
         $scope.visitTypes = [];
 
-        $.when(SharePointJSOMService.getItems($scope, 'VisitTypes'))
+        $.when(SharePointJSOMService.getItemsFromHostWeb($scope, 'VisitTypes'))
         .done(function (jsonObject) {
             angular.forEach(jsonObject.d.results, function (visitType) {
                 $scope.visitTypes.push({

@@ -3,7 +3,7 @@
     function OnLoad() {
         $scope.criteria = [];
 
-        $.when(SharePointJSOMService.getItemsWithParams($scope, 'Criteria', 'Title,ID,CriteriaOrder,CriteriaDetail', '', '', 'CriteriaOrder'))
+        $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Criteria', 'Title,ID,CriteriaOrder,CriteriaDetail', '', '', 'CriteriaOrder'))
         .done(function (jsonObject) {
             angular.forEach(jsonObject.d.results, function (criteria) {
                 $scope.criteria.push({
