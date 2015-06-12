@@ -9,7 +9,9 @@
 <%-- The markup and script in the following Content element will be placed in the <head> of the page --%>
 <asp:Content ContentPlaceHolderID="PlaceHolderAdditionalPageHead" runat="server">
     <script type="text/javascript" src="../Scripts/jquery-1.9.1.min.js"></script>
-    <script src="../Scripts/angular.min.js"></script>
+    <script src="../Scripts/angular.js"></script>
+    <script src="../Scripts/angular-ui/ui-bootstrap.js"></script>
+    <script src="../Scripts/angular-sanitize.js"></script>
     <script src="../Scripts/bootstrap.min.js"></script>
     <meta name="WebPartPageExpansion" content="full" />
 
@@ -17,12 +19,19 @@
     <link rel="Stylesheet" type="text/css" href="../Content/App.css" />
 
     <!-- Add your JavaScript to the following file -->
-    <script type="text/javascript" src="../Scripts/App.js"></script>
+    <script src="../Scripts/App.js"></script>
+    <script src="../Scripts/Services/sharepoint.jsom.service.js"></script>
+    <script src="../Scripts/Controllers/RegionsController.js"></script>
+    <script src="../Scripts/Controllers/StoresController.js"></script>
+    <script src="../Scripts/Controllers/VisitTypesController.js"></script>
+    <script src="../Scripts/Controllers/SubsetsController.js"></script>
+    <script src="../Scripts/Controllers/CriteriaController.js"></script>
 </asp:Content>
 
 <%-- The markup in the following Content element will be placed in the TitleArea of the page --%>
 <asp:Content ContentPlaceHolderID="PlaceHolderPageTitleInTitleArea" runat="server">
-    Page Title
+    
+    What Good Looks Like Home
 </asp:Content>
 
 <%-- The markup and script in the following Content element will be placed in the <body> of the page --%>
@@ -36,11 +45,21 @@
     <SharePoint:ScriptLink name="SP.UserProfiles.js" runat="server" LoadAfterUI="true" Localizable="false" />
     <SharePoint:ScriptLink name="sp.runtime.js" runat="server" LoadAfterUI="true" Localizable="false" />
     <SharePoint:ScriptLink name="sp.core.js" runat="server" LoadAfterUI="true" Localizable="false" />
-    <div>
-        <p id="message">
-            <!-- The following content will be replaced with the user name when you run the app - see App.js -->
-            initializing...
-        </p>
+   
+    <div ng-app="myApp">
+        <div ng-controller="SubsetsController">
+            <div class="row">
+                <div class="col-md-12" ng-repeat="subset in subsets">
+                    {{ $index + 1}}). {{ subset.title }}
+                    <br />
+                    <div ng-repeat="criteria in subset.criteria" />
+                    {{ $index + 1}}. {{ criteria.title }}
+                    <br />
+                    {{ crit.detail }}&nbsp;<select><option></option><option>Pass</option><option>Fail</option></select>
+                </div> 
+            </div>
+        </div>
     </div>
+
 
 </asp:Content>

@@ -47,6 +47,12 @@
     <None Include="fonts\glyphicons-halflings-regular.ttf" />
     <None Include="fonts\glyphicons-halflings-regular.woff" />
     <None Include="fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="Lists\Reviews\ReviewsInstance\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{8f68b46a-96cc-434b-ab90-3e0ed2a91079}</SharePointProjectItemId>
+    </None>
+    <None Include="Lists\Reviews\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{2f6df03d-78df-4b9d-af7c-8d56402b3581}</SharePointProjectItemId>
+    </None>
     <None Include="packages.config" />
     <None Include="Pages\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{2e6aff8b-c5bf-4d17-b74c-94f4cee2ecfa}</SharePointProjectItemId>
@@ -55,11 +61,16 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="Elements.xml" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Icon.png" />
+    <Content Include="Lists\Reviews\Elements.xml" />
+    <Content Include="Lists\Reviews\ReviewsInstance\Elements.xml" />
+    <Content Include="Lists\Reviews\Schema.xml" />
     <Content Include="Pages\Elements.xml" />
     <Content Include="Pages\Default.aspx" />
+    <None Include="Scripts\angular-sanitize.min.js.map" />
     <None Include="SharePointProjectItem.spdata">
       <SharePointProjectItemId>{22163a1f-9ef0-4736-8b67-276e06396fd9}</SharePointProjectItemId>
     </None>
@@ -70,17 +81,30 @@
     <None Include="Scripts\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{ccae9459-8842-467f-ad6c-f4c29fc240af}</SharePointProjectItemId>
     </None>
+    <Content Include="Pages\Reviews.aspx" />
     <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular-sanitize.js" />
+    <Content Include="Scripts\angular-sanitize.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Controllers\CriteriaController.js" />
+    <Content Include="Scripts\Controllers\RegionsController.js" />
+    <Content Include="Scripts\Controllers\StoresController.js" />
+    <Content Include="Scripts\Controllers\SubsetsController.js" />
+    <Content Include="Scripts\Controllers\VisitTypesController.js" />
     <Content Include="Scripts\Elements.xml" />
     <Content Include="Scripts\App.js" />
     <Content Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\npm.js" />
+    <Content Include="Scripts\Services\sharepoint.jsom.service.js" />
     <Content Include="Scripts\_references.js" />
   </ItemGroup>
   <ItemGroup>
@@ -118,10 +142,7 @@
       <SubType>Designer</SubType>
     </AppManifestFile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Scripts\Controllers\" />
-    <Folder Include="Scripts\Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

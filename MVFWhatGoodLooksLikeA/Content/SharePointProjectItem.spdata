@@ -9,5 +9,6 @@
     <ProjectItemFile Source="bootstrap.min.css" Target="Content\" Type="ElementFile" />
     <ProjectItemFile Source="bootstrap.css.map" Target="Content\" Type="ElementFile" />
     <ProjectItemFile Source="bootstrap.css" Target="Content\" Type="ElementFile" />
+    <ProjectItemFile Source="ui-bootstrap-csp.css" Target="Content\" Type="ElementFile" />
   </Files>
 </ProjectItem>

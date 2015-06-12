@@ -13,5 +13,18 @@
     <File Path="Scripts\npm.js" Url="Scripts/npm.js" ReplaceContent="TRUE" />
     <File Path="Scripts\bootstrap.min.js" Url="Scripts/bootstrap.min.js" ReplaceContent="TRUE" />
     <File Path="Scripts\bootstrap.js" Url="Scripts/bootstrap.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\Services\sharepoint.jsom.service.js" Url="Scripts/Services/sharepoint.jsom.service.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\Controllers\RegionsController.js" Url="Scripts/Controllers/RegionsController.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\angular-ui\ui-bootstrap-tpls.min.js" Url="Scripts/angular-ui/ui-bootstrap-tpls.min.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\angular-ui\ui-bootstrap-tpls.js" Url="Scripts/angular-ui/ui-bootstrap-tpls.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\angular-ui\ui-bootstrap.min.js" Url="Scripts/angular-ui/ui-bootstrap.min.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\angular-ui\ui-bootstrap.js" Url="Scripts/angular-ui/ui-bootstrap.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\Controllers\StoresController.js" Url="Scripts/Controllers/StoresController.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\Controllers\VisitTypesController.js" Url="Scripts/Controllers/VisitTypesController.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\Controllers\SubsetsController.js" Url="Scripts/Controllers/SubsetsController.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\angular-sanitize.min.js.map" Url="Scripts/angular-sanitize.min.js.map" ReplaceContent="TRUE" />
+    <File Path="Scripts\angular-sanitize.min.js" Url="Scripts/angular-sanitize.min.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\angular-sanitize.js" Url="Scripts/angular-sanitize.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\Controllers\CriteriaController.js" Url="Scripts/Controllers/CriteriaController.js" ReplaceContent="TRUE" />
   </Module>
 </Elements>
