@@ -1,0 +1,33 @@
+﻿<div class="row">
+    <div class="col-md-4">
+        Region:
+    </div>
+    <div class="col-md-8">
+        <select ng-model="selectedRegion" ng-options="region as region.title for region in regions"></select>
+        {{ selectedRegion.title }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        Store:
+    </div>
+    <div class="col-md-8">
+        <select ng-model="selectedStore" ng-options="store as store.title for store in stores"></select>
+        {{ selectedStore.title }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        Visit Type:
+    </div>
+    <div class="col-md-8">
+        <select ng-model="selectedVisitType" ng-options="visitType as visitType.title for visitType in visitTypes"></select>
+        {{ selectedVisitType.title }}
+        <input type="button" value="Create Review" ng-click="goTo('/NewReview/selectedStore.title/selectedVisitType.title')" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <input type="button" value="Cancel" ng-click="goTo('/')"/>&nbsp;<input type="button" value="Create Review" ng-click="goTo('/NewReview/'+selectedStore.title+'/'+selectedVisitType.title)" />
+    </div>
+</div>

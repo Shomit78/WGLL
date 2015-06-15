@@ -31,5 +31,8 @@
     <ProjectItemFile Source="angular-route.min.js.map" Target="Scripts\" Type="ElementFile" />
     <ProjectItemFile Source="angular-route.min.js" Target="Scripts\" Type="ElementFile" />
     <ProjectItemFile Source="angular-route.js" Target="Scripts\" Type="ElementFile" />
+    <ProjectItemFile Source="Controllers\CreateReviewController.js" Target="Scripts\Controllers\" Type="ElementFile" />
+    <ProjectItemFile Source="App.Route.js" Target="Scripts\" Type="ElementFile" />
+    <ProjectItemFile Source="Controllers\NewReviewController.js" Target="Scripts\Controllers\" Type="ElementFile" />
   </Files>
 </ProjectItem>

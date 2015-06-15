@@ -22,17 +22,20 @@
 
     <!-- Add your JavaScript to the following file -->
     <script src="../Scripts/App.js"></script>
+    <script src="../Scripts/App.Route.js"></script>
     <script src="../Scripts/Services/sharepoint.jsom.service.js"></script>
     <script src="../Scripts/Controllers/RegionsController.js"></script>
     <script src="../Scripts/Controllers/StoresController.js"></script>
     <script src="../Scripts/Controllers/VisitTypesController.js"></script>
     <script src="../Scripts/Controllers/SubsetsController.js"></script>
     <script src="../Scripts/Controllers/CriteriaController.js"></script>
+    <script src="../Scripts/Controllers/ReviewsController.js"></script>
+    <script src="../Scripts/Controllers/CreateReviewController.js"></script>
+    <script src="../Scripts/Controllers/NewReviewController.js"></script>
 </asp:Content>
 
 <%-- The markup in the following Content element will be placed in the TitleArea of the page --%>
 <asp:Content ContentPlaceHolderID="PlaceHolderPageTitleInTitleArea" runat="server">
-    
     What Good Looks Like Home
 </asp:Content>
 
@@ -48,20 +51,10 @@
     <SharePoint:ScriptLink name="sp.runtime.js" runat="server" LoadAfterUI="true" Localizable="false" />
     <SharePoint:ScriptLink name="sp.core.js" runat="server" LoadAfterUI="true" Localizable="false" />
    
-    <div ng-app="myApp">
-        <div ng-controller="SubsetsController">
-            <div class="row">
-                <div class="col-md-12" ng-repeat="subset in subsets">
-                    {{ $index + 1}}). {{ subset.title }}
-                    <br />
-                    <div ng-repeat="criteria in subset.criteria" />
-                    {{ $index + 1}}. {{ criteria.title }}
-                    <br />
-                    {{ crit.detail }}&nbsp;<select><option></option><option>Pass</option><option>Fail</option></select>
-                </div> 
-            </div>
+    <div id="wgllAppContainer">
+        <div class="container-fluid" ng-app="myApp">
+            <div class="container-fluid" ng-view></div>
         </div>
     </div>
-
 
 </asp:Content>

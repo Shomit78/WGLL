@@ -30,5 +30,8 @@
     <File Path="Scripts\angular-route.min.js.map" Url="Scripts/angular-route.min.js.map" ReplaceContent="TRUE" />
     <File Path="Scripts\angular-route.min.js" Url="Scripts/angular-route.min.js" ReplaceContent="TRUE" />
     <File Path="Scripts\angular-route.js" Url="Scripts/angular-route.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\Controllers\CreateReviewController.js" Url="Scripts/Controllers/CreateReviewController.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\App.Route.js" Url="Scripts/App.Route.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\Controllers\NewReviewController.js" Url="Scripts/Controllers/NewReviewController.js" ReplaceContent="TRUE" />
   </Module>
 </Elements>

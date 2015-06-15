@@ -1,0 +1,29 @@
+﻿<div class="row">
+    <table class="table">
+        <caption>Current Reviews</caption>
+        <thead>
+            <tr>
+                <th>Reference</th>
+                <th>Store</th>
+                <th>Visit Type</th>
+                <th>Status</th>
+                <th>Author</th>
+                <th>Created</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="review in reviews">
+                <td>{{ review.title }}</td>
+                <td>{{ review.store }}</td>
+                <td>{{ review.visitType }}</td>
+                <td>{{ review.status }}</td>
+                <td>{{ review.Author }}</td>
+                <td>{{ review.Created }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <hr />
+    <div class="col-sm-12">
+        <input type="button" value="Create Review" ng-click="goTo('/CreateReview')"/>
+    </div>
+</div>

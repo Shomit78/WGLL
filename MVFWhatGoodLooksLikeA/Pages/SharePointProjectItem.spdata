@@ -5,5 +5,9 @@
     <ProjectItemFile Source="Default.aspx" Target="Pages\" Type="ElementFile" />
     <ProjectItemFile Source="Reviews.aspx" Target="Pages\" Type="ElementFile" />
     <ProjectItemFile Source="CreateReview.aspx" Target="Pages\" Type="ElementFile" />
+    <ProjectItemFile Source="ViewSubsetsAndCriteria.aspx" Target="Pages\" Type="ElementFile" />
+    <ProjectItemFile Source="Reviews\Reviews.html" Target="Pages\Reviews\" Type="ElementFile" />
+    <ProjectItemFile Source="Reviews\CreateReview.html" Target="Pages\Reviews\" Type="ElementFile" />
+    <ProjectItemFile Source="Reviews\NewReview.html" Target="Pages\Reviews\" Type="ElementFile" />
   </Files>
 </ProjectItem>

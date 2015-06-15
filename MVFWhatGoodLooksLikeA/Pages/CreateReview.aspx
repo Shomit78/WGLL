@@ -25,16 +25,18 @@
     <script src="../Scripts/Controllers/SubsetsController.js"></script>
     <script src="../Scripts/Controllers/CriteriaController.js"></script>
     <script src="../Scripts/Controllers/ReviewsController.js"></script>
+    <script src="../Scripts/Controllers/CreateReviewController.js"></script>
 </asp:Content>
 
 <asp:Content ContentPlaceHolderId="PlaceHolderMain" runat="server">
-    <div class="container-fluid" ng-controller="ReviewsController">
+    <div class="container-fluid" ng-app="myApp" ng-controller="CreateReviewController">
         <div class="row">
             <div class="col-md-4">
                 Region:
             </div>
             <div class="col-md-8">
-                <select ng-options="region.id as region.title for region in regions"></select>
+                <select ng-model="selectedRegion" ng-options="region as region.title for region in regions"></select>
+                {{ selectedRegion.title }}
             </div>
         </div>
         <div class="row">
@@ -42,15 +44,17 @@
                 Store:
             </div>
             <div class="col-md-8">
-
+                <select ng-model="selectedStore" ng-options="store as store.title for store in stores"></select>
+                {{ selectedStore.title }}
             </div>
         </div>
         <div class="row">
             <div class="col-md-4">
-                Review Type:
+                Visit Type:
             </div>
             <div class="col-md-8">
-
+                <select ng-model="selectedVisitType" ng-options="visitType as visitType.title for visitType in visitTypes"></select>
+                {{ selectedVisitType.title }}
             </div>
         </div>
         <div class="row">
