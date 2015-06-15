@@ -43,10 +43,7 @@
         });
 
         $scope.save = function () {
-            $('.wgll-answer').each(function () {
-                //Create a new review item in the review list and get the id
-                //Save the existing answers, including blank ones to the answers list with the review id;
-            });
+            SharePointJSOMService.createListItem();
         };
 
         $scope.submit = function () {
