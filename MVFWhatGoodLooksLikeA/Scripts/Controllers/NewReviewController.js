@@ -43,7 +43,17 @@
         });
 
         $scope.save = function () {
-            SharePointJSOMService.createListItem();
+            var metadata = {
+                "__metadata": { "type": "SP.Data.ReviewsListItem" },
+                "Title": "WGLL04"
+            };
+            $.when(SharePointJSOMService.createListItemJSON($scope, 'Reviews', metadata))
+            .done(function (jsonObject) {
+                alert("done");
+            })
+            .fail(function (err) {
+                console.info(JSON.stringify(err));
+            });
         };
 
         $scope.submit = function () {

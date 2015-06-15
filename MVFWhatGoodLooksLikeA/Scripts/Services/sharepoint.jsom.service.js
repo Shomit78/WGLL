@@ -1,5 +1,7 @@
 ﻿myApp.service('SharePointJSOMService', function ($q, $http) {
 
+    var newItem;
+
     //Get items from a list returning only Title and ID
     this.getItemsFromHostWeb = function ($scope, listName) {
         var deferred = $.Deferred();
@@ -123,13 +125,13 @@
         return deferred;
     };
 
-    this.createListItem = function () {
-        var context = new SP.ClientContext.get_current();
+    /*this.createListItem = function (siteUrl) {
+        var context = new SP.ClientContext(siteUrl);
         var web = context.get_web();
-        var oList = web.get_lists().getByTitle('Reviews');
+        var list = web.get_lists().getByTitle('Reviews');
 
         var itemCreateInfo = new SP.ListItemCreationInformation();
-        var newItem = oList.addItem(itemCreateInfo);
+        this.newItem = list.addItem(itemCreateInfo);
         newItem.set_item('Title', 'WGLL04');
         newItem.update();
 
@@ -140,13 +142,14 @@
         );
     }
 
-    function onQuerySucceeded() {
-        alert('Item created: ' + oListItem.get_id());
+    this.onQuerySucceeded = function() {
+        alert('Item created: ' + newItem.get_id());
     }
 
-    function onQueryFailed(sender, args) {
+    this.onQueryFailed = function (sender, args) {
         alert('Request failed. ' + args.get_message() +
             '\n' + args.get_stackTrace());
     }
+    */
 
 });
