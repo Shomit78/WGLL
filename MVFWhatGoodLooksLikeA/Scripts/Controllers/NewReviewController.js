@@ -63,8 +63,10 @@
         };
 
         $scope.successOnUpdate = function (jsonObject) {
-            alert("success on update");
             //save answers to answers list
+            $scope.$apply(function () {
+                $location.path('/');
+            });
         };
 
         $scope.failureOnUpdate = function (jsonObject) {
@@ -78,10 +80,10 @@
         $scope.submit = function () {
             alert("submitted");
         };
-    }
 
-    $scope.goTo = function (path) {
-        $location.path(path);
-    };
+        $scope.goTo = function (path) {
+            $location.path(path);
+        };
+    }
 
 }]);
