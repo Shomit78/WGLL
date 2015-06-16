@@ -1,30 +1,16 @@
-﻿<div class="row">
-    <div class="col-md-4">
-        Region:
+﻿<form>
+    <div class="form-group">
+        <label for="wgllSelectRegion">Select a region</label>
+        <select class="form-control" id="wgllSelectRegion" ng-model="selectedRegion" ng-options="region as region.title for region in regions" disabled=""></select>
     </div>
-    <div class="col-md-8">
-        <select id="wgllSelectRegion" ng-model="selectedRegion" ng-options="region as region.title for region in regions" disabled=""></select>
+    <div class="form-group">
+        <label for="wgllSelectStore">Select a store</label>
+        <select class="form-control" id="wgllSelectStore" ng-model="selectedStore" ng-options="store as store.title for store in stores" disabled=""></select>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-4">
-        Store:
+    <div class="form-group">
+        <label for="wgllSelectVisitType">Select a review type</label>
+        <select class="form-control" id="wgllSelectVisitType" ng-model="selectedVisitType" ng-options="visitType as visitType.title for visitType in visitTypes" disabled=""></select>
     </div>
-    <div class="col-md-8">
-        <select id="wgllSelectStore" ng-model="selectedStore" ng-options="store as store.title for store in stores" disabled=""></select>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-4">
-        Visit Type:
-    </div>
-    <div class="col-md-8">
-        <select id="wgllSelectVisitType" ng-model="selectedVisitType" ng-options="visitType as visitType.title for visitType in visitTypes" disabled=""></select>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12 wgll-button-row">
-        <input type="button" value="Cancel" ng-click="goTo('/')"/>&nbsp;
-        <input id="wgllButtonCreateReview" type="button" value="Create Review" ng-click="goTo('/NewReview/'+selectedStore.title+'/'+selectedVisitType.title)" disabled="" />
-    </div>
-</div>
+    <input class="btn" type="button" value="Cancel" ng-click="goTo('/')" />&nbsp;
+    <input class="btn btn-default" id="wgllButtonCreateReview" type="button" value="Create Review" ng-click="goTo('/NewReview/'+selectedStore.title+'/'+selectedVisitType.title)" disabled="" />
+</form>

@@ -1,26 +1,29 @@
-﻿<div class="row">
-    <div class="col-md-12">
-        <input type="button" value="Cancel" ng-click="goTo('/')" />&nbsp;
-        <input type="button" value="Save" ng-click="save()"/>&nbsp;
-        <input type="button" value="Submit" ng-click="submit()" />
+﻿<form>
+    <div class="input-group">
+        <input class="btn" type="button" value="Cancel" ng-click="goTo('/')" />&nbsp;
+        <input class="btn" type="button" value="Save" ng-click="save()" disabled=""/>&nbsp;
+        <input class="btn" type="button" value="Submit" ng-click="submit()" />
     </div>
-    <div class="col-md-12 wgll-subset-container" ng-repeat="subset in subsets">
-        {{ $index + 1}}). {{ subset.title }}
-        <div class="row wgll-answer" ng-repeat="criteria in subset.criteria">
-            <div class="col-sm-11 wgll-answer-title">
-                {{ $parent.$index }}{{ $index + 1}}.&nbsp;{{ criteria.title }}
-                <div class="row">
-                    <div class="col-sm-12" ng-bind-html="criteria.detail"></div>
-                </div>
-            </div>
-            <div class="col-sm-1 wgll-answer-result">
-                <select><option></option><option>Pass</option><option>Fail</option></select>
+    <div class="form-group wgll-subset-container" ng-repeat="subset in subsets">
+        <h3>{{ $index + 1}}). {{ subset.title }}</h3>
+        <div class="form-group" ng-repeat="criteria in subset.criteria">
+            <label for="wgllSelectCriteria{{ $index }}">{{ criteria.title }}</label>
+            <div class="form-group" ng-bind-html="criteria.detail"></div>
+            <select id="wgllSelectCriteria{{ $index }}" class="form-control wgll-select-criteria">
+                <option></option>
+                <option>Pass</option>
+                <option>Fail</option>
+            </select>
+            <div class="form-group hidden">
+                <label for="wgllTextArea{{ $index }}">Reason for failure</label>
+                <textarea id="wgllTextArea{{ $index }}" class="form-control" rows="2"></textarea>
             </div>
         </div>
     </div>
-    <div class="col-md-12">
-        <input type="button" value="Cancel" ng-click="goTo('/')" />&nbsp;
-        <input type="button" value="Save" ng-click="save()" />&nbsp;
-        <input type="button" value="Submit" ng-click="submit()" />
+    <div class="input-group">
+        <input class="btn" type="button" value="Cancel" ng-click="goTo('/')" />&nbsp;
+        <input class="btn" type="button" value="Save" ng-click="save()" disabled=""/>&nbsp;
+        <input class="btn" type="button" value="Submit" ng-click="submit()" />
     </div>
-</div>
+</form>
+<!-- NOTES: Form Group for Reason for failure is hidden with no code to show; Save is disabled, but code will save review, just not any answers -->

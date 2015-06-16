@@ -78,7 +78,13 @@
         };
 
         $scope.submit = function () {
-            alert("submitted");
+            //Submit review, but don't set title.  In success function update list item with title
+            if (!saved) {
+                SharePointJSOMService.addListItem("Reviews", { "WGLLStore": store, "WGLLVisitType": visitType, "WGLLStatus": "Submitted" }, $scope.successOnSave, $scope.failureOnSave);
+            }
+            else {
+                //save only the answers
+            }
         };
 
         $scope.goTo = function (path) {
