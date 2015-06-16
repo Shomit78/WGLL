@@ -15,6 +15,7 @@
     <Internal />
   </AppPrincipal>
   <AppPermissionRequests AllowAppOnlyPolicy="false" >
-    <AppPermissionRequest Scope="http://sharepoint/content/sitecollection/web" Right="Read" />
+    <AppPermissionRequest Scope="http://sharepoint/content/sitecollection/web" Right="Write" />
+    <AppPermissionRequest Scope="http://sharepoint/social/tenant" Right="Read" />
   </AppPermissionRequests>
 </App>

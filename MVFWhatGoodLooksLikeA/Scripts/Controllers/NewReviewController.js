@@ -24,6 +24,7 @@
                         //$scope is not updating so force with this command
                         if (!$scope.$$phase) { $scope.$apply(); }
                     });
+                    $('.wgll-button-disabled').removeAttr("disabled");
                 })
                 .fail(function (err) {
                     console.info(JSON.stringify(err));
@@ -79,6 +80,7 @@
 
         $scope.submit = function () {
             //Submit review, but don't set title.  In success function update list item with title
+            $('.wgll-button-disabled').attr('disabled', '');
             if (!saved) {
                 SharePointJSOMService.addListItem("Reviews", { "WGLLStore": store, "WGLLVisitType": visitType, "WGLLStatus": "Submitted" }, $scope.successOnSave, $scope.failureOnSave);
             }

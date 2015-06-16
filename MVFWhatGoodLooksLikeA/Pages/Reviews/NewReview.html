@@ -2,7 +2,7 @@
     <div class="input-group">
         <input class="btn" type="button" value="Cancel" ng-click="goTo('/')" />&nbsp;
         <input class="btn" type="button" value="Save" ng-click="save()" disabled=""/>&nbsp;
-        <input class="btn" type="button" value="Submit" ng-click="submit()" />
+        <input class="btn wgll-button-disabled" type="button" value="Submit" ng-click="submit()" disabled="" />
     </div>
     <div class="form-group wgll-subset-container" ng-repeat="subset in subsets">
         <h3>{{ $index + 1}}). {{ subset.title }}</h3>
@@ -23,7 +23,7 @@
     <div class="input-group">
         <input class="btn" type="button" value="Cancel" ng-click="goTo('/')" />&nbsp;
         <input class="btn" type="button" value="Save" ng-click="save()" disabled=""/>&nbsp;
-        <input class="btn" type="button" value="Submit" ng-click="submit()" />
+        <input class="btn wgll-button-disabled" type="button" value="Submit" ng-click="submit()" disabled="" />
     </div>
 </form>
 <!-- NOTES: Form Group for Reason for failure is hidden with no code to show; Save is disabled, but code will save review, just not any answers -->

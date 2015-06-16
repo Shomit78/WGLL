@@ -106,7 +106,7 @@
         JSRequest.EnsureSetup();
         hostweburl = decodeURIComponent(JSRequest.QueryString["SPHostUrl"]);
         appweburl = decodeURIComponent(JSRequest.QueryString["SPAppWebUrl"]);
-        var restQueryUrl = appweburl + "/_api/SP.AppContextSite(@target)/web/lists/getByTitle('" + listName + "')/items?@target='" + appweburl + "'";
+        var restQueryUrl = appweburl + "/_api/SP.AppContextSite(@target)/web/lists/getByTitle('" + listName + "')/items?@target='" + hostweburl + "'";
 
         var item = $.extend({
             "__metadata": { "type": this.getListItemType(listName) }
@@ -153,14 +153,14 @@
         hostweburl = decodeURIComponent(JSRequest.QueryString["SPHostUrl"]);
         appweburl = decodeURIComponent(JSRequest.QueryString["SPAppWebUrl"]);
 
-        var restQueryUrl = appweburl + "/_api/SP.AppContextSite(@target)/web/lists/getByTitle('" + listName + "')/items("+id+")?@target='" + appweburl + "'";
+        var restQueryUrl = appweburl + "/_api/SP.AppContextSite(@target)/web/lists/getByTitle('" + listName + "')/items("+id+")?@target='" + hostweburl + "'";
         var item = $.extend({
             "__metadata": { "type": this.getListItemType(listName) }
         }, metadata);
 
         this.getListItem(restQueryUrl, listName, function (data) {
             $.ajax({
-                url: data.d.__metadata.uri,
+                url: restQueryUrl,
                 type: "POST",
                 contentType: "application/json;odata=verbose",
                 data: JSON.stringify(item),
