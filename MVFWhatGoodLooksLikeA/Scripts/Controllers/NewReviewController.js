@@ -57,8 +57,18 @@
         $scope.successOnSave = function (jsonObject) {
             saved = true;
             angular.forEach(jsonObject, function (review) {
+
+                var store = review.WGLLStore;
+                store = store.toString().replace(' ', '');
+                store = store.toUpperCase();
+
+                var visitType = review.WGLLVisitType;
+                visitType = visitType.toString().toUpperCase();
+
                 var currentDate = new Date();
-                var title = "WGLL" + currentDate.getFullYear() + (currentDate.getMonth() + 1) + currentDate.getDate() + review.ID;
+                var dateString = currentDate.getFullYear().toString() + (currentDate.getMonth() + 1).toString() + currentDate.getDate().toString();
+
+                var title = "WGLL-" + store + "-" + visitType + "-" + dateString + "-" + review.ID;
                 SharePointJSOMService.updateListItem("Reviews", review.ID, { "Title": title }, $scope.successOnUpdate, $scope.failureOnUpdate);
             });
         };
@@ -92,6 +102,26 @@
         $scope.goTo = function (path) {
             $location.path(path);
         };
+
+        $scope.runTests = function () {
+            console.log("Running tests on WGLL application");
+            $('.wgll-subset-container').each(function () {
+                console.log($(this).attr('id'));
+            });
+        };
+
+        $scope.showHideTextArea = function (checked, textAreaDivId) {
+            console.log(textAreaDivId);
+            if (checked) {
+                $('#' + textAreaDivId).removeClass('show');
+                $('#' + textAreaDivId).addClass('hidden');
+            }
+            else {
+                $('#' + textAreaDivId).removeClass('hidden');
+                $('#' + textAreaDivId).addClass('show');
+            }
+        };
     }
+
 
 }]);
