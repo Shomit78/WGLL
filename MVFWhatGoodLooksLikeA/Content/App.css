@@ -1,4 +1,4 @@
 ﻿/* Place custom styles below */
-#wgllAppContainer { margin: 20px, 0px;}
+#wgllAppContainer { padding: 30px, 10px;}
 .wgll-subset-container { border: 1px solid grey; margin:5px;}
 .wgll-align-top { vertical-align:top;}

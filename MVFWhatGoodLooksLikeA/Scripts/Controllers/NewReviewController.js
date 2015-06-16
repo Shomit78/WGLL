@@ -3,6 +3,7 @@
     function NewReviewControllerOnLoad() {
         var store = $routeParams.store;
         var visitType = $routeParams.visitType;
+        var saved = false;
 
         $scope.subsets = [];
         var subsetFilter = "SubsetActive eq 1";
@@ -43,17 +44,35 @@
         });
 
         $scope.save = function () {
-            var metadata = {
-                "__metadata": { "type": "SP.Data.ReviewsListItem" },
-                "Title": "WGLL04"
-            };
-            $.when(SharePointJSOMService.createListItemJSON($scope, 'Reviews', metadata))
-            .done(function (jsonObject) {
-                alert("done");
-            })
-            .fail(function (err) {
-                console.info(JSON.stringify(err));
+            //Save review, but don't set title.  In success function update list item with title
+            if (!saved) {
+                SharePointJSOMService.addListItem("Reviews", { "WGLLStore": store, "WGLLVisitType": visitType, "WGLLStatus": "Saved" }, $scope.successOnSave, $scope.failureOnSave);
+            }
+            else {
+                //save only the answers
+            }
+        };
+
+        $scope.successOnSave = function (jsonObject) {
+            saved = true;
+            angular.forEach(jsonObject, function (review) {
+                var currentDate = new Date();
+                var title = "WGLL" + currentDate.getFullYear() + (currentDate.getMonth() + 1) + currentDate.getDate() + review.ID;
+                SharePointJSOMService.updateListItem("Reviews", review.ID, { "Title": title }, $scope.successOnUpdate, $scope.failureOnUpdate);
             });
+        };
+
+        $scope.successOnUpdate = function (jsonObject) {
+            alert("success on update");
+            //save answers to answers list
+        };
+
+        $scope.failureOnUpdate = function (jsonObject) {
+            console.info(JSON.stringify(jsonObject));
+        };
+
+        $scope.failureOnSave = function (jsonObject) {
+            console.info(JSON.stringify(jsonObject));
         };
 
         $scope.submit = function () {

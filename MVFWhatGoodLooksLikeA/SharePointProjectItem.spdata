@@ -8,5 +8,6 @@
     <ProjectItemFile Source="fonts\glyphicons-halflings-regular.ttf" Target="fonts\" Type="ElementFile" />
     <ProjectItemFile Source="fonts\glyphicons-halflings-regular.svg" Target="fonts\" Type="ElementFile" />
     <ProjectItemFile Source="fonts\glyphicons-halflings-regular.eot" Target="fonts\" Type="ElementFile" />
+    <ProjectItemFile Source="Archive\Code.txt" Target="Archive\" Type="ElementFile" />
   </Files>
 </ProjectItem>

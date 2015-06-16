@@ -97,59 +97,90 @@
         return deferred;
     };
 
-    this.createListItemJSON = function ($scope, listName, metadata) {
-        var deferred = $.Deferred();
+    this.getListItemType = function (name) {
+        return "SP.Data." + name[0].toUpperCase() + name.substring(1) + "ListItem";
+    };
+
+    this.addListItem = function (listName, metadata, success, failure) {
+
+        JSRequest.EnsureSetup();
+        hostweburl = decodeURIComponent(JSRequest.QueryString["SPHostUrl"]);
+        appweburl = decodeURIComponent(JSRequest.QueryString["SPAppWebUrl"]);
+        var restQueryUrl = appweburl + "/_api/SP.AppContextSite(@target)/web/lists/getByTitle('" + listName + "')/items?@target='" + appweburl + "'";
+
+        var item = $.extend({
+            "__metadata": { "type": this.getListItemType(listName) }
+        }, metadata);
+
+        $.ajax({
+            url: restQueryUrl,
+            type: "POST",
+            contentType: "application/json;odata=verbose",
+            data: JSON.stringify(item),
+            headers: {
+                "Accept": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
+            success: function (data) {
+                success(data);
+            },
+            error: function (data) {
+                failure(data);
+            }
+        });
+
+    }
+
+    this.getListItem = function (url, listname, complete, failure) {
+        // Getting our list items
+        $.ajax({
+            url: url,
+            method: "GET",
+            headers: { "Accept": "application/json; odata=verbose" },
+            success: function (data) {
+                // Returning the results
+                complete(data);
+            },
+            error: function (data) {
+                failure(data);
+            }
+        });
+    };
+    
+    this.updateListItem = function (listName, id, metadata, success, failure) {
+
         JSRequest.EnsureSetup();
         hostweburl = decodeURIComponent(JSRequest.QueryString["SPHostUrl"]);
         appweburl = decodeURIComponent(JSRequest.QueryString["SPAppWebUrl"]);
 
-        var restQueryUrl = appweburl + "/_api/SP.AppContextSite(@target)/web/lists/getByTitle('" + listName + "')/items?@target='" + appweburl + "'";
+        var restQueryUrl = appweburl + "/_api/SP.AppContextSite(@target)/web/lists/getByTitle('" + listName + "')/items("+id+")?@target='" + appweburl + "'";
+        var item = $.extend({
+            "__metadata": { "type": this.getListItemType(listName) }
+        }, metadata);
 
-        var executor = new SP.RequestExecutor(appweburl);
-        executor.executeAsync({
-            url: restQueryUrl,
-            method: "POST",
-            headers: {
-                "Accept": "application/json; odata=verbose",
-                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                "content-Type": "application/json;odata=verbose"
-            },
-            data: JSON.stringify(metadata),
-            success: function (data, textStatus, xhr) {
-                deferred.resolve(JSON.parse(data.body));
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                deferred.reject(JSON.stringify(xhr));
-            }
+        this.getListItem(restQueryUrl, listName, function (data) {
+            $.ajax({
+                url: data.d.__metadata.uri,
+                type: "POST",
+                contentType: "application/json;odata=verbose",
+                data: JSON.stringify(item),
+                headers: {
+                    "Accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "X-HTTP-Method": "MERGE",
+                    "If-Match": data.d.__metadata.etag
+                },
+                success: function (data) {
+                    success(data);
+                },
+                error: function (data) {
+                    failure(data);
+                }
+            });
+
+        }, function (data) {
+            failure(data);
         });
-        return deferred;
+
     };
-
-    /*this.createListItem = function (siteUrl) {
-        var context = new SP.ClientContext(siteUrl);
-        var web = context.get_web();
-        var list = web.get_lists().getByTitle('Reviews');
-
-        var itemCreateInfo = new SP.ListItemCreationInformation();
-        this.newItem = list.addItem(itemCreateInfo);
-        newItem.set_item('Title', 'WGLL04');
-        newItem.update();
-
-        context.load(newItem);
-        context.executeQueryAsync(
-            Function.createDelegate(this, this.onQuerySucceeded),
-            Function.createDelegate(this, this.onQueryFailed)
-        );
-    }
-
-    this.onQuerySucceeded = function() {
-        alert('Item created: ' + newItem.get_id());
-    }
-
-    this.onQueryFailed = function (sender, args) {
-        alert('Request failed. ' + args.get_message() +
-            '\n' + args.get_stackTrace());
-    }
-    */
-
 });

@@ -1,0 +1,77 @@
+﻿    
+	/*$.when(SharePointJSOMService.createListItemJSON($scope, 'Reviews', { "Title": "WGLL05" }))
+            .done(function (jsonObject) {
+                alert("done");
+            })
+            .fail(function (err) {
+                alert("fail");
+                //console.info(JSON.stringify(err));
+            });*/
+
+	this.createListItemJSON = function ($scope, listName, metadata) {
+        var deferred = $.Deferred();
+        JSRequest.EnsureSetup();
+        hostweburl = decodeURIComponent(JSRequest.QueryString["SPHostUrl"]);
+        appweburl = decodeURIComponent(JSRequest.QueryString["SPAppWebUrl"]);
+
+        // Prepping our update
+        var item = $.extend({
+            "__metadata": { "type": this.getListItemType(listName) }
+        }, metadata);
+
+        var restQueryUrl = appweburl + "/_api/SP.AppContextSite(@target)/web/lists/getByTitle('" + listName + "')/items?@target='" + appweburl + "'";
+
+        var executor = new SP.RequestExecutor(appweburl);
+        executor.executeAsync({
+            url: restQueryUrl,
+            method: "POST",
+            headers: {
+                "Accept": "application/json; odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                "content-Type": "application/json;odata=verbose"
+            },
+            data: JSON.stringify(metadata),
+            success: function (data, textStatus, xhr) {
+                alert("success in service")
+                deferred.resolve(JSON.parse(data.body));
+                //deferred.resolve(data.body);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                alert("failure in service");
+                deferred.reject(JSON.stringify(xhr));
+            }
+        });
+        return deferred;
+    };
+
+    this.testCreateListItem = function () {
+        JSRequest.EnsureSetup();
+        hostweburl = decodeURIComponent(JSRequest.QueryString["SPHostUrl"]);
+        this.createListItem(hostweburl);
+    };
+
+    this.createListItem = function (siteUrl) {
+        var context = new SP.ClientContext(siteUrl);
+        var web = context.get_web();
+        var list = web.get_lists().getByTitle('Reviews');
+
+        var itemCreateInfo = new SP.ListItemCreationInformation();
+        this.newItem = list.addItem(itemCreateInfo);
+        newItem.set_item('Title', 'WGLL04');
+        newItem.update();
+
+        context.load(newItem);
+        context.executeQueryAsync(
+            Function.createDelegate(this, this.onQuerySucceeded),
+            Function.createDelegate(this, this.onQueryFailed)
+        );
+    }
+
+    this.onQuerySucceeded = function() {
+        alert('Item created: ' + newItem.get_id());
+    }
+
+    this.onQueryFailed = function (sender, args) {
+        alert('Request failed. ' + args.get_message() +
+            '\n' + args.get_stackTrace());
+    }

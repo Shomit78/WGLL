@@ -57,6 +57,7 @@
     <None Include="Pages\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{2e6aff8b-c5bf-4d17-b74c-94f4cee2ecfa}</SharePointProjectItemId>
     </None>
+    <Content Include="Archive\Code.txt" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
