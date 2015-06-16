@@ -4,19 +4,19 @@
     <Data>
       <Rows>
         <Row>
-          <Field Name="Reference">WGLL01</Field>
+          <Field Name="Reference">WGLL2015061601</Field>
           <Field Name="Status">Saved</Field>
           <Field Name="Store">South Molton</Field>
           <Field Name="VisitType">Monthly</Field>
         </Row>
         <Row>
-          <Field Name="Reference">WGLL02</Field>
+          <Field Name="Reference">WGLL2015061602</Field>
           <Field Name="Status">Submitted</Field>
           <Field Name="Store">Frome</Field>
           <Field Name="VisitType">Daily</Field>
         </Row>
         <Row>
-          <Field Name="Reference">WGLL03</Field>
+          <Field Name="Reference">WGLL2015061603</Field>
           <Field Name="Status">Submitted</Field>
           <Field Name="Store">South Molton</Field>
           <Field Name="VisitType">Weekly</Field>
