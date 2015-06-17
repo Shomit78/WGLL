@@ -102,6 +102,7 @@
             $('.wgll-button-disabled').attr('disabled', '');
             if (!saved) {
                 SharePointJSOMService.addListItem("Reviews", { "WGLLStore": store, "WGLLVisitType": visitType, "WGLLStatus": "Submitted" }, $scope.successOnSave, $scope.failureOnSave);
+                //Need to iterate answers
             }
             else {
                 //save only the answers
