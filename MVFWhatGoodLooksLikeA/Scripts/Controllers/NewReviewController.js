@@ -1,8 +1,8 @@
 ﻿myApp.controller('NewReviewController', ['$scope', 'SharePointJSOMService', '$location', '$routeParams', function ($scope, SharePointJSOMService, $location, $routeParams) {
     SP.SOD.executeOrDelayUntilScriptLoaded(NewReviewControllerOnLoad, "SP.js");
     function NewReviewControllerOnLoad() {
-        var store = $routeParams.store;
-        var visitType = $routeParams.visitType;
+        var currentStore = $routeParams.store;
+        var currentVisitType = $routeParams.visitType;
         var saved = false;
 
         $scope.subsets = [];
@@ -12,14 +12,23 @@
         .done(function (jsonObject) {
             angular.forEach(jsonObject.d.results, function (subset) {
                 var crit = [];
-                var filter = "Subset/ID eq " + subset.ID;
-                $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Criteria', 'Title,ID,CriteriaDetail,Subset/ID', 'Subset/ID', filter, 'CriteriaOrder'))
+                var filter = "(Subset/ID eq " + subset.ID + ")";
+                $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Criteria', 'Title,ID,CriteriaDetail,Subset/ID,Stores/Title,VisitType/Title',
+                    'Subset/ID,Stores/ID,VisitType/ID', filter, 'CriteriaOrder'))
                 .done(function (jsonObject) {
                     angular.forEach(jsonObject.d.results, function (criteria) {
-                        crit.push({
-                            title: criteria.Title,
-                            id: criteria.ID,
-                            detail: criteria.CriteriaDetail
+                        angular.forEach(criteria.Stores.results, function (store) {
+                            if (store.Title == currentStore) {
+                                angular.forEach(criteria.VisitType.results, function (visitType) {
+                                    if (visitType.Title == currentVisitType) {
+                                        crit.push({
+                                            title: criteria.Title,
+                                            id: criteria.ID,
+                                            detail: criteria.CriteriaDetail
+                                        });
+                                    }
+                                });
+                            }
                         });
                         //$scope is not updating so force with this command
                         if (!$scope.$$phase) { $scope.$apply(); }

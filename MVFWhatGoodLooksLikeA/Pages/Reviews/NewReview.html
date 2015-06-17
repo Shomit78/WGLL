@@ -7,6 +7,7 @@
     </div>
     <div id="wgllSubsetContainer{{ $index }}" class="form-group wgll-subset-container" ng-repeat="subset in subsets">
         <h3>{{ $index + 1}}). {{ subset.title }}</h3>
+        <p ng-bind-html="subset.detail"></p>
         <div class="form-group" ng-repeat="criteria in subset.criteria">
             <label for="wgllresultcheckbox{{ $index }}">{{ criteria.title }}</label>
             <div class="form-group checkbox pull-right">
