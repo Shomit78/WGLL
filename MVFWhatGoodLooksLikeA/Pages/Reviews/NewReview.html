@@ -18,9 +18,17 @@
             <div class="form-group wgll-criteria-detail-container" ng-bind-html="criteria.detail"></div>
             <div class="form-group show" id="wgllTextAreaDiv{{ $parent.$index }}{{ $index }}">
                 <label for="wgllTextArea{{ $index }}">Reason for failure</label>
-                <textarea id="wgllTextArea{{ $index }}" class="form-control wgll-criteria-reason-for-failure-textarea" rows="2"></textarea>
+                <textarea id="wgllTextArea{{ $index }}" class="form-control wgll-criteria-reason-for-failure-textarea" rows="2" placeholder="Enter a reason for the failure here..."></textarea>
             </div>
         </div>
+    </div>
+    <div class="form-group">
+        <label for="wgllReviewVisitSummaryTextarea">Visit Summary</label>
+        <textarea id="wgllReviewVisitSummaryTextarea" class="form-control" rows="10" placeholder="Enter a summary of the visit here..."></textarea>
+    </div>
+    <div class="form-group">
+        <label for="wgllReviewNotesTextarea">Notes</label>
+        <textarea id="wgllReviewNotesTextarea" class="form-control" placeholder="Enter any review notes here..."></textarea>
     </div>
     <div class="input-group">
         <input class="btn" type="button" value="Cancel" ng-click="goTo('/')" />&#160;

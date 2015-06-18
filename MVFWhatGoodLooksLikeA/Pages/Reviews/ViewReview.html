@@ -5,6 +5,44 @@
     </div>
     <div id="wgllReviewContainer{{ $index }}" class="form-group wgll-review-container" ng-repeat="review in reviews">
         <h2><span class="wgll-review-title-span">{{ review.title }}</span></h2>
+        <div class="form-group">
+            <label for="wgllReviewStatusInput{{$index}}">Status</label>
+            <div id="wgllReviewStatusInput{{$index}}" class="form-control">{{ review.status }}</div>
+        </div>
+        <div class="form-group">
+            <label for="wgllReviewStoreInput{{$index}}">Store</label>
+            <div id="wgllReviewStoreInput{{$index}}" class="form-control">{{ review.store }}</div>
+        </div>
+        <div class="form-group">
+            <label for="wgllReviewVisitTypeInput{{$index}}">Visit Type</label>
+            <div id="wgllReviewVisitTypeInput{{$index}}" class="form-control">{{ review.visitType }}</div>
+        </div>
+        <div id="wgllSubsetContainer{{ $index }}" class="form-group wgll-subset-container" ng-repeat="subset in subsets">
+            <h3><span class="wgll-subset-order-span">{{ $index + 1}}).</span>&#160;<span class="wgll-subset-title-span">{{ subset.title }}</span></h3>
+            <p ng-bind-html="subset.detail"></p>
+            <div class="form-group wgll-answer-container" ng-repeat="answer in subset.answers">
+                <label for="wgllresultcheckbox{{ $index }}" class="wgll-answer-title-label" nonnegotiable="{{ answer.nonnegotiable }}">{{ answer.title }}</label>
+                <div class="form-group checkbox pull-right">
+                    <label>
+                        <input id="wgllResultCheckbox{{ $index }}" class="wgll-checkbox-result" type="checkbox"
+                               ng-model="answer.checked" ng-checked="answer.result">&#160;Pass
+                    </label>
+                </div>
+                <div class="form-group wgll-answer-detail-container" ng-bind-html="answer.detail"></div>
+                <div class="form-group show" id="wgllTextAreaDiv{{ $parent.$index }}{{ $index }}" ng-hide="answer.result">
+                    <label for="wgllTextArea{{ $parent.$index }}{{ $index }}">Reason for failure</label>
+                    <div id="wgllTextArea{{ $parent.$index }}{{ $index }}" class="form-control wgll-criteria-reason-for-failure-textarea"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="wgllReviewVisitSummaryInput{{$index}}">Visit Summary</label>
+            <div id="wgllReviewVisitSummary{{$index}}" class="form-control" ng-bind-html="review.visitSummary" />
+        </div>
+        <div class="form-group">
+            <label for="wgllReviewNotesInput{{$index}}">Notes</label>
+            <div id="wgllReviewNotesInput{{$index}}" class="form-control" ng-bind-html="review.notes" />
+        </div>
     </div>
     <div class="input-group">
         <input class="btn" type="button" value="Cancel" ng-click="goTo('/')" />&#160;

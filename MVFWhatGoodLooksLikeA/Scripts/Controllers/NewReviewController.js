@@ -58,7 +58,15 @@
         $scope.save = function () {
             //Save review, but don't set title.  In success function update list item with title
             if (!saved) {
-                SharePointJSOMService.addListItem("Reviews", { "WGLLStore": currentStore, "WGLLVisitType": currentVisitType, "WGLLStatus": "Saved" }, $scope.successOnSave, $scope.failureOnSave);
+                var notes = $('textarea#wgllReviewNotesTextarea').val();
+                var summary = $('textarea#wgllReviewVisitSummaryTextarea').val();
+                SharePointJSOMService.addListItem("Reviews", {
+                    "WGLLStore": currentStore,
+                    "WGLLVisitType": currentVisitType,
+                    "WGLLStatus": "Saved",
+                    "WGLLNotes": notes,
+                    "WGLLVisitSummary": summary
+                }, $scope.successOnSave, $scope.failureOnSave);
             }
             else {
                 //save only the answers
@@ -132,7 +140,15 @@
             //Submit review, but don't set title.  In success function update list item with title
             $('.wgll-button-disabled').attr('disabled', '');
             if (!saved) {
-                SharePointJSOMService.addListItem("Reviews", { "WGLLStore": currentStore, "WGLLVisitType": currentVisitType, "WGLLStatus": "Submitted" }, $scope.successOnSave, $scope.failureOnSave);
+                var notes = $('textarea#wgllReviewNotesTextarea').val();
+                var summary = $('textarea#wgllReviewVisitSummaryTextarea').val();
+                SharePointJSOMService.addListItem("Reviews", {
+                    "WGLLStore": currentStore,
+                    "WGLLVisitType": currentVisitType,
+                    "WGLLStatus": "Submitted",
+                    "WGLLNotes": notes,
+                    "WGLLVisitSummary": summary
+                }, $scope.successOnSave, $scope.failureOnSave);
             }
             else {
                 //save only the answers
