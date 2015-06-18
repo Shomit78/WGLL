@@ -3,6 +3,9 @@
         <input class="btn" type="button" value="Cancel" ng-click="goTo('/')" />&#160;
         <input class="btn wgll-button-disabled" type="button" value="Edit" ng-click="edit()" disabled="" />&#160;
     </div>
+    <div id="wgllReviewContainer{{ $index }}" class="form-group wgll-review-container" ng-repeat="review in reviews">
+        <h2><span class="wgll-review-title-span">{{ review.title }}</span></h2>
+    </div>
     <div class="input-group">
         <input class="btn" type="button" value="Cancel" ng-click="goTo('/')" />&#160;
         <input class="btn wgll-button-disabled" type="button" value="Edit" ng-click="edit()" disabled="" />&#160;
