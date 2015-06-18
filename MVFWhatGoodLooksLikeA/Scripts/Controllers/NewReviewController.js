@@ -58,7 +58,7 @@
         $scope.save = function () {
             //Save review, but don't set title.  In success function update list item with title
             if (!saved) {
-                SharePointJSOMService.addListItem("Reviews", { "WGLLStore": store, "WGLLVisitType": visitType, "WGLLStatus": "Saved" }, $scope.successOnSave, $scope.failureOnSave);
+                SharePointJSOMService.addListItem("Reviews", { "WGLLStore": currentStore, "WGLLVisitType": currentVisitType, "WGLLStatus": "Saved" }, $scope.successOnSave, $scope.failureOnSave);
             }
             else {
                 //save only the answers
