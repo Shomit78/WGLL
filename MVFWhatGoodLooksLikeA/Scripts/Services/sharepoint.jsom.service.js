@@ -132,13 +132,11 @@
     }
 
     this.getListItem = function (url, listname, complete, failure) {
-        // Getting our list items
         $.ajax({
             url: url,
             method: "GET",
             headers: { "Accept": "application/json; odata=verbose" },
             success: function (data) {
-                // Returning the results
                 complete(data);
             },
             error: function (data) {
@@ -182,5 +180,61 @@
             failure(data);
         });
 
+    };
+
+    this.getListItemWithId = function (url, itemId, listName, success, failure) {
+
+        JSRequest.EnsureSetup();
+        hostweburl = decodeURIComponent(JSRequest.QueryString["SPHostUrl"]);
+        appweburl = decodeURIComponent(JSRequest.QueryString["SPAppWebUrl"]);
+
+        var restQueryUrl = appweburl + "/_api/SP.AppContextSite(@target)/web/lists/getByTitle('" + listName + "')/items(" + id + ")?@target='" + hostweburl + "'";
+        $.ajax({
+            url: restQueryUrl,
+            method: "GET",
+            headers: { "Accept": "application/json; odata=verbose" },
+            success: function (data) {
+                if (data.d.results.length == 1) {
+                    success(data.d.results[0]);
+                }
+                else {
+                    failure("Multiple results obtained for the specified Id value");
+                }
+            },
+            error: function (data) {
+                failure(data);
+            }
+        });
+    };
+
+    this.deleteListItem = function (itemId, listName, siteUrl, success, failure) {
+
+        JSRequest.EnsureSetup();
+        hostweburl = decodeURIComponent(JSRequest.QueryString["SPHostUrl"]);
+        appweburl = decodeURIComponent(JSRequest.QueryString["SPAppWebUrl"]);
+
+        var restQueryUrl = appweburl + "/_api/SP.AppContextSite(@target)/web/lists/getByTitle('" + listName + "')/items(" + id + ")?@target='" + hostweburl + "'";
+
+        getListItemWithId(restQueryUrl, itemId, listName, function (data) {
+            $.ajax({
+                url: restQueryUrl,
+                type: "POST",
+                headers: {
+                    "Accept": "application/json;odata=verbose",
+                    "X-Http-Method": "DELETE",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "If-Match": data.__metadata.etag
+                },
+                success: function (data) {
+                    success(data);
+                },
+                error: function (data) {
+                    failure(data);
+                }
+            });
+        },
+        function (data) {
+            failure(data);
+        });
     };
 });
