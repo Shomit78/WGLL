@@ -143,13 +143,6 @@
             $location.path(path);
         };
 
-        $scope.runTests = function () {
-            console.log("Running tests on WGLL application");
-            $('.wgll-subset-container').each(function () {
-                console.log($(this).attr('id'));
-            });
-        };
-
         $scope.showHideTextArea = function (checked, textAreaDivId) {
             console.log(textAreaDivId);
             if (checked) {

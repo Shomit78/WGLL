@@ -8,5 +8,6 @@
     <File Path="Pages\Reviews\Reviews.html" Url="Pages/Reviews/Reviews.html" ReplaceContent="TRUE" />
     <File Path="Pages\Reviews\CreateReview.html" Url="Pages/Reviews/CreateReview.html" ReplaceContent="TRUE" />
     <File Path="Pages\Reviews\NewReview.html" Url="Pages/Reviews/NewReview.html" ReplaceContent="TRUE" />
+    <File Path="Pages\Reviews\ViewReview.html" Url="Pages/Reviews/ViewReview.html" ReplaceContent="TRUE" />
   </Module>
 </Elements>

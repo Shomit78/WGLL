@@ -88,6 +88,7 @@
     <Content Include="Pages\Reviews.aspx" />
     <Content Include="Pages\Reviews\NewReview.html" />
     <Content Include="Pages\Reviews\Reviews.html" />
+    <Content Include="Pages\Reviews\ViewReview.html" />
     <Content Include="Pages\ViewSubsetsAndCriteria.aspx" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular-route.js" />
@@ -110,6 +111,7 @@
     <Content Include="Scripts\Controllers\ReviewsController.js" />
     <Content Include="Scripts\Controllers\StoresController.js" />
     <Content Include="Scripts\Controllers\SubsetsController.js" />
+    <Content Include="Scripts\Controllers\ViewReviewController.js" />
     <Content Include="Scripts\Controllers\VisitTypesController.js" />
     <Content Include="Scripts\Elements.xml" />
     <Content Include="Scripts\App.js" />

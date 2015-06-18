@@ -33,5 +33,6 @@
     <File Path="Scripts\Controllers\CreateReviewController.js" Url="Scripts/Controllers/CreateReviewController.js" ReplaceContent="TRUE" />
     <File Path="Scripts\App.Route.js" Url="Scripts/App.Route.js" ReplaceContent="TRUE" />
     <File Path="Scripts\Controllers\NewReviewController.js" Url="Scripts/Controllers/NewReviewController.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\Controllers\ViewReviewController.js" Url="Scripts/Controllers/ViewReviewController.js" ReplaceContent="TRUE" />
   </Module>
 </Elements>

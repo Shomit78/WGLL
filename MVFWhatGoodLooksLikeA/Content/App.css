@@ -2,3 +2,4 @@
 #wgllAppContainer { padding-top: 30px;padding-right:10px;padding-bottom:10px;padding-left:10px;}
 .wgll-subset-container { border: 1px solid silver; margin:5px; padding:5px; border-radius:5px}
 .wgll-button-row { padding-top: 5px;padding-right:5px;padding-bottom:5px;padding-left:5px;}
+.wgll-review-row { cursor: pointer; }

@@ -32,6 +32,7 @@
     <script src="../Scripts/Controllers/ReviewsController.js"></script>
     <script src="../Scripts/Controllers/CreateReviewController.js"></script>
     <script src="../Scripts/Controllers/NewReviewController.js"></script>
+    <script src="../Scripts/Controllers/ViewReviewController.js"></script>
 </asp:Content>
 
 <%-- The markup in the following Content element will be placed in the TitleArea of the page --%>

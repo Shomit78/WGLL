@@ -3,7 +3,6 @@
         <input class="btn" type="button" value="Cancel" ng-click="goTo('/')" />&#160;
         <input class="btn wgll-button-disabled" type="button" value="Save" ng-click="save()" disabled="" />&#160;
         <input class="btn wgll-button-disabled" type="button" value="Submit" ng-click="submit()" disabled="" />
-        <input class="btn" type="button" value="Run Tests" ng-click="runTests()" />
     </div>
     <div id="wgllSubsetContainer{{ $index }}" class="form-group wgll-subset-container" ng-repeat="subset in subsets">
         <h3><span class="wgll-subset-order-span">{{ $index + 1}}).</span>&#160;<span class="wgll-subset-title-span">{{ subset.title }}</span></h3>

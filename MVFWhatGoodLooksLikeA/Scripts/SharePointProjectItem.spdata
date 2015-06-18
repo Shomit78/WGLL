@@ -34,5 +34,6 @@
     <ProjectItemFile Source="Controllers\CreateReviewController.js" Target="Scripts\Controllers\" Type="ElementFile" />
     <ProjectItemFile Source="App.Route.js" Target="Scripts\" Type="ElementFile" />
     <ProjectItemFile Source="Controllers\NewReviewController.js" Target="Scripts\Controllers\" Type="ElementFile" />
+    <ProjectItemFile Source="Controllers\ViewReviewController.js" Target="Scripts\Controllers\" Type="ElementFile" />
   </Files>
 </ProjectItem>

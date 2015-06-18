@@ -12,7 +12,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="review in reviews">
+            <tr class="wgll-review-row" ng-repeat="review in reviews" ng-click="goTo('/ViewReview/'+review.title)">
                 <td>{{ review.title }}</td>
                 <td>{{ review.store }}</td>
                 <td>{{ review.visitType }}</td>
