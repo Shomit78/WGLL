@@ -4,6 +4,7 @@
         var currentStore = $routeParams.store;
         var currentVisitType = $routeParams.visitType;
         var saved = false;
+        var reviewId;
 
         $scope.subsets = [];
         var subsetFilter = "SubsetActive eq 1";
@@ -13,7 +14,7 @@
             angular.forEach(jsonObject.d.results, function (subset) {
                 var crit = [];
                 var filter = "(Subset/ID eq " + subset.ID + ")";
-                $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Criteria', 'Title,ID,CriteriaDetail,Subset/ID,Stores/Title,VisitType/Title',
+                $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Criteria', 'Title,ID,CriteriaDetail,NonNegotiable,Subset/ID,Stores/Title,VisitType/Title',
                     'Subset/ID,Stores/ID,VisitType/ID', filter, 'CriteriaOrder'))
                 .done(function (jsonObject) {
                     angular.forEach(jsonObject.d.results, function (criteria) {
@@ -24,7 +25,8 @@
                                         crit.push({
                                             title: criteria.Title,
                                             id: criteria.ID,
-                                            detail: criteria.CriteriaDetail
+                                            detail: criteria.CriteriaDetail,
+                                            nonNegotiable: criteria.NonNegotiable
                                         });
                                     }
                                 });
@@ -78,12 +80,41 @@
                 var dateString = currentDate.getFullYear().toString() + (currentDate.getMonth() + 1).toString() + currentDate.getDate().toString();
 
                 var title = "WGLL-" + store + "-" + visitType + "-" + dateString + "-" + review.ID;
+                reviewId = title;
                 SharePointJSOMService.updateListItem("Reviews", review.ID, { "Title": title }, $scope.successOnUpdate, $scope.failureOnUpdate);
             });
         };
 
+        $scope.successOnSaveAnswers = function (jsonObject) {
+        };
+
+        $scope.failureOnSaveAnswers = function (jsonObject) {
+        };
+
         $scope.successOnUpdate = function (jsonObject) {
-            //save answers to answers list
+            $('.wgll-subset-container').each(function () {
+                var subset = $(this).find('.wgll-subset-title-span');
+                var subsetTitle = $(subset).text();
+                var criteria = $(this).find('.wgll-criteria-container');
+                if (criteria != null) {
+                    $(criteria).each(function () {
+                        var criteriaTitle = $(this).find('.wgll-criteria-title-label').text();
+                        var criteriaNonNegotiable = $(this).find('.wgll-criteria-title-label').attr('nonnegotiable');
+                        var criteriaDetail = $(this).find('.wgll-criteria-detail-container').text();
+                        var criteriaResult = $(this).find('.wgll-checkbox-result').prop('checked');
+                        var criteriaReasonForFailure = $(this).find('.wgll-criteria-reason-for-failure-textarea').val()
+                        SharePointJSOMService.addListItem("Answers", {
+                            "Title": criteriaTitle,
+                            "WGLLNonNegotiable": criteriaNonNegotiable.toString(),
+                            "WGLLResult": criteriaResult.toString(),
+                            "WGLLCriteriaDetail": criteriaDetail,
+                            "WGLLReviewID": reviewId,
+                            "WGLLSubset": subsetTitle
+                        },
+                            $scope.successOnSaveAnswers, $scope.failureOnSaveAnswers);
+                    });
+                }
+            });
             $scope.$apply(function () {
                 $location.path('/');
             });
@@ -101,8 +132,7 @@
             //Submit review, but don't set title.  In success function update list item with title
             $('.wgll-button-disabled').attr('disabled', '');
             if (!saved) {
-                SharePointJSOMService.addListItem("Reviews", { "WGLLStore": store, "WGLLVisitType": visitType, "WGLLStatus": "Submitted" }, $scope.successOnSave, $scope.failureOnSave);
-                //Need to iterate answers
+                SharePointJSOMService.addListItem("Reviews", { "WGLLStore": currentStore, "WGLLVisitType": currentVisitType, "WGLLStatus": "Submitted" }, $scope.successOnSave, $scope.failureOnSave);
             }
             else {
                 //save only the answers
