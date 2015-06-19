@@ -117,7 +117,8 @@
                             "WGLLResult": criteriaResult.toString(),
                             "WGLLCriteriaDetail": criteriaDetail,
                             "WGLLReviewID": reviewId,
-                            "WGLLSubset": subsetTitle
+                            "WGLLSubset": subsetTitle,
+                            "WGLLReasonForFailure": criteriaReasonForFailure
                         },
                             $scope.successOnSaveAnswers, $scope.failureOnSaveAnswers);
                     });
@@ -162,12 +163,14 @@
         $scope.showHideTextArea = function (checked, textAreaDivId) {
             console.log(textAreaDivId);
             if (checked) {
+                $('#' + textAreaDivId).attr('ng-required', 'false');
                 $('#' + textAreaDivId).removeClass('show');
                 $('#' + textAreaDivId).addClass('hidden');
             }
             else {
                 $('#' + textAreaDivId).removeClass('hidden');
                 $('#' + textAreaDivId).addClass('show');
+                $('#' + textAreaDivId).attr('ng-required', 'true');
             }
         };
     }

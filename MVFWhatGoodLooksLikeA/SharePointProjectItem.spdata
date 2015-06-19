@@ -9,6 +9,5 @@
     <ProjectItemFile Source="fonts\glyphicons-halflings-regular.svg" Target="fonts\" Type="ElementFile" />
     <ProjectItemFile Source="fonts\glyphicons-halflings-regular.eot" Target="fonts\" Type="ElementFile" />
     <ProjectItemFile Source="Archive\Code.txt" Target="Archive\" Type="ElementFile" />
-    <ProjectItemFile Source="PowerShell\SharePoint_WhatGoodLooksLike_ExportToCSV.ps1" Target="PowerShell\" Type="ElementFile" />
   </Files>
 </ProjectItem>
