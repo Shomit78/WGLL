@@ -72,6 +72,7 @@
     <Content Include="Pages\Reviews\CreateReview.html" />
     <Content Include="Pages\Elements.xml" />
     <Content Include="Pages\Default.aspx" />
+    <None Include="PowerShell\SharePoint_WhatGoodLooksLike_ExportToCSV.ps1" />
     <None Include="Scripts\angular-route.min.js.map" />
     <None Include="Scripts\angular-sanitize.min.js.map" />
     <None Include="SharePointProjectItem.spdata">
