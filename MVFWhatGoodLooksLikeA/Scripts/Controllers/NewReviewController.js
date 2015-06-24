@@ -228,7 +228,32 @@
         };
 
         $scope.sectionHide = function (index) {
-            return false;
+            if (index == 0) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        };
+
+        $scope.moveNext = function (currentDivId, index) {
+            $('#' + currentDivId).removeClass("ng-show");
+            $('#' + currentDivId).addClass("ng-hide");
+            var next = parseInt(index);
+            next = next + 1;
+            var nextDivId = '#wgllSubsetContainer' + next;
+            $(nextDivId).removeClass("ng-hide");
+            $(nextDivId).addClass("ng-show");
+        };
+
+        $scope.moveBack = function (currentDivId, index) {
+            $('#' + currentDivId).removeClass("ng-show");
+            $('#' + currentDivId).addClass("ng-hide");
+            var next = parseInt(index);
+            next = next - 1;
+            var nextDivId = '#wgllSubsetContainer' + next;
+            $(nextDivId).removeClass("ng-hide");
+            $(nextDivId).addClass("ng-show");
         };
     }
 

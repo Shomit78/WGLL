@@ -3,7 +3,7 @@
     function ReviewsControllerOnLoad() {
         $scope.reviews = [];
 
-        $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Reviews', 'Title,ID,WGLLStatus,WGLLStore,WGLLVisitType,Author/Title,Created', 'Author', '', 'Created'))
+        $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Reviews', 'Title,ID,WGLLStatus,WGLLStore,WGLLVisitType,Author/Title,Created', 'Author/Title', '', 'Created'))
         .done(function (jsonObject) {
             angular.forEach(jsonObject.d.results, function (review) {
                 $scope.reviews.push({

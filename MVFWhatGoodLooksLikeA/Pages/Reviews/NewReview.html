@@ -4,7 +4,11 @@
         <input class="btn wgll-button-disabled" type="button" value="Save" ng-click="save()" disabled="" />&#160;
         <input class="btn wgll-button-disabled" type="button" value="Submit" ng-click="submit()" disabled="" />
     </div>
-    <div id="wgllSubsetContainer{{ $index }}" class="form-group wgll-subset-container" ng-repeat="subset in subsets">
+    <div id="wgllSubsetContainer{{ $index }}" class="form-group wgll-subset-container" ng-repeat="subset in subsets" ng-hide="!$first">
+        <div class="input-group">
+            <input class="btn" type="button" value="Back" ng-click="moveBack('wgllSubsetContainer'+$index, $index)" ng-disabled="$first" />
+            <input class="btn" type="button" value="Next" ng-click="moveNext('wgllSubsetContainer'+$index, $index)" ng-disabled="$last" />
+        </div>
         <h3><span class="wgll-subset-order-span">{{ $index + 1}}).</span>&#160;<span class="wgll-subset-title-span">{{ subset.title }}</span></h3>
         <p ng-bind-html="subset.detail"></p>
         <div class="form-group wgll-criteria-container" ng-repeat="criteria in subset.criteria" title="{{ subset.title }}" subtitle="{{ criteria.title }}">
@@ -21,8 +25,9 @@
                 <textarea id="wgllTextArea{{ $index }}" ng-required="true" class="form-control wgll-criteria-reason-for-failure-textarea" rows="2" ng-attr-placeholder="Enter a reason for the failure here..."></textarea>
             </div>
         </div>
-        <div class="input-group" ng-hide="sectionHide($index)">
-            <input class="btn" type="button" value="Next" ng-click="moveNext()" />
+        <div class="input-group">
+            <input class="btn" type="button" value="Back" ng-click="moveBack('wgllSubsetContainer'+$index, $index)" ng-disabled="$first" />
+            <input class="btn" type="button" value="Next" ng-click="moveNext('wgllSubsetContainer'+$index, $index)" ng-disabled="$last" />
         </div>
     </div>
     <div class="form-group" ng-repeat-end>
