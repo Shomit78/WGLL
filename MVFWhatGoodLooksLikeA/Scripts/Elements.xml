@@ -34,5 +34,9 @@
     <File Path="Scripts\App.Route.js" Url="Scripts/App.Route.js" ReplaceContent="TRUE" />
     <File Path="Scripts\Controllers\NewReviewController.js" Url="Scripts/Controllers/NewReviewController.js" ReplaceContent="TRUE" />
     <File Path="Scripts\Controllers\ViewReviewController.js" Url="Scripts/Controllers/ViewReviewController.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\moment-with-locales.min.js" Url="Scripts/moment-with-locales.min.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\moment-with-locales.js" Url="Scripts/moment-with-locales.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\moment.min.js" Url="Scripts/moment.min.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\moment.js" Url="Scripts/moment.js" ReplaceContent="TRUE" />
   </Module>
 </Elements>

@@ -12,5 +12,5 @@
         <select class="form-control" id="wgllSelectVisitType" ng-model="selectedVisitType" ng-options="visitType as visitType.title for visitType in visitTypes" disabled=""></select>
     </div>
     <input class="btn" type="button" value="Cancel" ng-click="goTo('/')" />&nbsp;
-    <input class="btn btn-default" id="wgllButtonCreateReview" type="button" value="Create Review" ng-click="goTo('/NewReview/'+selectedStore.title+'/'+selectedVisitType.title)" disabled="" />
+    <input class="btn btn-default" id="wgllButtonCreateReview" type="button" value="Create Review" ng-click="goTo('/NewReview/'+selectedRegion.title+'/'+selectedStore.title+'/'+selectedVisitType.title)" disabled="" />
 </form>

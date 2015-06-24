@@ -14,6 +14,7 @@
     <script src="../Scripts/angular-ui/ui-bootstrap.js"></script>
     <script src="../Scripts/angular-sanitize.js"></script>
     <script src="../Scripts/bootstrap.min.js"></script>
+    <script src="../Scripts/moment.js"></script>
     <meta name="WebPartPageExpansion" content="full" />
 
     <!-- Add your CSS styles to the following file -->

@@ -3,6 +3,7 @@
     function NewReviewControllerOnLoad() {
         var currentStore = $routeParams.store;
         var currentVisitType = $routeParams.visitType;
+        var currentRegion = $routeParams.region;
         var saved = false;
         var reviewId;
         var reviewListItemId;
@@ -63,6 +64,7 @@
                 var notes = $('textarea#wgllReviewNotesTextarea').val();
                 var summary = $('textarea#wgllReviewVisitSummaryTextarea').val();
                 SharePointJSOMService.addListItem("Reviews", {
+                    "WGLLRegion": currentRegion,
                     "WGLLStore": currentStore,
                     "WGLLVisitType": currentVisitType,
                     "WGLLStatus": "Saved",
@@ -86,6 +88,7 @@
 
         $scope.submit = function () {
             $('.wgll-button-disabled').attr('disabled', '');
+            var currentMoment = moment().format('YYYY/MM/DD HH:mm:ss');
             if (!saved) {
                 var notes = $('textarea#wgllReviewNotesTextarea').val();
                 var summary = $('textarea#wgllReviewVisitSummaryTextarea').val();
@@ -94,7 +97,8 @@
                     "WGLLVisitType": currentVisitType,
                     "WGLLStatus": "Submitted",
                     "WGLLNotes": notes,
-                    "WGLLVisitSummary": summary
+                    "WGLLVisitSummary": summary,
+                    "WGLLSubmittedDate": currentMoment
                 }, $scope.successOnSave, $scope.failureOnSave);
             }
             else {
@@ -111,7 +115,8 @@
                 SharePointJSOMService.updateListItem("Reviews", reviewListItemId, {
                     "WGLLStatus": "Submitted",
                     "WGLLNotes": notes,
-                    "WGLLVisitSummary": summary
+                    "WGLLVisitSummary": summary,
+                    "WGLLSubmittedDate": currentMoment
                 }, $scope.successOnReviewUpdate, $scope.failureOnReviewUpdate);
             }
         };
@@ -227,15 +232,6 @@
             }
         };
 
-        $scope.sectionHide = function (index) {
-            if (index == 0) {
-                return false;
-            }
-            else {
-                return true;
-            }
-        };
-
         $scope.moveNext = function (currentDivId, index) {
             $('#' + currentDivId).removeClass("ng-show");
             $('#' + currentDivId).addClass("ng-hide");
@@ -244,6 +240,11 @@
             var nextDivId = '#wgllSubsetContainer' + next;
             $(nextDivId).removeClass("ng-hide");
             $(nextDivId).addClass("ng-show");
+            /*if (!$scope.$$phase) {
+                $scope.$apply(function () {
+                    $('html, body').animate({ scrollTop: 0 }, 'slow');
+                });
+            }*/
         };
 
         $scope.moveBack = function (currentDivId, index) {
@@ -254,6 +255,11 @@
             var nextDivId = '#wgllSubsetContainer' + next;
             $(nextDivId).removeClass("ng-hide");
             $(nextDivId).addClass("ng-show");
+            /*if (!$scope.$$phase) {
+                $scope.$apply(function () {
+                    $('html, body').animate({ scrollTop: 0 }, 'slow');
+                });
+            }*/
         };
     }
 
