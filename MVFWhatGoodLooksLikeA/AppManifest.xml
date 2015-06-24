@@ -7,7 +7,7 @@
      SharePointMinVersion="15.0.0.0"
 >
   <Properties>
-    <Title>MVFWhatGoodLooksLikeA</Title>
+    <Title>What Good Looks Like</Title>
     <StartPage>~appWebUrl/Pages/Default.aspx?SPHostTitle={HostTitle}&amp;SPHostLogoUrl={HostLogoUrl}&amp;SPHostUrl={HostUrl}&amp;SPAppWebUrl={AppWebUrl}</StartPage>
   </Properties>
 
