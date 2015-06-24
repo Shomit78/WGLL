@@ -93,6 +93,7 @@
                 var notes = $('textarea#wgllReviewNotesTextarea').val();
                 var summary = $('textarea#wgllReviewVisitSummaryTextarea').val();
                 SharePointJSOMService.addListItem("Reviews", {
+                    "WGLLRegion": currentRegion,
                     "WGLLStore": currentStore,
                     "WGLLVisitType": currentVisitType,
                     "WGLLStatus": "Submitted",
@@ -173,6 +174,12 @@
                     });
                 }
             });
+            SP.UI.Notify.addNotification("Your review has been sucessfully submitted.", false);
+            if (!$scope.$$phase) {
+                $scope.$apply(function () {
+                    $location.path('/');
+                });
+            }
         };
 
         $scope.successOnSaveAnswers = function (jsonObject, metadata) {

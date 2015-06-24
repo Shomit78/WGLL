@@ -3,7 +3,7 @@
     function ReviewsControllerOnLoad() {
         $scope.reviews = [];
 
-        $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Reviews', 'Title,ID,WGLLRegion,WGLLStatus,WGLLStore,WGLLVisitType,Author/Title,Created', 'Author/Title', '', 'Created'))
+        $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Reviews', 'Title,ID,WGLLRegion,WGLLStatus,WGLLStore,WGLLVisitType,Author/Title,WGLLSubmittedDate', 'Author/Title', '', 'ID desc'))
         .done(function (jsonObject) {
             angular.forEach(jsonObject.d.results, function (review) {
                 $scope.reviews.push({
@@ -14,7 +14,7 @@
                     store: review.WGLLStore,
                     visitType: review.WGLLVisitType,
                     author: review.Author.Title,
-                    created: review.Created
+                    submittedDate: review.WGLLSubmittedDate
                 });
                 //$scope is not updating so force with this command
                 if (!$scope.$$phase) { $scope.$apply(); }

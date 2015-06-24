@@ -1,29 +1,30 @@
 ﻿<form>
     <input class="btn btn-default" type="button" value="Create Review" ng-click="goTo('/CreateReview')" />
-    <table class="table">
-        <caption>Current Reviews</caption>
-        <thead>
-            <tr>
-                <th>Review ID</th>
-                <th>Region</th>
-                <th>Store</th>
-                <th>Visit Type</th>
-                <th>Status</th>
-                <th>Created By</th>
-                <th>Created</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="wgll-review-row" ng-repeat="review in reviews" ng-click="goTo('/ViewReview/'+review.title)">
-                <td>{{ review.title }}</td>
-                <td>{{ review.region }}</td>
-                <td>{{ review.store }}</td>
-                <td>{{ review.visitType }}</td>
-                <td>{{ review.status }}</td>
-                <td>{{ review.author }}</td>
-                <td>{{ review.created }}</td>
-            </tr>
-        </tbody>
-    </table>
-    <input class="btn btn-default" type="button" value="Create Review" ng-click="goTo('/CreateReview')"/>
+    <div class="wgll-rounded-border">
+        <table class="table">
+            <caption>Current Reviews</caption>
+            <thead>
+                <tr>
+                    <th>Review ID</th>
+                    <th>Region</th>
+                    <th>Store</th>
+                    <th>Visit Type</th>
+                    <th>Status</th>
+                    <th>Created By</th>
+                    <th>Submitted Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="wgll-review-row" ng-repeat="review in reviews" ng-click="goTo('/ViewReview/'+review.title)">
+                    <td>{{ review.title }}</td>
+                    <td>{{ review.region }}</td>
+                    <td>{{ review.store }}</td>
+                    <td>{{ review.visitType }}</td>
+                    <td>{{ review.status }}</td>
+                    <td>{{ review.author }}</td>
+                    <td>{{ review.submittedDate }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </form>
