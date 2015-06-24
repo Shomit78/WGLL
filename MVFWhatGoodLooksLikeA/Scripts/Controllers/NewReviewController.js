@@ -5,8 +5,10 @@
         var currentVisitType = $routeParams.visitType;
         var saved = false;
         var reviewId;
+        var reviewListItemId;
 
         $scope.subsets = [];
+        $scope.answers = [];
         var subsetFilter = "SubsetActive eq 1";
 
         $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Subsets', 'Title,ID,SubsetDetail,SubsetOrder', '', subsetFilter, 'SubsetOrder'))
@@ -56,7 +58,7 @@
         });
 
         $scope.save = function () {
-            //Save review, but don't set title.  In success function update list item with title
+            $('.wgll-button-disabled').attr("disabled");
             if (!saved) {
                 var notes = $('textarea#wgllReviewNotesTextarea').val();
                 var summary = $('textarea#wgllReviewVisitSummaryTextarea').val();
@@ -67,10 +69,55 @@
                     "WGLLNotes": notes,
                     "WGLLVisitSummary": summary
                 }, $scope.successOnSave, $scope.failureOnSave);
+                SP.UI.Notify.addNotification("Your review has been sucessfully saved.", false);
             }
             else {
-                //save only the answers
+                $('.wgll-criteria-title-label').each(function () {
+                    var currentAnswerId = $(this).attr("answerid");
+                    var currentResult = $(this).parent().find('.wgll-checkbox-result').prop('checked');
+                    var currentReasonForFailure = $(this).parent().find('.wgll-criteria-reason-for-failure-textarea').val();
+                    SharePointJSOMService.updateListItem("Answers", currentAnswerId, {
+                        "WGLLResult": currentResult.toString(), "WGLLReasonForFailure": currentReasonForFailure
+                    }, $scope.successOnAnswerUpdate, $scope.failureOnAnswerUpdate);
+                });
+                SP.UI.Notify.addNotification("Your review has been sucessfully submitted.", false);
             }
+        };
+
+        $scope.submit = function () {
+            $('.wgll-button-disabled').attr('disabled', '');
+            if (!saved) {
+                var notes = $('textarea#wgllReviewNotesTextarea').val();
+                var summary = $('textarea#wgllReviewVisitSummaryTextarea').val();
+                SharePointJSOMService.addListItem("Reviews", {
+                    "WGLLStore": currentStore,
+                    "WGLLVisitType": currentVisitType,
+                    "WGLLStatus": "Submitted",
+                    "WGLLNotes": notes,
+                    "WGLLVisitSummary": summary
+                }, $scope.successOnSave, $scope.failureOnSave);
+            }
+            else {
+                var notes = $('textarea#wgllReviewNotesTextarea').val();
+                var summary = $('textarea#wgllReviewVisitSummaryTextarea').val();
+                $('.wgll-criteria-title-label').each(function () {
+                    var currentAnswerId = $(this).attr("answerid");
+                    var currentResult = $(this).parent().find('.wgll-checkbox-result').prop('checked');
+                    var currentReasonForFailure = $(this).parent().find('.wgll-criteria-reason-for-failure-textarea').val();
+                    SharePointJSOMService.updateListItem("Answers", currentAnswerId, {
+                        "WGLLResult": currentResult.toString(), "WGLLReasonForFailure": currentReasonForFailure
+                    }, $scope.successOnAnswerUpdate, $scope.failureOnAnswerUpdate);
+                });
+                SharePointJSOMService.updateListItem("Reviews", reviewListItemId, {
+                    "WGLLStatus": "Submitted",
+                    "WGLLNotes": notes,
+                    "WGLLVisitSummary": summary
+                }, $scope.successOnReviewUpdate, $scope.failureOnReviewUpdate);
+            }
+        };
+
+        $scope.goTo = function (path) {
+            $location.path(path);
         };
 
         $scope.successOnSave = function (jsonObject) {
@@ -89,14 +136,11 @@
 
                 var title = "WGLL-" + store + "-" + visitType + "-" + dateString + "-" + review.ID;
                 reviewId = title;
-                SharePointJSOMService.updateListItem("Reviews", review.ID, { "Title": title }, $scope.successOnUpdate, $scope.failureOnUpdate);
+                reviewListItemId = review.ID;
+                SharePointJSOMService.updateListItem("Reviews", review.ID, {
+                    "Title": title
+                }, $scope.successOnUpdate, $scope.failureOnUpdate);
             });
-        };
-
-        $scope.successOnSaveAnswers = function (jsonObject) {
-        };
-
-        $scope.failureOnSaveAnswers = function (jsonObject) {
         };
 
         $scope.successOnUpdate = function (jsonObject) {
@@ -111,7 +155,7 @@
                         var criteriaDetail = $(this).find('.wgll-criteria-detail-container').text();
                         var criteriaResult = $(this).find('.wgll-checkbox-result').prop('checked');
                         var criteriaReasonForFailure = $(this).find('.wgll-criteria-reason-for-failure-textarea').val()
-                        SharePointJSOMService.addListItem("Answers", {
+                        SharePointJSOMService.addAnswer("Answers", {
                             "Title": criteriaTitle,
                             "WGLLNonNegotiable": criteriaNonNegotiable.toString(),
                             "WGLLResult": criteriaResult.toString(),
@@ -124,44 +168,53 @@
                     });
                 }
             });
-            $scope.$apply(function () {
-                $location.path('/');
+        };
+
+        $scope.successOnSaveAnswers = function (jsonObject, metadata) {
+            angular.forEach(jsonObject, function (answer) {
+                $('.wgll-criteria-container').each(function () {
+                    if ($(this).attr('title') == metadata.WGLLSubset) {
+                        if ($(this).attr('subtitle') == metadata.Title) {
+                            $(this).find('.wgll-criteria-title-label').attr("answerid", answer.ID);
+                        }
+                    }
+                });
             });
         };
 
+        $scope.successOnAnswerUpdate = function (jsonObject) {
+        };
+
+        $scope.successOnReviewUpdate = function (jsonObject) {
+            SP.UI.Notify.addNotification("Your review has been sucessfully submitted.", false);
+            if (!$scope.$$phase) {
+                $scope.$apply(function () {
+                    $location.path('/');
+                });
+            }
+        };
+
         $scope.failureOnUpdate = function (jsonObject) {
-            console.info(JSON.stringify(jsonObject));
+            console.info("$scope.failureOnUpdate: " + JSON.stringify(jsonObject));
         };
 
         $scope.failureOnSave = function (jsonObject) {
-            console.info(JSON.stringify(jsonObject));
+            console.info("$scope.failureOnSave: " + JSON.stringify(jsonObject));
         };
 
-        $scope.submit = function () {
-            //Submit review, but don't set title.  In success function update list item with title
-            $('.wgll-button-disabled').attr('disabled', '');
-            if (!saved) {
-                var notes = $('textarea#wgllReviewNotesTextarea').val();
-                var summary = $('textarea#wgllReviewVisitSummaryTextarea').val();
-                SharePointJSOMService.addListItem("Reviews", {
-                    "WGLLStore": currentStore,
-                    "WGLLVisitType": currentVisitType,
-                    "WGLLStatus": "Submitted",
-                    "WGLLNotes": notes,
-                    "WGLLVisitSummary": summary
-                }, $scope.successOnSave, $scope.failureOnSave);
-            }
-            else {
-                //save only the answers
-            }
+        $scope.failureOnReviewUpdate = function (jsonObject) {
+            console.info("$scope.failureOnReviewUpdate: " + JSON.stringify(jsonObject));
         };
 
-        $scope.goTo = function (path) {
-            $location.path(path);
+        $scope.failureOnSaveAnswers = function (jsonObject) {
+            console.info("$scope.failureOnSaveAnswers: " + JSON.stringify(jsonObject));
+        };
+
+        $scope.failureOnAnswerUpdate = function (jsonObject) {
+            console.info("$scope.failureOnAnswerUpdate: " + JSON.stringify(jsonObject));
         };
 
         $scope.showHideTextArea = function (checked, textAreaDivId) {
-            console.log(textAreaDivId);
             if (checked) {
                 $('#' + textAreaDivId).attr('ng-required', 'false');
                 $('#' + textAreaDivId).removeClass('show');
@@ -172,6 +225,10 @@
                 $('#' + textAreaDivId).addClass('show');
                 $('#' + textAreaDivId).attr('ng-required', 'true');
             }
+        };
+
+        $scope.sectionHide = function (index) {
+            return false;
         };
     }
 

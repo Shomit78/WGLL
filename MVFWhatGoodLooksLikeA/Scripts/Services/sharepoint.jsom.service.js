@@ -131,6 +131,36 @@
 
     }
 
+    this.addAnswer = function (listName, metadata, success, failure) {
+
+        JSRequest.EnsureSetup();
+        hostweburl = decodeURIComponent(JSRequest.QueryString["SPHostUrl"]);
+        appweburl = decodeURIComponent(JSRequest.QueryString["SPAppWebUrl"]);
+        var restQueryUrl = appweburl + "/_api/SP.AppContextSite(@target)/web/lists/getByTitle('" + listName + "')/items?@target='" + hostweburl + "'";
+
+        var item = $.extend({
+            "__metadata": { "type": this.getListItemType(listName) }
+        }, metadata);
+
+        $.ajax({
+            url: restQueryUrl,
+            type: "POST",
+            contentType: "application/json;odata=verbose",
+            data: JSON.stringify(item),
+            headers: {
+                "Accept": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
+            success: function (data) {
+                success(data, metadata);
+            },
+            error: function (data) {
+                failure(data);
+            }
+        });
+
+    }
+
     this.getListItem = function (url, listname, complete, failure) {
         $.ajax({
             url: url,

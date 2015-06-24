@@ -25,45 +25,44 @@
                 console.log(review.ID + ";" + review.Title);
                 if (!$scope.$$phase) { $scope.$apply(); }
             });
-        })
-        .fail(function (err) {
-            console.info(JSON.stringify(err));
-        });
-
-        $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Answers', 'Title,ID,WGLLCriteriaDetail,WGLLResult,WGLLSubset,WGLLNonNegotiable', '', filterAnswersByReviewId, ''))
-        .done(function (jsonObject) {
-            angular.forEach(jsonObject.d.results, function (answer) {
-                $scope.answers.push({
-                    id: answer.ID,
-                    title: answer.Title,
-                    subset: answer.WGLLSubset,
-                    criteriaDetail: answer.WGLLCriteriaDetail,
-                    result: answer.WGLLResult
-                });
-            });
-            if (!$scope.$$phase) { $scope.$apply(); }
-        })
-        .fail(function (err) {
-            console.info(JSON.stringify(err));
-        });
-
-        $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Subsets', 'Title,ID,SubsetDetail,SubsetOrder', '', '', 'SubsetOrder'))
-         .done(function (jsonObject) {
-             angular.forEach(jsonObject.d.results, function (subset) {
-                 $scope.tempSubsets.push({
-                     title: subset.Title,
-                     id: subset.ID,
-                     order: subset.SubsetOrder,
-                     detail: subset.SubsetDetail
-                 });
-             });
-             //$scope is not updating so force with this command
-             if (!$scope.$$phase) { $scope.$apply(); }
-             iterateSubsets();
+            $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Answers', 'Title,ID,WGLLCriteriaDetail,WGLLResult,WGLLSubset,WGLLNonNegotiable,WGLLReasonForFailure', '', filterAnswersByReviewId, ''))
+                .done(function (jsonObject) {
+                    angular.forEach(jsonObject.d.results, function (answer) {
+                        $scope.answers.push({
+                            id: answer.ID,
+                            title: answer.Title,
+                            subset: answer.WGLLSubset,
+                            criteriaDetail: answer.WGLLCriteriaDetail,
+                            reasonForFailure: answer.WGLLReasonForFailure,
+                            result: answer.WGLLResult
+                        });
+                    });
+                    if (!$scope.$$phase) { $scope.$apply(); }
+                    $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Subsets', 'Title,ID,SubsetDetail,SubsetOrder', '', '', 'SubsetOrder'))
+                     .done(function (jsonObject) {
+                         angular.forEach(jsonObject.d.results, function (subset) {
+                             $scope.tempSubsets.push({
+                                 title: subset.Title,
+                                 id: subset.ID,
+                                 order: subset.SubsetOrder,
+                                 detail: subset.SubsetDetail
+                             });
+                         });
+                         //$scope is not updating so force with this command
+                         if (!$scope.$$phase) { $scope.$apply(); }
+                         iterateSubsets();
          })
          .fail(function (err) {
              console.info(JSON.stringify(err));
          });
+                })
+                .fail(function (err) {
+                    console.info(JSON.stringify(err));
+                });
+        })
+        .fail(function (err) {
+            console.info(JSON.stringify(err));
+        });
 
         
 
@@ -113,6 +112,17 @@
             //$scope is not updating so force with this command
             if (!$scope.$$phase) { $scope.$apply(); }
         };
+
+        $scope.checkResult = function (result) {
+            console.log("the result is: " + result.toString());
+            if (result) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
+
     }
 
 }]);

@@ -25,13 +25,13 @@
                 <div class="form-group checkbox pull-right">
                     <label>
                         <input id="wgllResultCheckbox{{ $index }}" class="wgll-checkbox-result" type="checkbox"
-                               ng-model="answer.checked" ng-checked="answer.result">&#160;Pass
+                               ng-model="answer.checked" ng-checked="checkResult(answer.result)">&#160;Pass
                     </label>
                 </div>
                 <div class="form-group wgll-answer-detail-container" ng-bind-html="answer.detail"></div>
                 <div class="form-group show" id="wgllTextAreaDiv{{ $parent.$index }}{{ $index }}" ng-hide="answer.result">
                     <label for="wgllTextArea{{ $parent.$index }}{{ $index }}">Reason for failure</label>
-                    <div id="wgllTextArea{{ $parent.$index }}{{ $index }}" class="form-control wgll-criteria-reason-for-failure-textarea"></div>
+                    <div id="wgllTextArea{{ $parent.$index }}{{ $index }}" class="form-control wgll-criteria-reason-for-failure-textarea">{{ answer.reasonForFailure }}</div>
                 </div>
             </div>
         </div>
