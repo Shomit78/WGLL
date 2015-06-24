@@ -9,31 +9,31 @@
 <%-- The markup and script in the following Content element will be placed in the <head> of the page --%>
 <asp:Content ContentPlaceHolderID="PlaceHolderAdditionalPageHead" runat="server">
     <script type="text/javascript" src="../Scripts/jquery-1.9.1.min.js"></script>
-    <script src="../Scripts/angular.js"></script>
-    <script src="../Scripts/angular-route.js"></script>
-    <script src="../Scripts/angular-ui/ui-bootstrap.js"></script>
-    <script src="../Scripts/angular-sanitize.js"></script>
-    <script src="../Scripts/bootstrap.min.js"></script>
-    <script src="../Scripts/moment.js"></script>
+    <script type="text/javascript" src="../Scripts/angular.js"></script>
+    <script type="text/javascript" src="../Scripts/angular-route.js"></script>
+    <script type="text/javascript" src="../Scripts/angular-ui/ui-bootstrap.js"></script>
+    <script type="text/javascript" src="../Scripts/angular-sanitize.js"></script>
+    <script type="text/javascript" src="../Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../Scripts/moment.js"></script>
     <meta name="WebPartPageExpansion" content="full" />
 
     <!-- Add your CSS styles to the following file -->
     <link rel="Stylesheet" type="text/css" href="../Content/App.css" />
-    <link href="../Content/bootstrap.css" rel="stylesheet" />
+    <link type="text/css" href="../Content/bootstrap.css" rel="stylesheet" />
 
     <!-- Add your JavaScript to the following file -->
-    <script src="../Scripts/App.js"></script>
-    <script src="../Scripts/App.Route.js"></script>
-    <script src="../Scripts/Services/sharepoint.jsom.service.js"></script>
-    <script src="../Scripts/Controllers/RegionsController.js"></script>
-    <script src="../Scripts/Controllers/StoresController.js"></script>
-    <script src="../Scripts/Controllers/VisitTypesController.js"></script>
-    <script src="../Scripts/Controllers/SubsetsController.js"></script>
-    <script src="../Scripts/Controllers/CriteriaController.js"></script>
-    <script src="../Scripts/Controllers/ReviewsController.js"></script>
-    <script src="../Scripts/Controllers/CreateReviewController.js"></script>
-    <script src="../Scripts/Controllers/NewReviewController.js"></script>
-    <script src="../Scripts/Controllers/ViewReviewController.js"></script>
+    <script type="text/javascript" src="../Scripts/App.js"></script>
+    <script type="text/javascript" src="../Scripts/App.Route.js"></script>
+    <script type="text/javascript" src="../Scripts/Services/sharepoint.jsom.service.js"></script>
+    <script type="text/javascript" src="../Scripts/Controllers/RegionsController.js"></script>
+    <script type="text/javascript" src="../Scripts/Controllers/StoresController.js"></script>
+    <script type="text/javascript" src="../Scripts/Controllers/VisitTypesController.js"></script>
+    <script type="text/javascript" src="../Scripts/Controllers/SubsetsController.js"></script>
+    <script type="text/javascript" src="../Scripts/Controllers/CriteriaController.js"></script>
+    <script type="text/javascript" src="../Scripts/Controllers/ReviewsController.js"></script>
+    <script type="text/javascript" src="../Scripts/Controllers/CreateReviewController.js"></script>
+    <script type="text/javascript" src="../Scripts/Controllers/NewReviewController.js"></script>
+    <script type="text/javascript" src="../Scripts/Controllers/ViewReviewController.js"></script>
 </asp:Content>
 
 <%-- The markup in the following Content element will be placed in the TitleArea of the page --%>

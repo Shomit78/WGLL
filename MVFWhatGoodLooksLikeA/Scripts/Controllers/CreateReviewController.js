@@ -4,6 +4,34 @@
         $scope.regions = [];
         $scope.stores = [];
         $scope.visitTypes = [];
+        var myJobTitle;
+        var myOffice;
+        var myDepartment;
+
+        $.when(SharePointJSOMService.getUserProfileItemsFromHostWebAll($scope))
+        .done(function (jsonObject) {
+            angular.forEach(jsonObject, function (user) {
+                angular.forEach(user.UserProfileProperties.results, function (prop, key) {
+                    if (prop.Key == "Department") {
+                        myDepartment = prop.Value;
+                    }
+                    else {
+                        if (prop.Key == "Office") {
+                            myOffice = prop.Value;
+                        }
+                        else {
+                            if (prop.Key == "Title") {
+                                myJobTitle = prop.Value;
+                            }
+                        }
+                    }
+                });
+                console.info(myDepartment + ";" + myOffice + ";" + myJobTitle);
+            });
+        })
+        .fail(function (err) {
+            console.info(JSON.stringify(err));
+        });
 
         $.when(SharePointJSOMService.getItemsFromHostWebWithSelect($scope, 'Regions', 'Title,ID'))
         .done(function (jsonObject) {
@@ -13,6 +41,7 @@
                     id: region.ID
                 });
                 //$scope is not updating so force with this command
+                $('#wgllSelectRegion').val(myDepartment);
                 if (!$scope.$$phase) { $scope.$apply(); }
             });
             $('#wgllSelectRegion').removeAttr("disabled");
