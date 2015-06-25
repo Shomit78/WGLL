@@ -202,11 +202,13 @@
         };
 
         $scope.successOnReviewUpdate = function (jsonObject) {
-            SP.UI.Notify.addNotification("Your review has been sucessfully submitted.", false);
-            if (!$scope.$$phase) {
-                $scope.$apply(function () {
-                    $location.path('/');
-                });
+            if (submit) {
+                SP.UI.Notify.addNotification("Your review has been sucessfully submitted.", false);
+                if (!$scope.$$phase) {
+                    $scope.$apply(function () {
+                        $location.path('/');
+                    });
+                }
             }
         };
 

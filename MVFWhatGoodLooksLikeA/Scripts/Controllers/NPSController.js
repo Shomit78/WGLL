@@ -2,6 +2,7 @@
     SP.SOD.executeOrDelayUntilScriptLoaded(OnLoad, "SP.js");
     function OnLoad() {
         $scope.storeName = "";
+        $scope.stores = [];
 
         $scope.ratings = [
             { id: "10", title: "10 - Extremely likely" },
@@ -28,7 +29,52 @@
                     SP.UI.Notify.addNotification("Unable to locate your current store.", false);
                 }
                 else {
-                    $('#npsSubmit').removeAttr("disabled");
+                    //Check whether the store is NPS enabled
+                    var filter = "Title eq '" + $scope.storeName + "'";
+                    $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Stores', 'Title,ID,WGLLNPSEnabled', '', filter, 'Title'))
+                   .done(function (jsonObject) {
+                       angular.forEach(jsonObject.d.results, function (store, key) {
+                           if (store.Title == $scope.storeName) {
+                               $scope.stores.push({
+                                   id: store.Id,
+                                   title: store.Title,
+                                   nps: store.WGLLNPSEnabled
+                               });
+                           }
+                           //$scope is not updating so force with this command
+                           if (!$scope.$$phase) { $scope.$apply(); }
+                       });
+                       if ($scope.stores.length > 0) {
+                           if ($scope.stores[0].nps) {
+                               $('#npsSubmit').removeAttr("disabled");
+                           }
+                           else {
+                               SP.UI.Notify.addNotification("Net Promoter Score has not been enabled for your store.", false);
+                               if (!$scope.$$phase) {
+                                   $scope.$apply(function () {
+                                       $location.path('/');
+                                   });
+                               }
+                               else {
+                                   $location.path('/');
+                               }
+                           }
+                       }
+                       else {
+                           SP.UI.Notify.addNotification("Net Promoter Score has not been enabled for your store.", false);
+                           if (!$scope.$$phase) {
+                               $scope.$apply(function () {
+                                   $location.path('/');
+                               });
+                           }
+                           else {
+                               $location.path('/');
+                           }
+                       }
+                   })
+                   .fail(function (err) {
+                       console.info(JSON.stringify(err));
+                   });
                 }
             });
             if (!$scope.$$phase) { $scope.$apply(); }
