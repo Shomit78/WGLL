@@ -70,6 +70,7 @@
     <Content Include="Lists\Reviews\Elements.xml" />
     <Content Include="Lists\Reviews\ReviewsInstance\Elements.xml" />
     <Content Include="Lists\Reviews\Schema.xml" />
+    <Content Include="Pages\NPS\NPS.html" />
     <Content Include="Pages\Reviews\CreateReview.html" />
     <Content Include="Pages\Elements.xml" />
     <Content Include="Pages\Default.aspx" />
@@ -109,6 +110,7 @@
     <Content Include="Scripts\Controllers\CreateReviewController.js" />
     <Content Include="Scripts\Controllers\CriteriaController.js" />
     <Content Include="Scripts\Controllers\NewReviewController.js" />
+    <Content Include="Scripts\Controllers\NPSController.js" />
     <Content Include="Scripts\Controllers\RegionsController.js" />
     <Content Include="Scripts\Controllers\ReviewsController.js" />
     <Content Include="Scripts\Controllers\StoresController.js" />

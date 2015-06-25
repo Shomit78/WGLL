@@ -10,5 +10,6 @@
     <ProjectItemFile Source="Reviews\CreateReview.html" Target="Pages\Reviews\" Type="ElementFile" />
     <ProjectItemFile Source="Reviews\NewReview.html" Target="Pages\Reviews\" Type="ElementFile" />
     <ProjectItemFile Source="Reviews\ViewReview.html" Target="Pages\Reviews\" Type="ElementFile" />
+    <ProjectItemFile Source="NPS\NPS.html" Target="Pages\NPS\" Type="ElementFile" />
   </Files>
 </ProjectItem>

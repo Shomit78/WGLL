@@ -34,6 +34,7 @@
     <script type="text/javascript" src="../Scripts/Controllers/CreateReviewController.js"></script>
     <script type="text/javascript" src="../Scripts/Controllers/NewReviewController.js"></script>
     <script type="text/javascript" src="../Scripts/Controllers/ViewReviewController.js"></script>
+    <script type="text/javascript" src="../Scripts/Controllers/NPSController.js"></script>
 </asp:Content>
 
 <%-- The markup in the following Content element will be placed in the TitleArea of the page --%>
