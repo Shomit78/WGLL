@@ -14,6 +14,7 @@ $(document).ready(function () {
     //getUserName();
     SP.SOD.executeOrDelayUntilScriptLoaded(OnLoad, 'SP.js');
     function OnLoad() {
+        $(".ms-siteicon-img").attr('src', '../images/mvf_logo.gif');
     }
 });
 

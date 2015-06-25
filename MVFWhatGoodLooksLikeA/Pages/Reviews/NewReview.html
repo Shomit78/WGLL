@@ -4,8 +4,8 @@
         <input class="btn wgll-button-disabled" type="button" value="Save" ng-click="save()" disabled="" />&#160;
         <input class="btn wgll-button-disabled" type="button" value="Submit" ng-click="submit()" disabled="" />
     </div>
-    <div id="wgllSubsetContainer{{ $index }}" class="form-group wgll-subset-container" ng-repeat="subset in subsets" ng-hide="!$first">
-        <div class="input-group">
+    <div id="wgllSubsetContainer{{ $index }}" class="form-group wgll-subset-container clearfix" ng-repeat="subset in subsets" ng-hide="!$first">
+        <div class="input-group pull-right">
             <input class="btn" type="button" value="Back" ng-click="moveBack('wgllSubsetContainer'+$index, $index)" ng-disabled="$first" />
             <input class="btn" type="button" value="Next" ng-click="moveNext('wgllSubsetContainer'+$index, $index)" ng-disabled="$last" />
         </div>
@@ -22,10 +22,10 @@
             <div class="form-group wgll-criteria-detail-container" ng-bind-html="criteria.detail"></div>
             <div class="form-group show" id="wgllTextAreaDiv{{ $parent.$index }}{{ $index }}">
                 <label for="wgllTextArea{{ $index }}">Reason for failure</label>
-                <textarea id="wgllTextArea{{ $index }}" ng-required="true" class="form-control wgll-criteria-reason-for-failure-textarea" rows="2" ng-attr-placeholder="Enter a reason for the failure here..."></textarea>
+                <textarea name="wgllReasonForFailure{{$index}}" id="wgllTextArea{{ $index }}" ng-required="true" class="form-control wgll-criteria-reason-for-failure-textarea" rows="2" ng-model="criteria.reasonforfailuretext" placeholder="Enter a reason for the failure here..."></textarea>
             </div>
         </div>
-        <div class="input-group">
+        <div class="input-group pull-right">
             <input class="btn" type="button" value="Back" ng-click="moveBack('wgllSubsetContainer'+$index, $index)" ng-disabled="$first" />
             <input class="btn" type="button" value="Next" ng-click="moveNext('wgllSubsetContainer'+$index, $index)" ng-disabled="$last" />
         </div>

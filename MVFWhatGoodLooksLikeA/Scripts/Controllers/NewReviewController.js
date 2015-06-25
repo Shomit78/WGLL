@@ -5,6 +5,7 @@
         var currentVisitType = $routeParams.visitType;
         var currentRegion = $routeParams.region;
         var saved = false;
+        var submit = false;
         var reviewId;
         var reviewListItemId;
 
@@ -87,6 +88,7 @@
         };
 
         $scope.submit = function () {
+            submit = true;
             $('.wgll-button-disabled').attr('disabled', '');
             var currentMoment = moment().format('YYYY/MM/DD HH:mm:ss');
             if (!saved) {
@@ -174,11 +176,13 @@
                     });
                 }
             });
-            SP.UI.Notify.addNotification("Your review has been sucessfully submitted.", false);
-            if (!$scope.$$phase) {
-                $scope.$apply(function () {
-                    $location.path('/');
-                });
+            if (submit) {
+                SP.UI.Notify.addNotification("Your review has been sucessfully submitted.", false);
+                if (!$scope.$$phase) {
+                    $scope.$apply(function () {
+                        $location.path('/');
+                    });
+                }
             }
         };
 

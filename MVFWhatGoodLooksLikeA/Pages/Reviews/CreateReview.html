@@ -5,7 +5,7 @@
     </div>
     <div class="form-group">
         <label for="wgllSelectStore">Select a store</label>
-        <select class="form-control" id="wgllSelectStore" ng-model="selectedStore" ng-options="store as store.title for store in stores" disabled=""></select>
+        <select class="form-control" id="wgllSelectStore" ng-model="selectedStore" ng-options="store as store.title for store in stores | filter:{region: selectedRegion.title}" disabled=""></select>
     </div>
     <div class="form-group">
         <label for="wgllSelectVisitType">Select a review type</label>

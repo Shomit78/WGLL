@@ -66,6 +66,7 @@
     <Content Include="Elements.xml" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Icon.png" />
+    <Content Include="Images\mvf_logo.gif" />
     <Content Include="Lists\Reviews\Elements.xml" />
     <Content Include="Lists\Reviews\ReviewsInstance\Elements.xml" />
     <Content Include="Lists\Reviews\Schema.xml" />
