@@ -85,9 +85,7 @@
 
 
         $scope.submit = function () {
-            //console.log($scope.selectedRating.id);
-            //console.log($scope.comments);
-            //SP.UI.Notify.addNotification("Net Promoter Score form has been submitted.", false);
+            $('#npsSubmit').attr("disabled", "");
             SharePointJSOMService.addListItem("NPS", {
                 "Title": $scope.storeName,
                 "NPSRating": $scope.selectedRating.id,

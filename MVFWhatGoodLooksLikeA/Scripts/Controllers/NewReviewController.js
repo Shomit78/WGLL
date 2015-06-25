@@ -60,7 +60,7 @@
         });
 
         $scope.save = function () {
-            $('.wgll-button-disabled').attr("disabled");
+            $('.wgll-button-disabled').attr("disabled", "");
             if (!saved) {
                 var notes = $('textarea#wgllReviewNotesTextarea').val();
                 var summary = $('textarea#wgllReviewVisitSummaryTextarea').val();
@@ -88,39 +88,46 @@
         };
 
         $scope.submit = function () {
-            submit = true;
-            $('.wgll-button-disabled').attr('disabled', '');
-            var currentMoment = moment().format('YYYY/MM/DD HH:mm:ss');
-            if (!saved) {
-                var notes = $('textarea#wgllReviewNotesTextarea').val();
-                var summary = $('textarea#wgllReviewVisitSummaryTextarea').val();
-                SharePointJSOMService.addListItem("Reviews", {
-                    "WGLLRegion": currentRegion,
-                    "WGLLStore": currentStore,
-                    "WGLLVisitType": currentVisitType,
-                    "WGLLStatus": "Submitted",
-                    "WGLLNotes": notes,
-                    "WGLLVisitSummary": summary,
-                    "WGLLSubmittedDate": currentMoment
-                }, $scope.successOnSave, $scope.failureOnSave);
+            var validated = validate();
+            console.log(validated);
+            if (validated) {
+                submit = true;
+                $('.wgll-button-disabled').attr('disabled', '');
+                var currentMoment = moment().format('YYYY/MM/DD HH:mm:ss');
+                if (!saved) {
+                    var notes = $('textarea#wgllReviewNotesTextarea').val();
+                    var summary = $('textarea#wgllReviewVisitSummaryTextarea').val();
+                    SharePointJSOMService.addListItem("Reviews", {
+                        "WGLLRegion": currentRegion,
+                        "WGLLStore": currentStore,
+                        "WGLLVisitType": currentVisitType,
+                        "WGLLStatus": "Submitted",
+                        "WGLLNotes": notes,
+                        "WGLLVisitSummary": summary,
+                        "WGLLSubmittedDate": currentMoment
+                    }, $scope.successOnSave, $scope.failureOnSave);
+                }
+                else {
+                    var notes = $('textarea#wgllReviewNotesTextarea').val();
+                    var summary = $('textarea#wgllReviewVisitSummaryTextarea').val();
+                    $('.wgll-criteria-title-label').each(function () {
+                        var currentAnswerId = $(this).attr("answerid");
+                        var currentResult = $(this).parent().find('.wgll-checkbox-result').prop('checked');
+                        var currentReasonForFailure = $(this).parent().find('.wgll-criteria-reason-for-failure-textarea').val();
+                        SharePointJSOMService.updateListItem("Answers", currentAnswerId, {
+                            "WGLLResult": currentResult.toString(), "WGLLReasonForFailure": currentReasonForFailure
+                        }, $scope.successOnAnswerUpdate, $scope.failureOnAnswerUpdate);
+                    });
+                    SharePointJSOMService.updateListItem("Reviews", reviewListItemId, {
+                        "WGLLStatus": "Submitted",
+                        "WGLLNotes": notes,
+                        "WGLLVisitSummary": summary,
+                        "WGLLSubmittedDate": currentMoment
+                    }, $scope.successOnReviewUpdate, $scope.failureOnReviewUpdate);
+                }
             }
             else {
-                var notes = $('textarea#wgllReviewNotesTextarea').val();
-                var summary = $('textarea#wgllReviewVisitSummaryTextarea').val();
-                $('.wgll-criteria-title-label').each(function () {
-                    var currentAnswerId = $(this).attr("answerid");
-                    var currentResult = $(this).parent().find('.wgll-checkbox-result').prop('checked');
-                    var currentReasonForFailure = $(this).parent().find('.wgll-criteria-reason-for-failure-textarea').val();
-                    SharePointJSOMService.updateListItem("Answers", currentAnswerId, {
-                        "WGLLResult": currentResult.toString(), "WGLLReasonForFailure": currentReasonForFailure
-                    }, $scope.successOnAnswerUpdate, $scope.failureOnAnswerUpdate);
-                });
-                SharePointJSOMService.updateListItem("Reviews", reviewListItemId, {
-                    "WGLLStatus": "Submitted",
-                    "WGLLNotes": notes,
-                    "WGLLVisitSummary": summary,
-                    "WGLLSubmittedDate": currentMoment
-                }, $scope.successOnReviewUpdate, $scope.failureOnReviewUpdate);
+                SP.UI.Notify.addNotification("The form cannot be submitted. Some failed criteria require reasons for failure. ", false);
             }
         };
 
@@ -174,6 +181,7 @@
                         },
                             $scope.successOnSaveAnswers, $scope.failureOnSaveAnswers);
                     });
+                    $('.wgll-button-disabled').removeAttr('disabled');
                 }
             });
             if (submit) {
@@ -273,6 +281,22 @@
                     $('html, body').animate({ scrollTop: 0 }, 'slow');
                 });
             }*/
+        };
+
+        function validate() {
+            var validated = true;
+            $('.wgll-criteria-container').each(function () {
+                var result = $(this).find('.wgll-checkbox-result');
+                if (!$(result).is(":checked")) {
+                    //check if textarea is empty then return false
+                    var reason = $(this).find('.wgll-criteria-reason-for-failure-textarea');
+                    var currentText = $(reason).text();
+                    if ((currentText == "") || (currentText == "Enter a reason for the failure here...")) {
+                        validated = false;
+                    }
+                }
+            });
+            return validated;
         };
     }
 
