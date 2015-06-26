@@ -39,5 +39,6 @@
     <File Path="Scripts\moment.min.js" Url="Scripts/moment.min.js" ReplaceContent="TRUE" />
     <File Path="Scripts\moment.js" Url="Scripts/moment.js" ReplaceContent="TRUE" />
     <File Path="Scripts\Controllers\NPSController.js" Url="Scripts/Controllers/NPSController.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\Controllers\DisplayReviewController.js" Url="Scripts/Controllers/DisplayReviewController.js" ReplaceContent="TRUE" />
   </Module>
 </Elements>

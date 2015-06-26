@@ -10,6 +10,9 @@
         $scope.subsets = [];
         $scope.tempSubsets = [];
 
+        //CHANGE OF PLAN: RETRIEVE THE REVIEW DETAILS BUT ONLY GET THE SUBSETS THAT ARE ACTIVE AND RETURN THE ANSWERS FOR EACH.
+        //THIS MAY MEAN THE CHECKBOXES WILL DISPLAY VALUES CORRECTLY
+
         $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Reviews', 'Title,ID,WGLLStatus,WGLLStore,WGLLVisitType,WGLLVisitSummary,WGLLNotes', '', filterByReviewId, ''))
         .done(function (jsonObject) {
             angular.forEach(jsonObject.d.results, function (review) {
@@ -121,6 +124,36 @@
             else {
                 return false;
             }
+        };
+
+        $scope.moveNext = function (currentDivId, index) {
+            $('#' + currentDivId).removeClass("ng-show");
+            $('#' + currentDivId).addClass("ng-hide");
+            var next = parseInt(index);
+            next = next + 1;
+            var nextDivId = '#wgllSubsetContainer' + next;
+            $(nextDivId).removeClass("ng-hide");
+            $(nextDivId).addClass("ng-show");
+            /*if (!$scope.$$phase) {
+                $scope.$apply(function () {
+                    $('html, body').animate({ scrollTop: 0 }, 'slow');
+                });
+            }*/
+        };
+
+        $scope.moveBack = function (currentDivId, index) {
+            $('#' + currentDivId).removeClass("ng-show");
+            $('#' + currentDivId).addClass("ng-hide");
+            var next = parseInt(index);
+            next = next - 1;
+            var nextDivId = '#wgllSubsetContainer' + next;
+            $(nextDivId).removeClass("ng-hide");
+            $(nextDivId).addClass("ng-show");
+            /*if (!$scope.$$phase) {
+                $scope.$apply(function () {
+                    $('html, body').animate({ scrollTop: 0 }, 'slow');
+                });
+            }*/
         };
 
     }

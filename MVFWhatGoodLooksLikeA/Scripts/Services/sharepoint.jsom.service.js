@@ -97,6 +97,29 @@
         return deferred;
     };
 
+    this.getItemByIdFromHostWebWithSelectAndExpand = function ($scope, listName, id) {
+        var deferred = $.Deferred();
+        JSRequest.EnsureSetup();
+        hostweburl = decodeURIComponent(JSRequest.QueryString["SPHostUrl"]);
+        appweburl = decodeURIComponent(JSRequest.QueryString["SPAppWebUrl"]);
+
+        var restQueryUrl = appweburl + "/_api/SP.AppContextSite(@target)/web/lists/getByTitle('" + listName + "')/items(" + id + ")?@target='" + hostweburl + "'";
+
+        var executor = new SP.RequestExecutor(appweburl);
+        executor.executeAsync({
+            url: restQueryUrl,
+            method: "GET",
+            headers: { "Accept": "application/json; odata=verbose" },
+            success: function (data, textStatus, xhr) {
+                deferred.resolve(JSON.parse(data.body));
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                deferred.reject(JSON.stringify(xhr));
+            }
+        });
+        return deferred;
+    };
+
     this.getItemsFromAppWebWithParams = function ($scope, listName, select, expand, filter, orderby) {
         var deferred = $.Deferred();
         JSRequest.EnsureSetup();
@@ -235,7 +258,7 @@
 
     };
 
-    this.getListItemWithId = function (url, itemId, listName, success, failure) {
+    this.getListItemWithId = function (url, id, listName, success, failure) {
 
         JSRequest.EnsureSetup();
         hostweburl = decodeURIComponent(JSRequest.QueryString["SPHostUrl"]);

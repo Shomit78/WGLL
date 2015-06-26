@@ -3,6 +3,7 @@
 .wgll-subset-container { border: 1px solid silver; margin:5px; padding:5px; border-radius:5px}
 .wgll-button-row { padding-top: 5px;padding-right:5px;padding-bottom:5px;padding-left:5px;}
 .wgll-review-row { cursor: pointer; }
+.wgll-reason-for-failure-container { border-radius:5px; padding:5px;}
 .error { color: red; font-weight: bold; }
 .nobreak
 {

@@ -4,6 +4,6 @@
     .when('/NPS', { templateUrl: 'NPS/NPS.html', controller: 'NPSController' })
     .when('/CreateReview', { templateUrl: 'Reviews/CreateReview.html', controller: 'CreateReviewController' })
     .when('/NewReview/:region/:store/:visitType', { templateUrl: 'Reviews/NewReview.html', controller: 'NewReviewController' })
-    .when('/ViewReview/:ReviewId', {templateUrl: "Reviews/ViewReview.html", controller: 'ViewReviewController' })
+    .when('/DisplayReview/:ReviewId', {templateUrl: "Reviews/DisplayReview.html", controller: 'DisplayReviewController' })
     .otherwise({ redirectTo: '/' });
 });

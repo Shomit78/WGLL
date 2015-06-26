@@ -18,7 +18,7 @@
             angular.forEach(jsonObject.d.results, function (subset) {
                 var crit = [];
                 var filter = "(Subset/ID eq " + subset.ID + ")";
-                $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Criteria', 'Title,ID,CriteriaDetail,NonNegotiable,Subset/ID,Stores/Title,VisitType/Title',
+                $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Criteria', 'Title,ID,CriteriaDetail,NonNegotiable,CriteriaOrder,Subset/ID,Stores/Title,VisitType/Title',
                     'Subset/ID,Stores/ID,VisitType/ID', filter, 'CriteriaOrder'))
                 .done(function (jsonObject) {
                     angular.forEach(jsonObject.d.results, function (criteria) {
@@ -30,7 +30,8 @@
                                             title: criteria.Title,
                                             id: criteria.ID,
                                             detail: criteria.CriteriaDetail,
-                                            nonNegotiable: criteria.NonNegotiable
+                                            nonNegotiable: criteria.NonNegotiable,
+                                            order: criteria.CriteriaOrder
                                         });
                                     }
                                 });
@@ -83,7 +84,8 @@
                         "WGLLResult": currentResult.toString(), "WGLLReasonForFailure": currentReasonForFailure
                     }, $scope.successOnAnswerUpdate, $scope.failureOnAnswerUpdate);
                 });
-                SP.UI.Notify.addNotification("Your review has been sucessfully submitted.", false);
+                SP.UI.Notify.addNotification("Your review has been sucessfully saved.", false);
+                $('.wgll-button-disabled').removeAttr("disabled");
             }
         };
 
@@ -167,6 +169,7 @@
                     $(criteria).each(function () {
                         var criteriaTitle = $(this).find('.wgll-criteria-title-label').text();
                         var criteriaNonNegotiable = $(this).find('.wgll-criteria-title-label').attr('nonnegotiable');
+                        var criteriaOrder = $(this).find('.wgll-criteria-title-label').attr('order');
                         var criteriaDetail = $(this).find('.wgll-criteria-detail-container').text();
                         var criteriaResult = $(this).find('.wgll-checkbox-result').prop('checked');
                         var criteriaReasonForFailure = $(this).find('.wgll-criteria-reason-for-failure-textarea').val()
@@ -177,7 +180,8 @@
                             "WGLLCriteriaDetail": criteriaDetail,
                             "WGLLReviewID": reviewId,
                             "WGLLSubset": subsetTitle,
-                            "WGLLReasonForFailure": criteriaReasonForFailure
+                            "WGLLReasonForFailure": criteriaReasonForFailure,
+                            "WGLLCriteriaOrder": criteriaOrder
                         },
                             $scope.successOnSaveAnswers, $scope.failureOnSaveAnswers);
                     });

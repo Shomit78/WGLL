@@ -12,7 +12,7 @@
         <h3><span class="wgll-subset-order-span">{{ $index + 1}}).</span>&#160;<span class="wgll-subset-title-span">{{ subset.title }}</span></h3>
         <p ng-bind-html="subset.detail"></p>
         <div class="form-group wgll-criteria-container" ng-repeat="criteria in subset.criteria" title="{{ subset.title }}" subtitle="{{ criteria.title }}">
-            <label for="wgllresultcheckbox{{ $index }}" class="wgll-criteria-title-label" nonnegotiable="{{ criteria.nonNegotiable }}">{{ criteria.title }}</label>
+            <label for="wgllresultcheckbox{{ $index }}" class="wgll-criteria-title-label" order="{{ criteria.order }}" nonnegotiable="{{ criteria.nonNegotiable }}">{{ criteria.title }}</label>
             <div class="form-group checkbox pull-right">
                 <label>
                     <input id="wgllResultCheckbox{{ $index }}" class="wgll-checkbox-result" type="checkbox"
@@ -20,7 +20,7 @@
                 </label>
             </div>
             <div class="form-group wgll-criteria-detail-container" ng-bind-html="criteria.detail"></div>
-            <div class="form-group show clearfix has-warning" id="wgllTextAreaDiv{{ $parent.$index }}{{ $index }}">
+            <div class="form-group show clearfix bg-warning wgll-reason-for-failure-container" id="wgllTextAreaDiv{{ $parent.$index }}{{ $index }}">
                 <label for="wgllTextArea{{ $index }}">Reason for failure</label>
                 <textarea name="wgllReasonForFailure{{$index}}" id="wgllTextArea{{ $index }}" ng-required="true" class="form-control wgll-criteria-reason-for-failure-textarea" rows="2" ng-model="criteria.reasonforfailuretext" placeholder="Enter a reason for the failure here..."></textarea>
                 <div class="required pull-right" ng-hide="criteria.checked">

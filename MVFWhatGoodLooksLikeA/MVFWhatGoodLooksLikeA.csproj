@@ -89,6 +89,7 @@
     </None>
     <Content Include="Pages\CreateReview.aspx" />
     <Content Include="Pages\Reviews.aspx" />
+    <Content Include="Pages\Reviews\DisplayReview.html" />
     <Content Include="Pages\Reviews\NewReview.html" />
     <Content Include="Pages\Reviews\Reviews.html" />
     <Content Include="Pages\Reviews\ViewReview.html" />
@@ -115,6 +116,7 @@
     <Content Include="Scripts\Controllers\ReviewsController.js" />
     <Content Include="Scripts\Controllers\StoresController.js" />
     <Content Include="Scripts\Controllers\SubsetsController.js" />
+    <Content Include="Scripts\Controllers\DisplayReviewController.js" />
     <Content Include="Scripts\Controllers\ViewReviewController.js" />
     <Content Include="Scripts\Controllers\VisitTypesController.js" />
     <Content Include="Scripts\Elements.xml" />
