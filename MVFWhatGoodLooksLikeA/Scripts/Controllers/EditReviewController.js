@@ -5,8 +5,11 @@
         //$scope variables using $routeParams from query string
         $scope.reviewId = $routeParams.ReviewId;
 
+        //$scope variables
+        $scope.subsets = [];
+
         //Get the Review from the Reviews list using the reviewId from the query string
-        $.when(SharePointJSOMService.getItemByIdFromHostWebWithSelectAndExpand($scope, sharePointConfig.lists.reviews, reviewId))
+        $.when(SharePointJSOMService.getItemByIdFromHostWebWithSelectAndExpand($scope, sharePointConfig.lists.reviews, $scope.reviewId))
             .done(function (jsonObject) {
                 angular.forEach(jsonObject, function (review) {
                     $scope.id = review.Id;
@@ -15,7 +18,7 @@
                     $scope.store = review.WGLLStore;
                     $scope.notes = review.WGLLNotes;
                     $scope.visitType = review.WGLLVisitType;
-                    $scope.visitSummary = review.visitSummary;
+                    $scope.visitSummary = review.WGLLVisitSummary;
                 });
                 var ans = [];
                 var subfilter = "(" + sharePointConfig.fields.answers.reviewId + " eq '" + $scope.title + "')";

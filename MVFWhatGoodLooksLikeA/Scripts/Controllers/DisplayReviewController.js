@@ -18,7 +18,7 @@
                     $scope.store = review.WGLLStore;
                     $scope.notes = review.WGLLNotes;
                     $scope.visitType = review.WGLLVisitType;
-                    $scope.visitSummary = review.visitSummary;
+                    $scope.visitSummary = review.WGLLVisitSummary;
                 });
                 var ans = [];
                 var subfilter = "(" + sharePointConfig.fields.answers.reviewId + " eq '" + $scope.title + "')";
