@@ -30,11 +30,21 @@ var sharePointConfig = {
             id: "ID",
             title: "Title"
         },
+        criteria: {
+            detail: "CriteriaDetail",
+            nonNegotiable: "NonNegotiable",
+            order: "CriteriaOrder",
+            stores: "Stores",
+            subset: "Subset",
+            visitType: "VisitType"
+        },
         reviews: {
+            notes: "WGLLNotes",
             region: "WGLLRegion",
             status: "WGLLStatus",
             store: "WGLLStore",
             submittedDate: "WGLLSubmittedDate",
+            summary: "WGLLVisitSummary",
             visitType: "WGLLVisitType"
         },
         stores: {
@@ -53,7 +63,14 @@ var sharePointConfig = {
 
     },
     messages: {
-        defaultError: "An error has occurred. Please ensure you are connected to the network and refresh the page."
+        defaultError: "An error has occurred whilst retrieving data. <br />Please ensure you are connected to the network and refresh the page.",
+        onReviewSave: "Your Review has been succesfully saved. ",
+        onSaveError: "An error has occurred whilst attempting to save the Review. <br />Please ensure you are connected to the network and try again.",
+        onSaveAnswerError: "An error has occurred whilst attempting to save the Answers. <br />Please ensure you are connected to the network and try again.",
+        onSubmitValidationError: "The Review cannot be submitted. Some failed criteria require reasons for failure. "
+    },
+    status: {
+        saved: "Saved"
     }
 };
 

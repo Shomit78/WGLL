@@ -1,18 +1,23 @@
 ﻿myApp.controller('NewReviewController', ['$scope', 'SharePointJSOMService', '$location', '$routeParams', function ($scope, SharePointJSOMService, $location, $routeParams) {
     SP.SOD.executeOrDelayUntilScriptLoaded(NewReviewControllerOnLoad, "SP.js");
     function NewReviewControllerOnLoad() {
+
+        //$routeParams variables from query string
         var currentStore = $routeParams.store;
         var currentVisitType = $routeParams.visitType;
         var currentRegion = $routeParams.region;
-        var saved = false;
-        var submit = false;
-        var reviewId;
-        var reviewListItemId;
 
-        $scope.subsets = [];
-        $scope.answers = [];
+        //custom variables
+        var saved, submit = false;
+        var answerSaveFailure = 0;
+        var reviewId, reviewListItemId;
         var subsetFilter = sharePointConfig.fields.subsets.active + " eq 1";
 
+        //$scope variables
+        $scope.subsets = [];
+        $scope.answers = [];
+        
+        //Get all active subsets from subset list including detail ordered by subset order
         $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, sharePointConfig.lists.subsets,
             sharePointConfig.fields.sharepoint.title + ',' + sharePointConfig.fields.sharepoint.id + ',' +
             sharePointConfig.fields.subsets.detail + ',' + sharePointConfig.fields.subsets.order,
@@ -20,9 +25,20 @@
         .done(function (jsonObject) {
             angular.forEach(jsonObject.d.results, function (subset) {
                 var crit = [];
-                var filter = "(Subset/ID eq " + subset.ID + ")";
-                $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Criteria', 'Title,ID,CriteriaDetail,NonNegotiable,CriteriaOrder,Subset/ID,Stores/Title,VisitType/Title',
-                    'Subset/ID,Stores/ID,VisitType/ID', filter, 'CriteriaOrder'))
+                var filter = "(" + sharePointConfig.fields.criteria.subset + "/" +
+                    sharePointConfig.fields.sharepoint.id + " eq " + subset.ID + ")";
+                //Whilst iterating active subsets get the related criteria from the Criteria list ordered by criteria order
+                $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, sharePointConfig.lists.criteria,
+                    sharePointConfig.fields.sharepoint.title + ',' + sharePointConfig.fields.sharepoint.id + ',' +
+                    sharePointConfig.fields.criteria.detail + ',' + sharePointConfig.fields.criteria.nonNegotiable + ',' +
+                    sharePointConfig.fields.criteria.order + ',' + sharePointConfig.fields.criteria.subset + '/' +
+                    sharePointConfig.fields.sharepoint.id + ',' + sharePointConfig.fields.criteria.stores + '/' +
+                    sharePointConfig.fields.sharepoint.title + ',' + sharePointConfig.fields.criteria.visitType + '/' + 
+                    sharePointConfig.fields.sharepoint.title,
+                    sharePointConfig.fields.criteria.subset + '/' + sharePointConfig.fields.sharepoint.id + ',' +
+                    sharePointConfig.fields.criteria.stores + '/' + sharePointConfig.fields.sharepoint.id + ',' +
+                    sharePointConfig.fields.criteria.visitType + '/' + sharePointConfig.fields.sharepoint.id + '',
+                    filter, sharePointConfig.fields.criteria.order))
                 .done(function (jsonObject) {
                     angular.forEach(jsonObject.d.results, function (criteria) {
                         angular.forEach(criteria.Stores.results, function (store) {
@@ -46,6 +62,7 @@
                     $('.wgll-button-disabled').removeAttr("disabled");
                 })
                 .fail(function (err) {
+                    SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
                     console.info(JSON.stringify(err));
                 });
                 $scope.subsets.push({
@@ -60,6 +77,7 @@
             });
         })
         .fail(function (err) {
+            SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
             console.info(JSON.stringify(err));
         });
 
@@ -68,7 +86,7 @@
             if (!saved) {
                 var notes = $('textarea#wgllReviewNotesTextarea').val();
                 var summary = $('textarea#wgllReviewVisitSummaryTextarea').val();
-                SharePointJSOMService.addListItem("Reviews", {
+                SharePointJSOMService.addListItem(sharePointConfig.lists.reviews, {
                     "WGLLRegion": currentRegion,
                     "WGLLStore": currentStore,
                     "WGLLVisitType": currentVisitType,
@@ -76,25 +94,24 @@
                     "WGLLNotes": notes,
                     "WGLLVisitSummary": summary
                 }, $scope.successOnSave, $scope.failureOnSave);
-                SP.UI.Notify.addNotification("Your review has been sucessfully saved.", false);
+                SP.UI.Notify.addNotification(sharePointConfig.messages.onReviewSave, false);
             }
             else {
                 $('.wgll-criteria-title-label').each(function () {
                     var currentAnswerId = $(this).attr("answerid");
                     var currentResult = $(this).parent().find('.wgll-checkbox-result').prop('checked');
                     var currentReasonForFailure = $(this).parent().find('.wgll-criteria-reason-for-failure-textarea').val();
-                    SharePointJSOMService.updateListItem("Answers", currentAnswerId, {
+                    SharePointJSOMService.updateListItem(sharePointConfig.lists.answers, currentAnswerId, {
                         "WGLLResult": currentResult.toString(), "WGLLReasonForFailure": currentReasonForFailure
                     }, $scope.successOnAnswerUpdate, $scope.failureOnAnswerUpdate);
                 });
-                SP.UI.Notify.addNotification("Your review has been sucessfully saved.", false);
+                SP.UI.Notify.addNotification(sharePointConfig.messages.onReviewSave, false);
                 $('.wgll-button-disabled').removeAttr("disabled");
             }
         };
 
         $scope.submit = function () {
             var validated = validate();
-            console.log(validated);
             if (validated) {
                 submit = true;
                 $('.wgll-button-disabled').attr('disabled', '');
@@ -102,7 +119,7 @@
                 if (!saved) {
                     var notes = $('textarea#wgllReviewNotesTextarea').val();
                     var summary = $('textarea#wgllReviewVisitSummaryTextarea').val();
-                    SharePointJSOMService.addListItem("Reviews", {
+                    SharePointJSOMService.addListItem(sharePointConfig.lists.review, {
                         "WGLLRegion": currentRegion,
                         "WGLLStore": currentStore,
                         "WGLLVisitType": currentVisitType,
@@ -119,11 +136,11 @@
                         var currentAnswerId = $(this).attr("answerid");
                         var currentResult = $(this).parent().find('.wgll-checkbox-result').prop('checked');
                         var currentReasonForFailure = $(this).parent().find('.wgll-criteria-reason-for-failure-textarea').val();
-                        SharePointJSOMService.updateListItem("Answers", currentAnswerId, {
+                        SharePointJSOMService.updateListItem(sharePointConfig.lists.answers, currentAnswerId, {
                             "WGLLResult": currentResult.toString(), "WGLLReasonForFailure": currentReasonForFailure
                         }, $scope.successOnAnswerUpdate, $scope.failureOnAnswerUpdate);
                     });
-                    SharePointJSOMService.updateListItem("Reviews", reviewListItemId, {
+                    SharePointJSOMService.updateListItem(sharePointConfig.lists.reviews, reviewListItemId, {
                         "WGLLStatus": "Submitted",
                         "WGLLNotes": notes,
                         "WGLLVisitSummary": summary,
@@ -132,7 +149,7 @@
                 }
             }
             else {
-                SP.UI.Notify.addNotification("The form cannot be submitted. Some failed criteria require reasons for failure. ", false);
+                SP.UI.Notify.addNotification(sharePointConfig.messages.onSubmitValidationError, false);
             }
         };
 
@@ -157,7 +174,7 @@
                 var title = "WGLL-" + store + "-" + visitType + "-" + dateString + "-" + review.ID;
                 reviewId = title;
                 reviewListItemId = review.ID;
-                SharePointJSOMService.updateListItem("Reviews", review.ID, {
+                SharePointJSOMService.updateListItem(sharePointConfig.lists.reviews, review.ID, {
                     "Title": title
                 }, $scope.successOnUpdate, $scope.failureOnUpdate);
             });
@@ -176,7 +193,7 @@
                         var criteriaDetail = $(this).find('.wgll-criteria-detail-container').text();
                         var criteriaResult = $(this).find('.wgll-checkbox-result').prop('checked');
                         var criteriaReasonForFailure = $(this).find('.wgll-criteria-reason-for-failure-textarea').val()
-                        SharePointJSOMService.addAnswer("Answers", {
+                        SharePointJSOMService.addAnswer(sharePointConfig.lists.answers, {
                             "Title": criteriaTitle,
                             "WGLLNonNegotiable": criteriaNonNegotiable.toString(),
                             "WGLLResult": criteriaResult.toString(),
@@ -192,7 +209,7 @@
                 }
             });
             if (submit) {
-                SP.UI.Notify.addNotification("Your review has been sucessfully submitted.", false);
+                SP.UI.Notify.addNotification(sharePointConfig.messages.onReviewSave, false);
                 if (!$scope.$$phase) {
                     $scope.$apply(function () {
                         $location.path('/');
@@ -228,22 +245,33 @@
         };
 
         $scope.failureOnUpdate = function (jsonObject) {
+            SP.UI.Notify.addNotification(sharePointConfig.messages.onSaveError, false);
             console.info("$scope.failureOnUpdate: " + JSON.stringify(jsonObject));
         };
 
         $scope.failureOnSave = function (jsonObject) {
+            SP.UI.Notify.addNotification(sharePointConfig.messages.onSaveError, false);
             console.info("$scope.failureOnSave: " + JSON.stringify(jsonObject));
         };
 
         $scope.failureOnReviewUpdate = function (jsonObject) {
+            SP.UI.Notify.addNotification(sharePointConfig.messages.onSaveError, false);
             console.info("$scope.failureOnReviewUpdate: " + JSON.stringify(jsonObject));
         };
 
         $scope.failureOnSaveAnswers = function (jsonObject) {
+            if (answerSaveFailure == 0) {
+                SP.UI.Notify.addNotification(sharePointConfig.messages.onSaveAnswerError, false);
+            }
+            answerSaveFailure++;
             console.info("$scope.failureOnSaveAnswers: " + JSON.stringify(jsonObject));
         };
 
         $scope.failureOnAnswerUpdate = function (jsonObject) {
+            if (answerSaveFailure == 0) {
+                SP.UI.Notify.addNotification(sharePointConfig.messages.onSaveAnswerError, false);
+            }
+            answerSaveFailure++;
             console.info("$scope.failureOnAnswerUpdate: " + JSON.stringify(jsonObject));
         };
 
@@ -268,11 +296,6 @@
             var nextDivId = '#wgllSubsetContainer' + next;
             $(nextDivId).removeClass("ng-hide");
             $(nextDivId).addClass("ng-show");
-            /*if (!$scope.$$phase) {
-                $scope.$apply(function () {
-                    $('html, body').animate({ scrollTop: 0 }, 'slow');
-                });
-            }*/
         };
 
         $scope.moveBack = function (currentDivId, index) {
@@ -283,11 +306,6 @@
             var nextDivId = '#wgllSubsetContainer' + next;
             $(nextDivId).removeClass("ng-hide");
             $(nextDivId).addClass("ng-show");
-            /*if (!$scope.$$phase) {
-                $scope.$apply(function () {
-                    $('html, body').animate({ scrollTop: 0 }, 'slow');
-                });
-            }*/
         };
 
         function validate() {
