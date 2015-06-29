@@ -77,6 +77,7 @@
       <SharePointProjectItemId>{ccae9459-8842-467f-ad6c-f4c29fc240af}</SharePointProjectItemId>
     </None>
     <Content Include="Pages\Reviews\DisplayReview.html" />
+    <Content Include="Pages\Reviews\EditReview.html" />
     <Content Include="Pages\Reviews\NewReview.html" />
     <Content Include="Pages\Reviews\Reviews.html" />
     <Content Include="Scripts\angular-mocks.js" />
@@ -94,6 +95,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Controllers\CreateReviewController.js" />
+    <Content Include="Scripts\Controllers\EditReviewController.js" />
     <Content Include="Scripts\Controllers\NewReviewController.js" />
     <Content Include="Scripts\Controllers\NPSController.js" />
     <Content Include="Scripts\Controllers\ReviewsController.js" />

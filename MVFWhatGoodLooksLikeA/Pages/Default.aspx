@@ -25,17 +25,12 @@
     <script type="text/javascript" src="../Scripts/App.js"></script>
     <script type="text/javascript" src="../Scripts/App.Route.js"></script>
     <script type="text/javascript" src="../Scripts/Services/sharepoint.jsom.service.js"></script>
-    <script type="text/javascript" src="../Scripts/Controllers/RegionsController.js"></script>
-    <script type="text/javascript" src="../Scripts/Controllers/StoresController.js"></script>
-    <script type="text/javascript" src="../Scripts/Controllers/VisitTypesController.js"></script>
-    <script type="text/javascript" src="../Scripts/Controllers/SubsetsController.js"></script>
-    <script type="text/javascript" src="../Scripts/Controllers/CriteriaController.js"></script>
     <script type="text/javascript" src="../Scripts/Controllers/ReviewsController.js"></script>
     <script type="text/javascript" src="../Scripts/Controllers/CreateReviewController.js"></script>
     <script type="text/javascript" src="../Scripts/Controllers/NewReviewController.js"></script>
-    <script type="text/javascript" src="../Scripts/Controllers/ViewReviewController.js"></script>
     <script type="text/javascript" src="../Scripts/Controllers/NPSController.js"></script>
     <script type="text/javascript" src="../Scripts/Controllers/DisplayReviewController.js"></script>
+    <script type="text/javascript" src="../Scripts/Controllers/EditReviewController.js"></script>
 </asp:Content>
 
 <%-- The markup in the following Content element will be placed in the TitleArea of the page --%>

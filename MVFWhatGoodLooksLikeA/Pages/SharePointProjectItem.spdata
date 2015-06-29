@@ -8,5 +8,6 @@
     <ProjectItemFile Source="Reviews\NewReview.html" Target="Pages\Reviews\" Type="ElementFile" />
     <ProjectItemFile Source="NPS\NPS.html" Target="Pages\NPS\" Type="ElementFile" />
     <ProjectItemFile Source="Reviews\DisplayReview.html" Target="Pages\Reviews\" Type="ElementFile" />
+    <ProjectItemFile Source="Reviews\EditReview.html" Target="Pages\Reviews\" Type="ElementFile" />
   </Files>
 </ProjectItem>

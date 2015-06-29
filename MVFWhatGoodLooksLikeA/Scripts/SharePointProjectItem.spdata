@@ -35,5 +35,6 @@
     <ProjectItemFile Source="moment.js" Target="Scripts\" Type="ElementFile" />
     <ProjectItemFile Source="Controllers\NPSController.js" Target="Scripts\Controllers\" Type="ElementFile" />
     <ProjectItemFile Source="Controllers\DisplayReviewController.js" Target="Scripts\Controllers\" Type="ElementFile" />
+    <ProjectItemFile Source="Controllers\EditReviewController.js" Target="Scripts\Controllers\" Type="ElementFile" />
   </Files>
 </ProjectItem>
