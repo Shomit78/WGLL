@@ -1,9 +1,10 @@
 ﻿myApp.controller('NPSController', ['$scope', 'SharePointJSOMService', '$location', function ($scope, SharePointJSOMService, $location) {
     SP.SOD.executeOrDelayUntilScriptLoaded(OnLoad, "SP.js");
     function OnLoad() {
+
+        //$scope variables
         $scope.storeName = "";
         $scope.stores = [];
-
         $scope.ratings = [
             { id: "10", title: "10 - Extremely likely" },
             { id: "9", title: "9" },
@@ -17,21 +18,24 @@
             { id: "3", title: "1 - Not likely" },
         ];
 
+        //Get the user profile properties to set default store for Net Promoter Score
         $.when(SharePointJSOMService.getUserProfileItemsFromHostWebAll($scope))
         .done(function (jsonObject) {
             angular.forEach(jsonObject, function (user) {
                 angular.forEach(user.UserProfileProperties.results, function (prop, key) {
-                    if (prop.Key == "Office") {
+                    if (prop.Key == sharePointConfig.properties.store) {
                         $scope.storeName = prop.Value;
                     }
                 });
                 if ($scope.storeName == "") {
-                    SP.UI.Notify.addNotification("Unable to locate your current store.", false);
+                    SP.UI.Notify.addNotification(sharePointConfig.messages.onGetStoreError, false);
                 }
                 else {
                     //Check whether the store is NPS enabled
-                    var filter = "Title eq '" + $scope.storeName + "'";
-                    $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Stores', 'Title,ID,WGLLNPSEnabled', '', filter, 'Title'))
+                    var filter = sharePointConfig.fields.sharepoint.title + " eq '" + $scope.storeName + "'";
+                    $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, sharePointConfig.lists.stores,
+                        sharePointConfig.fields.sharepoint.title + ',' + sharePointConfig.fields.sharepoint.id +
+                        ',' + sharePointConfig.fields.stores.npsEnabled, '', filter, sharePointConfig.fields.sharepoint.title))
                    .done(function (jsonObject) {
                        angular.forEach(jsonObject.d.results, function (store, key) {
                            if (store.Title == $scope.storeName) {
@@ -49,7 +53,7 @@
                                $('#npsSubmit').removeAttr("disabled");
                            }
                            else {
-                               SP.UI.Notify.addNotification("Net Promoter Score has not been enabled for your store.", false);
+                               SP.UI.Notify.addNotification(sharePointConfig.messages.onNPSEnabledError, false);
                                if (!$scope.$$phase) {
                                    $scope.$apply(function () {
                                        $location.path('/');
@@ -61,7 +65,7 @@
                            }
                        }
                        else {
-                           SP.UI.Notify.addNotification("Net Promoter Score has not been enabled for your store.", false);
+                           SP.UI.Notify.addNotification(sharePointConfig.messages.onNPSEnabledError, false);
                            if (!$scope.$$phase) {
                                $scope.$apply(function () {
                                    $location.path('/');
@@ -73,6 +77,7 @@
                        }
                    })
                    .fail(function (err) {
+                       SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
                        console.info(JSON.stringify(err));
                    });
                 }
@@ -80,13 +85,14 @@
             if (!$scope.$$phase) { $scope.$apply(); }
         })
         .fail(function (err) {
+            SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
             console.info(JSON.stringify(err));
         })
 
 
         $scope.submit = function () {
             $('#npsSubmit').attr("disabled", "");
-            SharePointJSOMService.addListItem("NPS", {
+            SharePointJSOMService.addListItem(sharePointConfig.lists.nps, {
                 "Title": $scope.storeName,
                 "NPSRating": $scope.selectedRating.id,
                 "NPSComments": $scope.comments
@@ -94,7 +100,7 @@
         };
 
         $scope.successOnSave = function (jsonObject) {
-            SP.UI.Notify.addNotification("Net Promoter Score form has been submitted.", false);
+            SP.UI.Notify.addNotification(sharePointConfig.messages.onNPSSave, false);
             if (!$scope.$$phase) {
                 $scope.$apply(function () {
                     $location.path('/');
@@ -106,7 +112,7 @@
         };
 
         $scope.successOnFailure = function (jsonObject) {
-            SP.UI.Notify.addNotification("There was an error submitting the Net Promoter Score form.", false);
+            SP.UI.Notify.addNotification(sharePointConfig.messages.onNPSError, false);
             if (!$scope.$$phase) {
                 $scope.$apply(function () {
                     $location.path('/');

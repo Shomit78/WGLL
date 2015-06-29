@@ -48,7 +48,8 @@ var sharePointConfig = {
             visitType: "WGLLVisitType"
         },
         stores: {
-            region: "WGLLRegion"
+            region: "WGLLRegion",
+            npsEnabled: WGLLNPSEnabled
         },
         subsets: {
             active: "SubsetActive",
@@ -64,7 +65,12 @@ var sharePointConfig = {
     },
     messages: {
         defaultError: "An error has occurred whilst retrieving data. <br />Please ensure you are connected to the network and refresh the page.",
+        onGetStoreError: "Unable to locate your current Store. ",
+        onNPSEnabledError: "Net Promoter Score has not been enabled for your store. ",
+        onNPSSubmit: "Net Promoter Score has been submitted. ",
+        onNPSError: "There was an error submitting the Net Promoter Score. ",
         onReviewSave: "Your Review has been succesfully saved. ",
+        onReviewSubmit: "Your Review has been succesfully submitted. ",
         onSaveError: "An error has occurred whilst attempting to save the Review. <br />Please ensure you are connected to the network and try again.",
         onSaveAnswerError: "An error has occurred whilst attempting to save the Answers. <br />Please ensure you are connected to the network and try again.",
         onSubmitValidationError: "The Review cannot be submitted. Some failed criteria require reasons for failure. "

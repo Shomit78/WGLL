@@ -209,7 +209,7 @@
                 }
             });
             if (submit) {
-                SP.UI.Notify.addNotification(sharePointConfig.messages.onReviewSave, false);
+                SP.UI.Notify.addNotification(sharePointConfig.messages.onReviewSubmit, false);
                 if (!$scope.$$phase) {
                     $scope.$apply(function () {
                         $location.path('/');
