@@ -25,7 +25,10 @@
                 //Get the answers related to the Review from the Answers lists
                 $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, sharePointConfig.lists.answers,
                     sharePointConfig.fields.sharepoint.title + ',' + sharePointConfig.fields.sharepoint.id +
-                    ',WGLLCriteriaDetail,WGLLSubset,WGLLResult,WGLLReasonForFailure,WGLLNonNegotiable', '', subfilter, 'WGLLCriteriaOrder'))
+                    ',' + sharePointConfig.fields.answers.detail + ',' + sharePointConfig.fields.answers.subset +
+                    ',' + sharePointConfig.fields.answers.result + ',' + sharePointConfig.fields.answers.reasonForFailure +
+                    ',' + sharePointConfig.fields.answers.nonNegotiable, '',
+                    subfilter, sharePointConfig.fields.answers.order))
                    .done(function (jsonObject) {
                        angular.forEach(jsonObject.d.results, function (answer) {
                            ans.push({
@@ -38,18 +41,17 @@
                                nonNegotiable: answer.WGLLNonNegotiable
                            });
                        });
-                       console.info(ans.length.toString());
-                       var filter = "SubsetActive eq 1";
+                       var filter = sharePointConfig.fields.subsets.active + " eq 1";
                        //Get a list of active Subsets from the Subset list to display with Answers
                        $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, sharePointConfig.lists.subsets,
-                           'Title,ID,SubsetDetail,SubsetOrder', '', filter, 'SubsetOrder'))
+                           sharePointConfig.fields.sharepoint.title + ',' + sharePointConfig.fields.sharepoint.id + ',' +
+                           sharePointConfig.fields.subsets.detail + ',' + sharePointConfig.fields.subsets.order, '',
+                           filter, sharePointConfig.fields.subsets.order))
                             .done(function (jsonObject) {
                                 angular.forEach(jsonObject.d.results, function (subset) {
                                     var subsetAnswers = [];
                                     angular.forEach(ans, function (criteria) {
-                                        console.info(criteria.title + "; " + criteria.subset);
                                         if (criteria.subset == subset.Title) {
-                                            console.info("match");
                                             subsetAnswers.push({
                                                 title: criteria.title,
                                                 id: criteria.id,
@@ -83,7 +85,6 @@
                        SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
                        console.info(JSON.stringify(err));
                    });
-                
                 //$scope is not updating so force with this command
                 if (!$scope.$$phase) { $scope.$apply(); }
             })
@@ -93,17 +94,19 @@
             });
 
         $scope.successGetReview = function () {
-
+            //Empty as no logic required.
         };
 
         $scope.failureGetReview = function () {
-
+            //Empty as no logic required.
         };
 
+        //Routing
         $scope.goTo = function (path) {
             $location.path(path);
         };
 
+        //Shows and hides subset sections based on index and Next button click
         $scope.moveNext = function (currentDivId, index) {
             $('#' + currentDivId).removeClass("ng-show");
             $('#' + currentDivId).addClass("ng-hide");
@@ -114,6 +117,7 @@
             $(nextDivId).addClass("ng-show");
         };
 
+        //Shows and hides subset sections based on index and Back button click
         $scope.moveBack = function (currentDivId, index) {
             $('#' + currentDivId).removeClass("ng-show");
             $('#' + currentDivId).addClass("ng-hide");
@@ -123,18 +127,6 @@
             $(nextDivId).removeClass("ng-hide");
             $(nextDivId).addClass("ng-show");
         };
-
-        $scope.initCheckbox = function (controlId, result) {
-            if (result == "true") {
-                $(controlId).attr('checked', '');
-                console.info(controlId);
-            }
-            else {
-                $('#' + controlId).removeAttr("checked");
-            }
-            if (!$scope.$$phase) { $scope.$apply(); }
-        };
-
     }
 
 }]);

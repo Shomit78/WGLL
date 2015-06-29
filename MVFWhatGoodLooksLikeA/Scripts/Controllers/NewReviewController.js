@@ -119,7 +119,7 @@
                 if (!saved) {
                     var notes = $('textarea#wgllReviewNotesTextarea').val();
                     var summary = $('textarea#wgllReviewVisitSummaryTextarea').val();
-                    SharePointJSOMService.addListItem(sharePointConfig.lists.review, {
+                    SharePointJSOMService.addListItem(sharePointConfig.lists.reviews, {
                         "WGLLRegion": currentRegion,
                         "WGLLStore": currentStore,
                         "WGLLVisitType": currentVisitType,
@@ -275,6 +275,7 @@
             console.info("$scope.failureOnAnswerUpdate: " + JSON.stringify(jsonObject));
         };
 
+        //Shows and hides the Reason for Failure textarea depending on Pass result
         $scope.showHideTextArea = function (checked, textAreaDivId) {
             if (checked) {
                 $('#' + textAreaDivId).attr('ng-required', 'false');
@@ -288,6 +289,7 @@
             }
         };
 
+        //Shows and hides subset sections based on index and Next button click
         $scope.moveNext = function (currentDivId, index) {
             $('#' + currentDivId).removeClass("ng-show");
             $('#' + currentDivId).addClass("ng-hide");
@@ -298,6 +300,7 @@
             $(nextDivId).addClass("ng-show");
         };
 
+        //Shows and hides subset sections based on index and Back button click
         $scope.moveBack = function (currentDivId, index) {
             $('#' + currentDivId).removeClass("ng-show");
             $('#' + currentDivId).addClass("ng-hide");

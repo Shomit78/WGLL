@@ -31,7 +31,13 @@ var sharePointConfig = {
             title: "Title"
         },
         answers: {
-            reviewId: "WGLLReviewID"
+            reviewId: "WGLLReviewID",
+            detail: "WGLLCriteriaDetail",
+            nonNegotiable: "WGLLNonNegotiable",
+            order: "WGLLCriteriaOrder",
+            reasonForFailure: "WGLLReasonForFailure",
+            result: "WGLLResult",
+            subset: "WGLLSubset"
         },
         criteria: {
             detail: "CriteriaDetail",
@@ -52,7 +58,7 @@ var sharePointConfig = {
         },
         stores: {
             region: "WGLLRegion",
-            npsEnabled: WGLLNPSEnabled
+            npsEnabled: "WGLLNPSEnabled"
         },
         subsets: {
             active: "SubsetActive",
