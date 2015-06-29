@@ -3,13 +3,13 @@
     function OnLoad() {
 
         //$routeParam variables from query string
-        var reviewId = $routeParams.ReviewId;
+        $scope.reviewId = $routeParams.ReviewId;
 
         //$scope variables
         $scope.subsets = [];
 
         //Get the Review from the Reviews list using the reviewId from the query string
-        $.when(SharePointJSOMService.getItemByIdFromHostWebWithSelectAndExpand($scope, sharePointConfig.lists.reviews, reviewId))
+        $.when(SharePointJSOMService.getItemByIdFromHostWebWithSelectAndExpand($scope, sharePointConfig.lists.reviews, $scope.reviewId))
             .done(function (jsonObject) {
                 angular.forEach(jsonObject, function (review) {
                     $scope.id = review.Id;

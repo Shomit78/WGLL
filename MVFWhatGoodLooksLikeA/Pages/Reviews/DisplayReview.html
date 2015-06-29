@@ -1,7 +1,7 @@
 ﻿<form id="wgll-review-form">
     <div class="input-group">
         <input class="btn" type="button" value="Cancel" ng-click="goTo('/')" />
-        <input class="btn wgll-button-disabled" type="button" value="Edit" ng-click="edit()" disabled="" />
+        <input class="btn wgll-button-disabled" type="button" value="Edit" ng-click="goTo('/EditReview/'+reviewId)" />
     </div>
     <div id="wgllReviewContainer" class="form-group wgll-review-container">
         <h2><span class="wgll-review-title-span">{{ title }}</span></h2>
@@ -51,6 +51,6 @@
     </div>
     <div class="input-group">
         <input class="btn" type="button" value="Cancel" ng-click="goTo('/')" />
-        <input class="btn wgll-button-disabled" type="button" value="Edit" ng-click="edit()" disabled="" />
+        <input class="btn wgll-button-disabled" type="button" value="Edit" ng-click="goTo('/EditReview/'+reviewId)" />
     </div>
 </form>

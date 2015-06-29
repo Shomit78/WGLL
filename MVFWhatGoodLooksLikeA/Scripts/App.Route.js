@@ -9,6 +9,7 @@ myApp.config(function ($routeProvider) {
     .when('/NPS', { templateUrl: 'NPS/NPS.html', controller: 'NPSController' })
     .when('/CreateReview', { templateUrl: 'Reviews/CreateReview.html', controller: 'CreateReviewController' })
     .when('/NewReview/:region/:store/:visitType', { templateUrl: 'Reviews/NewReview.html', controller: 'NewReviewController' })
-    .when('/DisplayReview/:ReviewId', {templateUrl: "Reviews/DisplayReview.html", controller: 'DisplayReviewController' })
+    .when('/DisplayReview/:ReviewId', { templateUrl: "Reviews/DisplayReview.html", controller: 'DisplayReviewController' })
+    .when('/EditReview/:ReviewId', { templateUrl: "Reviews/EditReview.html", controller: 'EditReviewController' })
     .otherwise({ redirectTo: '/' });
 });
