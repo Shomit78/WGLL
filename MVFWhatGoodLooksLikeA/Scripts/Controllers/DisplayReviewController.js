@@ -1,11 +1,15 @@
 ﻿myApp.controller('DisplayReviewController', ['$scope', 'SharePointJSOMService', '$location', '$routeParams', function ($scope, SharePointJSOMService, $location, $routeParams) {
     SP.SOD.executeOrDelayUntilScriptLoaded(OnLoad, "SP.js");
     function OnLoad() {
-        var reviewId = $routeParams.ReviewId;
-        $scope.subsets = [];
-        //$scope.answers = [];
 
-        $.when(SharePointJSOMService.getItemByIdFromHostWebWithSelectAndExpand($scope, 'Reviews', reviewId))
+        //$routeParam variables from query string
+        var reviewId = $routeParams.ReviewId;
+
+        //$scope variables
+        $scope.subsets = [];
+
+        //Get the Review from the Reviews list using the reviewId from the query string
+        $.when(SharePointJSOMService.getItemByIdFromHostWebWithSelectAndExpand($scope, sharePointConfig.lists.reviews, reviewId))
             .done(function (jsonObject) {
                 angular.forEach(jsonObject, function (review) {
                     $scope.id = review.Id;
@@ -17,8 +21,11 @@
                     $scope.visitSummary = review.visitSummary;
                 });
                 var ans = [];
-                var subfilter = "(WGLLReviewID eq '" + $scope.title + "')";
-                $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Answers', 'Title,ID,WGLLCriteriaDetail,WGLLSubset,WGLLResult,WGLLReasonForFailure,WGLLNonNegotiable', '', subfilter, 'WGLLCriteriaOrder'))
+                var subfilter = "(" + sharePointConfig.fields.answers.reviewId + " eq '" + $scope.title + "')";
+                //Get the answers related to the Review from the Answers lists
+                $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, sharePointConfig.lists.answers,
+                    sharePointConfig.fields.sharepoint.title + ',' + sharePointConfig.fields.sharepoint.id +
+                    ',WGLLCriteriaDetail,WGLLSubset,WGLLResult,WGLLReasonForFailure,WGLLNonNegotiable', '', subfilter, 'WGLLCriteriaOrder'))
                    .done(function (jsonObject) {
                        angular.forEach(jsonObject.d.results, function (answer) {
                            ans.push({
@@ -33,7 +40,9 @@
                        });
                        console.info(ans.length.toString());
                        var filter = "SubsetActive eq 1";
-                       $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Subsets', 'Title,ID,SubsetDetail,SubsetOrder', '', filter, 'SubsetOrder'))
+                       //Get a list of active Subsets from the Subset list to display with Answers
+                       $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, sharePointConfig.lists.subsets,
+                           'Title,ID,SubsetDetail,SubsetOrder', '', filter, 'SubsetOrder'))
                             .done(function (jsonObject) {
                                 angular.forEach(jsonObject.d.results, function (subset) {
                                     var subsetAnswers = [];
@@ -64,12 +73,14 @@
                                 if (!$scope.$$phase) { $scope.$apply(); }
                             })
                            .fail(function (err) {
+                               SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
                                console.info(JSON.stringify(err));
                            });
                        //$scope is not updating so force with this command
                        if (!$scope.$$phase) { $scope.$apply(); }
                    })
                    .fail(function (err) {
+                       SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
                        console.info(JSON.stringify(err));
                    });
                 
@@ -77,6 +88,7 @@
                 if (!$scope.$$phase) { $scope.$apply(); }
             })
             .fail(function (err) {
+                SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
                 console.info(JSON.stringify(err));
             });
 

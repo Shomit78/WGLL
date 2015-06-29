@@ -30,6 +30,9 @@ var sharePointConfig = {
             id: "ID",
             title: "Title"
         },
+        answers: {
+            reviewId: "WGLLReviewID"
+        },
         criteria: {
             detail: "CriteriaDetail",
             nonNegotiable: "NonNegotiable",
