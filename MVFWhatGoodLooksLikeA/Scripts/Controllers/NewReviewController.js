@@ -11,9 +11,12 @@
 
         $scope.subsets = [];
         $scope.answers = [];
-        var subsetFilter = "SubsetActive eq 1";
+        var subsetFilter = sharePointConfig.fields.subsets.active + " eq 1";
 
-        $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Subsets', 'Title,ID,SubsetDetail,SubsetOrder', '', subsetFilter, 'SubsetOrder'))
+        $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, sharePointConfig.lists.subsets,
+            sharePointConfig.fields.sharepoint.title + ',' + sharePointConfig.fields.sharepoint.id + ',' +
+            sharePointConfig.fields.subsets.detail + ',' + sharePointConfig.fields.subsets.order,
+            '', subsetFilter, sharePointConfig.fields.subsets.order))
         .done(function (jsonObject) {
             angular.forEach(jsonObject.d.results, function (subset) {
                 var crit = [];

@@ -15,18 +15,13 @@
     <ProjectItemFile Source="bootstrap.min.js" Target="Scripts\" Type="ElementFile" />
     <ProjectItemFile Source="bootstrap.js" Target="Scripts\" Type="ElementFile" />
     <ProjectItemFile Source="Services\sharepoint.jsom.service.js" Target="Scripts\Services\" Type="ElementFile" />
-    <ProjectItemFile Source="Controllers\RegionsController.js" Target="Scripts\Controllers\" Type="ElementFile" />
     <ProjectItemFile Source="angular-ui\ui-bootstrap-tpls.min.js" Target="Scripts\angular-ui\" Type="ElementFile" />
     <ProjectItemFile Source="angular-ui\ui-bootstrap-tpls.js" Target="Scripts\angular-ui\" Type="ElementFile" />
     <ProjectItemFile Source="angular-ui\ui-bootstrap.min.js" Target="Scripts\angular-ui\" Type="ElementFile" />
     <ProjectItemFile Source="angular-ui\ui-bootstrap.js" Target="Scripts\angular-ui\" Type="ElementFile" />
-    <ProjectItemFile Source="Controllers\StoresController.js" Target="Scripts\Controllers\" Type="ElementFile" />
-    <ProjectItemFile Source="Controllers\VisitTypesController.js" Target="Scripts\Controllers\" Type="ElementFile" />
-    <ProjectItemFile Source="Controllers\SubsetsController.js" Target="Scripts\Controllers\" Type="ElementFile" />
     <ProjectItemFile Source="angular-sanitize.min.js.map" Target="Scripts\" Type="ElementFile" />
     <ProjectItemFile Source="angular-sanitize.min.js" Target="Scripts\" Type="ElementFile" />
     <ProjectItemFile Source="angular-sanitize.js" Target="Scripts\" Type="ElementFile" />
-    <ProjectItemFile Source="Controllers\CriteriaController.js" Target="Scripts\Controllers\" Type="ElementFile" />
     <ProjectItemFile Source="Controllers\ReviewsController.js" Target="Scripts\Controllers\" Type="ElementFile" />
     <ProjectItemFile Source="angular-route.min.js.map" Target="Scripts\" Type="ElementFile" />
     <ProjectItemFile Source="angular-route.min.js" Target="Scripts\" Type="ElementFile" />
@@ -34,7 +29,6 @@
     <ProjectItemFile Source="Controllers\CreateReviewController.js" Target="Scripts\Controllers\" Type="ElementFile" />
     <ProjectItemFile Source="App.Route.js" Target="Scripts\" Type="ElementFile" />
     <ProjectItemFile Source="Controllers\NewReviewController.js" Target="Scripts\Controllers\" Type="ElementFile" />
-    <ProjectItemFile Source="Controllers\ViewReviewController.js" Target="Scripts\Controllers\" Type="ElementFile" />
     <ProjectItemFile Source="moment-with-locales.min.js" Target="Scripts\" Type="ElementFile" />
     <ProjectItemFile Source="moment-with-locales.js" Target="Scripts\" Type="ElementFile" />
     <ProjectItemFile Source="moment.min.js" Target="Scripts\" Type="ElementFile" />

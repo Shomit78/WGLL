@@ -1,34 +1,40 @@
 ﻿myApp.controller('CreateReviewController', ['$scope', 'SharePointJSOMService', '$location', function ($scope, SharePointJSOMService, $location) {
     SP.SOD.executeOrDelayUntilScriptLoaded(OnLoad, "SP.js");
     function OnLoad() {
+
+        //$scope variables
         $scope.regions = [];
         $scope.stores = [];
         $scope.visitTypes = [];
+
+        //Custom variables
         var myJobTitle;
         var myOffice;
         var myRegion;
 
+        //Get current user properties to set defaults on Region and Store.
         $.when(SharePointJSOMService.getUserProfileItemsFromHostWebAll($scope))
         .done(function (jsonObject) {
             angular.forEach(jsonObject, function (user) {
                 angular.forEach(user.UserProfileProperties.results, function (prop, key) {
-                    if (prop.Key == "Region") {
+                    if (prop.Key == sharePointConfig.properties.region) {
                         myRegion = prop.Value;
                     }
                     else {
-                        if (prop.Key == "Office") {
+                        if (prop.Key == sharePointConfig.properties.store) {
                             myOffice = prop.Value;
                         }
                         else {
-                            if (prop.Key == "Title") {
+                            if (prop.Key == sharePointConfig.properties.jobTitle) {
                                 myJobTitle = prop.Value;
                             }
                         }
                     }
                 });
-                console.info(myRegion + ";" + myOffice + ";" + myJobTitle);
             });
-            $.when(SharePointJSOMService.getItemsFromHostWebWithSelect($scope, 'Regions', 'Title,ID'))
+            //Get the list of Regions from the Regions list and set the default value to the user's current Region.
+            $.when(SharePointJSOMService.getItemsFromHostWebWithSelect($scope, sharePointConfig.lists.regions,
+                sharePointConfig.fields.sharepoint.title + ',' + sharePointConfig.fields.sharepoint.id))
             .done(function (jsonObject) {
                 angular.forEach(jsonObject.d.results, function (region, key) {
                     $scope.regions.push({
@@ -36,14 +42,17 @@
                         id: region.ID
                     });
                     if (region.Title == myRegion) {
-                        console.info($scope.regions[key].title);
                         $scope.selectedRegion = $scope.regions[key];
                     }
                     //$scope is not updating so force with this command
                     if (!$scope.$$phase) { $scope.$apply(); }
                     $('#wgllSelectRegion').removeAttr("disabled");
                 });
-                $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, 'Stores', 'Title,ID,WGLLRegion/ID,WGLLRegion/Title', 'WGLLRegion/ID,WGLLRegion/Title', '', 'Title'))
+                //Get the list of Stores from the Stores list and set the user's default value to their current Store.
+                $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope,
+                    sharePointConfig.lists.stores,
+                    sharePointConfig.fields.sharepoint.title + ',' + sharePointConfig.fields.sharepoint.id + ',' + sharePointConfig.fields.stores.region + '/' + sharePointConfig.fields.sharepoint.id + ',' + sharePointConfig.fields.stores.region + '/' + sharePointConfig.fields.sharepoint.title,
+                    'WGLLRegion/ID,WGLLRegion/Title', '', sharePointConfig.fields.sharepoint.title))
                     .done(function (jsonObject) {
                         angular.forEach(jsonObject.d.results, function (store, key) {
                             $scope.stores.push({
@@ -52,28 +61,31 @@
                                 region: store.WGLLRegion.Title
                             });
                             if (store.Title == myOffice) {
-                                console.info($scope.stores[key].title);
                                 $scope.selectedStore = $scope.stores[key];
                             }
                             //$scope is not updating so force with this command
                             if (!$scope.$$phase) { $scope.$apply(); }
                         });
                         $('#wgllSelectStore').removeAttr("disabled");
-                        //Check what level the user is at and disable the drop downs
                     })
                     .fail(function (err) {
+                        SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
                         console.info(JSON.stringify(err));
                     });
             })
             .fail(function (err) {
+                SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
                 console.info(JSON.stringify(err));
             });
         })
         .fail(function (err) {
+            SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
             console.info(JSON.stringify(err));
         });
 
-        $.when(SharePointJSOMService.getItemsFromHostWebWithSelect($scope, 'VisitTypes', 'Title,ID'))
+        //Get the list of Visit Types from the VisitTypes list and display in a drop down.
+        $.when(SharePointJSOMService.getItemsFromHostWebWithSelect($scope, sharePointConfig.lists.visitTypes,
+            sharePointConfig.fields.sharepoint.title + ',' + sharePointConfig.fields.sharepoint.id))
         .done(function (jsonObject) {
             angular.forEach(jsonObject.d.results, function (visitType, key) {
                 $scope.visitTypes.push({
@@ -90,6 +102,7 @@
             $('#wgllSelectVisitType').removeAttr("disabled");
         })
         .fail(function (err) {
+            SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
             console.info(JSON.stringify(err));
         });
 
@@ -97,6 +110,7 @@
         
     }
 
+    //Routing
     $scope.goTo = function (path) {
         $location.path(path);
     };

@@ -3,13 +3,9 @@
   <Files>
     <ProjectItemFile Source="Elements.xml" Target="Pages\" Type="ElementManifest" />
     <ProjectItemFile Source="Default.aspx" Target="Pages\" Type="ElementFile" />
-    <ProjectItemFile Source="Reviews.aspx" Target="Pages\" Type="ElementFile" />
-    <ProjectItemFile Source="CreateReview.aspx" Target="Pages\" Type="ElementFile" />
-    <ProjectItemFile Source="ViewSubsetsAndCriteria.aspx" Target="Pages\" Type="ElementFile" />
     <ProjectItemFile Source="Reviews\Reviews.html" Target="Pages\Reviews\" Type="ElementFile" />
     <ProjectItemFile Source="Reviews\CreateReview.html" Target="Pages\Reviews\" Type="ElementFile" />
     <ProjectItemFile Source="Reviews\NewReview.html" Target="Pages\Reviews\" Type="ElementFile" />
-    <ProjectItemFile Source="Reviews\ViewReview.html" Target="Pages\Reviews\" Type="ElementFile" />
     <ProjectItemFile Source="NPS\NPS.html" Target="Pages\NPS\" Type="ElementFile" />
     <ProjectItemFile Source="Reviews\DisplayReview.html" Target="Pages\Reviews\" Type="ElementFile" />
   </Files>

@@ -14,18 +14,13 @@
     <File Path="Scripts\bootstrap.min.js" Url="Scripts/bootstrap.min.js" ReplaceContent="TRUE" />
     <File Path="Scripts\bootstrap.js" Url="Scripts/bootstrap.js" ReplaceContent="TRUE" />
     <File Path="Scripts\Services\sharepoint.jsom.service.js" Url="Scripts/Services/sharepoint.jsom.service.js" ReplaceContent="TRUE" />
-    <File Path="Scripts\Controllers\RegionsController.js" Url="Scripts/Controllers/RegionsController.js" ReplaceContent="TRUE" />
     <File Path="Scripts\angular-ui\ui-bootstrap-tpls.min.js" Url="Scripts/angular-ui/ui-bootstrap-tpls.min.js" ReplaceContent="TRUE" />
     <File Path="Scripts\angular-ui\ui-bootstrap-tpls.js" Url="Scripts/angular-ui/ui-bootstrap-tpls.js" ReplaceContent="TRUE" />
     <File Path="Scripts\angular-ui\ui-bootstrap.min.js" Url="Scripts/angular-ui/ui-bootstrap.min.js" ReplaceContent="TRUE" />
     <File Path="Scripts\angular-ui\ui-bootstrap.js" Url="Scripts/angular-ui/ui-bootstrap.js" ReplaceContent="TRUE" />
-    <File Path="Scripts\Controllers\StoresController.js" Url="Scripts/Controllers/StoresController.js" ReplaceContent="TRUE" />
-    <File Path="Scripts\Controllers\VisitTypesController.js" Url="Scripts/Controllers/VisitTypesController.js" ReplaceContent="TRUE" />
-    <File Path="Scripts\Controllers\SubsetsController.js" Url="Scripts/Controllers/SubsetsController.js" ReplaceContent="TRUE" />
     <File Path="Scripts\angular-sanitize.min.js.map" Url="Scripts/angular-sanitize.min.js.map" ReplaceContent="TRUE" />
     <File Path="Scripts\angular-sanitize.min.js" Url="Scripts/angular-sanitize.min.js" ReplaceContent="TRUE" />
     <File Path="Scripts\angular-sanitize.js" Url="Scripts/angular-sanitize.js" ReplaceContent="TRUE" />
-    <File Path="Scripts\Controllers\CriteriaController.js" Url="Scripts/Controllers/CriteriaController.js" ReplaceContent="TRUE" />
     <File Path="Scripts\Controllers\ReviewsController.js" Url="Scripts/Controllers/ReviewsController.js" ReplaceContent="TRUE" />
     <File Path="Scripts\angular-route.min.js.map" Url="Scripts/angular-route.min.js.map" ReplaceContent="TRUE" />
     <File Path="Scripts\angular-route.min.js" Url="Scripts/angular-route.min.js" ReplaceContent="TRUE" />
@@ -33,7 +28,6 @@
     <File Path="Scripts\Controllers\CreateReviewController.js" Url="Scripts/Controllers/CreateReviewController.js" ReplaceContent="TRUE" />
     <File Path="Scripts\App.Route.js" Url="Scripts/App.Route.js" ReplaceContent="TRUE" />
     <File Path="Scripts\Controllers\NewReviewController.js" Url="Scripts/Controllers/NewReviewController.js" ReplaceContent="TRUE" />
-    <File Path="Scripts\Controllers\ViewReviewController.js" Url="Scripts/Controllers/ViewReviewController.js" ReplaceContent="TRUE" />
     <File Path="Scripts\moment-with-locales.min.js" Url="Scripts/moment-with-locales.min.js" ReplaceContent="TRUE" />
     <File Path="Scripts\moment-with-locales.js" Url="Scripts/moment-with-locales.js" ReplaceContent="TRUE" />
     <File Path="Scripts\moment.min.js" Url="Scripts/moment.min.js" ReplaceContent="TRUE" />
