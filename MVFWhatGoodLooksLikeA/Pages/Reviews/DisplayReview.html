@@ -31,7 +31,7 @@
                 </div>
                 <div class="form-group wgll-criteria-detail-container" ng-bind-html="answer.detail"></div>
                 <div class="form-group alert alert-error bg-warning wgll-reason-for-failure-container" ng-hide="answer.result == 'true'">
-                    <label form="wgllreasonforfailure{{$parent.$index}}{{$index}}" class="">Reason for failure:</label>
+                    <label for="wgllreasonforfailure{{$parent.$index}}{{$index}}" class="">Reason for failure:</label>
                     <div id="wgllreasonforfailure{{$parent.$index}}{{$index}}" class="form-group wgll-reason-for-failure-container" ng-bind-html="answer.reasonForFailure"></div>
                 </div>
             </div>

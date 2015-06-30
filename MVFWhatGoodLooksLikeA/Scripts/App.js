@@ -81,6 +81,7 @@ var sharePointConfig = {
         onReviewSave: "Your Review has been succesfully saved. ",
         onReviewSubmit: "Your Review has been succesfully submitted. ",
         onSaveError: "An error has occurred whilst attempting to save the Review. <br />Please ensure you are connected to the network and try again.",
+        onSubmitError: "An error has occurred whilst attempting to save the Review. <br />Please ensure you are connected to the network and try again.",
         onSaveAnswerError: "An error has occurred whilst attempting to save the Answers. <br />Please ensure you are connected to the network and try again.",
         onSubmitValidationError: "The Review cannot be submitted. Some failed criteria require reasons for failure. "
     },

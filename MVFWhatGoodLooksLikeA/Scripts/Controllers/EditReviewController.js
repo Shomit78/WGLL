@@ -8,6 +8,9 @@
         //$scope variables
         $scope.subsets = [];
 
+        //variables
+        var answerSaveFailure = 0;
+
         //Get the Review from the Reviews list using the reviewId from the query string
         $.when(SharePointJSOMService.getItemByIdFromHostWebWithSelectAndExpand($scope, sharePointConfig.lists.reviews, $scope.reviewId))
             .done(function (jsonObject) {
@@ -80,6 +83,7 @@
                            });
                        //$scope is not updating so force with this command
                        if (!$scope.$$phase) { $scope.$apply(); }
+                       $('.wgll-button-disabled').removeAttr("disabled");
                    })
                    .fail(function (err) {
                        SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
@@ -93,12 +97,86 @@
                 console.info(JSON.stringify(err));
             });
 
-        $scope.successGetReview = function () {
-            //Empty as no logic required.
+        $scope.save = function () {
+            $('.wgll-button-disabled').attr("disabled", "");
+            var notes = $('textarea#wgllReviewNotesTextarea').val();
+            var summary = $('textarea#wgllReviewVisitSummaryTextarea').val();
+            SharePointJSOMService.updateListItem(sharePointConfig.lists.reviews, $scope.reviewId, {
+                "WGLLNotes": notes,
+                "WGLLVisitSummary": summary
+            }, $scope.successOnUpdate, $scope.failureOnUpdate);
         };
 
-        $scope.failureGetReview = function () {
-            //Empty as no logic required.
+        $scope.submit = function () {
+            var validated = validate();
+            if (validated) {
+                //on submit needs to save all answers, visit summary, notes and then set status = submitted and set submitted date
+                $('.wgll-button-disabled').attr("disabled", "");
+                var notes = $('textarea#wgllReviewNotesTextarea').val();
+                var summary = $('textarea#wgllReviewVisitSummaryTextarea').val();
+                var currentMoment = moment().format('YYYY/MM/DD HH:mm:ss');
+                SharePointJSOMService.updateListItem(sharePointConfig.lists.reviews, $scope.reviewId, {
+                    "WGLLNotes": notes,
+                    "WGLLVisitSummary": summary,
+                    "WGLLSubmittedDate": currentMoment,
+                    "WGLLStatus": "Submitted"
+                }, $scope.successOnSubmit, $scope.failureOnSubmit);
+            }
+            else {
+                SP.UI.Notify.addNotification(sharePointConfig.messages.onSubmitValidationError, false);
+            }
+        };
+
+        $scope.successOnUpdate = function (jsonObject) {
+            $('.wgll-criteria-title-label').each(function () {
+                var currentAnswerId = $(this).attr("answerid");
+                var currentResult = $(this).parent().find('.wgll-checkbox-result').prop('checked');
+                var currentReasonForFailure = $(this).parent().find('.wgll-criteria-reason-for-failure-textarea').val();
+                SharePointJSOMService.updateListItem(sharePointConfig.lists.answers, currentAnswerId, {
+                    "WGLLResult": currentResult.toString(), "WGLLReasonForFailure": currentReasonForFailure
+                }, $scope.successOnAnswerUpdate, $scope.failureOnAnswerUpdate);
+            });
+            SP.UI.Notify.addNotification(sharePointConfig.messages.onReviewSave, false);
+            $('.wgll-button-disabled').removeAttr("disabled");
+        };
+
+        $scope.successOnSubmit = function (jsonObject) {
+            $('.wgll-criteria-title-label').each(function () {
+                var currentAnswerId = $(this).attr("answerid");
+                var currentResult = $(this).parent().find('.wgll-checkbox-result').prop('checked');
+                var currentReasonForFailure = $(this).parent().find('.wgll-criteria-reason-for-failure-textarea').val();
+                SharePointJSOMService.updateListItem(sharePointConfig.lists.answers, currentAnswerId, {
+                    "WGLLResult": currentResult.toString(), "WGLLReasonForFailure": currentReasonForFailure
+                }, $scope.successOnAnswerUpdate, $scope.failureOnAnswerUpdate);
+            });
+            SP.UI.Notify.addNotification(sharePointConfig.messages.onReviewSubmit, false);
+            if (!$scope.$$phase) {
+                $scope.$apply(function () {
+                    $location.path('/');
+                });
+            }
+        };
+
+        $scope.successOnAnswerUpdate = function (jsonObject) {
+            //empty as does not require logic
+        };
+
+        $scope.failureOnUpdate = function (jsonObject) {
+            SP.UI.Notify.addNotification(sharePointConfig.messages.onSaveError, false);
+            console.info("$scope.failureOnUpdate: " + JSON.stringify(jsonObject));
+        };
+
+        $scope.failureOnSubmit = function (jsonObject) {
+            SP.UI.Notify.addNotification(sharePointConfig.messages.onSubmitError, false);
+            console.info("$scope.failureOnUpdate: " + JSON.stringify(jsonObject));
+        };
+
+        $scope.failureOnAnswerUpdate = function () {
+            if (answerSaveFailure == 0) {
+                SP.UI.Notify.addNotification(sharePointConfig.messages.onSaveAnswerError, false);
+            }
+            answerSaveFailure++;
+            console.info("$scope.failureOnAnswerUpdate: " + JSON.stringify(jsonObject));
         };
 
         //Routing
@@ -127,5 +205,36 @@
             $(nextDivId).removeClass("ng-hide");
             $(nextDivId).addClass("ng-show");
         };
+
+        //Shows and hides the Reason for Failure textarea depending on Pass result
+        $scope.showHideTextArea = function (checked, textAreaDivId) {
+            if (checked) {
+                $('#' + textAreaDivId).attr('ng-required', 'false');
+                $('#' + textAreaDivId).removeClass('show');
+                $('#' + textAreaDivId).addClass('hidden');
+            }
+            else {
+                $('#' + textAreaDivId).removeClass('hidden');
+                $('#' + textAreaDivId).addClass('show');
+                $('#' + textAreaDivId).attr('ng-required', 'true');
+            }
+        };
+
+        function validate() {
+            var validated = true;
+            $('.wgll-criteria-container').each(function () {
+                var result = $(this).find('.wgll-checkbox-result');
+                if (!$(result).is(":checked")) {
+                    //check if textarea is empty then return false
+                    var reason = $(this).find('.wgll-criteria-reason-for-failure-textarea');
+                    var currentText = $(reason).text();
+                    if ((currentText == "") || (currentText == "Enter a reason for the failure here...")) {
+                        validated = false;
+                    }
+                }
+            });
+            return validated;
+        };
+
     }
 }]);
