@@ -23,7 +23,8 @@ var sharePointConfig = {
         answers: "Answers",
         reviews: "Reviews",
         nps: "NPS",
-        images: "WGLL Application Images"
+        images: "WGLL Application Images",
+        guidance: "Guidance Notes"
         },
     fields: {
         sharepoint: {
@@ -80,6 +81,8 @@ var sharePointConfig = {
     messages: {
         defaultError: "An error has occurred whilst retrieving data. <br />Please ensure you are connected to the network and refresh the page.",
         fileReaderError: "This browser does not support the FileReader API. ",
+        noGuidanceNotesAvailable: "<h6>No further guidance notes specific to this store have been found for this criteria.</h6>",
+        onFileUploadNotSavedError: "The Review must be saved before files can be uploaded. ",
         onGetStoreError: "Unable to locate your current Store. ",
         onNPSEnabledError: "Net Promoter Score has not been enabled for your store. ",
         onNPSSubmit: "Net Promoter Score has been submitted. ",

@@ -11,5 +11,6 @@ myApp.config(function ($routeProvider) {
     .when('/NewReview/:region/:store/:visitType', { templateUrl: 'Reviews/NewReview.html', controller: 'NewReviewController' })
     .when('/DisplayReview/:ReviewId', { templateUrl: "Reviews/DisplayReview.html", controller: 'DisplayReviewController' })
     .when('/EditReview/:ReviewId', { templateUrl: "Reviews/EditReview.html", controller: 'EditReviewController' })
+    .when('/Guidance/:Store/:CriteriaId', { templateUrl: "Reviews/Guidance.html", controller: 'GuidanceController' })
     .otherwise({ redirectTo: '/' });
 });

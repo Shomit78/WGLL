@@ -1,4 +1,4 @@
-﻿myApp.controller('NewReviewController', ['$scope', 'SharePointJSOMService', '$location', '$routeParams', function ($scope, SharePointJSOMService, $location, $routeParams) {
+﻿myApp.controller('NewReviewController', ['$scope', 'SharePointJSOMService', '$location', '$routeParams', '$window', function ($scope, SharePointJSOMService, $location, $routeParams, $window) {
     SP.SOD.executeOrDelayUntilScriptLoaded(NewReviewControllerOnLoad, "SP.js");
     function NewReviewControllerOnLoad() {
 
@@ -16,6 +16,7 @@
         //$scope variables
         $scope.subsets = [];
         $scope.answers = [];
+        $scope.currentUsersStore = $routeParams.store;
         
         //Get all active subsets from subset list including detail ordered by subset order
         $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, sharePointConfig.lists.subsets,
@@ -333,24 +334,23 @@
             }
             else {
                 if (saved) {
-                    //The answer Id will already exist on the form
+                    var answerId = $('#' + btnId).closest('.wgll-criteria-container').find('.wgll-criteria-title-label').attr('answerid');
+                    //Add file to library using review id and answer id
+                    //Confirm complete.
+                    //Then need to display the uploaded images as links that open in new tabs.
                 }
                 else {
-                    //The form needs saved to generate the answer Ids
-                    /*var notes = $('textarea#wgllReviewNotesTextarea').val();
-                    var summary = $('textarea#wgllReviewVisitSummaryTextarea').val();
-                    SharePointJSOMService.addListItem(sharePointConfig.lists.reviews, {
-                        "WGLLRegion": currentRegion,
-                        "WGLLStore": currentStore,
-                        "WGLLVisitType": currentVisitType,
-                        "WGLLStatus": "Saved",
-                        "WGLLNotes": notes,
-                        "WGLLVisitSummary": summary
-                    }, $scope.successOnImageUploadSave, $scope.failureOnImageUploadSave);
-                    SP.UI.Notify.addNotification(sharePointConfig.messages.onReviewSave, false);
-                    $('#wgllFileAdd00').closest('.wgll-criteria-container').find('.wgll-criteria-title-label').attr('answerid')*/
+                    alert(sharePointConfig.messages.onFileUploadNotSavedError);
                 }
             }
+        };
+
+        $scope.displayImageLinks = function (imageDivId) {
+            //Fetch the latest uploaded images for the images div closest to the upload button clicked or after deleteImage called.
+        };
+
+        $scope.deleteImage = function (imageId) {
+            //Use the image id and delete the image from the images library
         };
 
         $scope.showUploadImage = function (imageUploadDivId) {
@@ -362,7 +362,34 @@
                 $('#' + imageUploadDivId).removeClass('hidden');
                 $('#' + imageUploadDivId).addClass('show');
             }
-        }
+        };
+
+        $scope.showFurtherGuidance = function (furtherGuidanceDivId, criteriaId) {
+            if ($('#' + furtherGuidanceDivId).hasClass('show')) {
+                $('#' + furtherGuidanceDivId).removeClass('show');
+                $('#' + furtherGuidanceDivId).addClass('hidden');
+            }
+            else {
+                $('#' + furtherGuidanceDivId).removeClass('hidden');
+                $('#' + furtherGuidanceDivId).addClass('show');
+                var guidanceFilter = "(WGLLStore/Title eq '" + currentStore + "') and (WGLLCriteria/Id eq '" + criteriaId + "')";
+                $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, sharePointConfig.lists.guidance,
+                    'WGLLGuidanceNotes', '', guidanceFilter, ''))
+                .done(function (jsonObject) {
+                    if (jsonObject.d.results.length > 0) {
+                        $('#' + furtherGuidanceDivId).html(jsonObject.d.results[0]["WGLLGuidanceNotes"]);
+                    }
+                    else {
+                        $('#' + furtherGuidanceDivId).html(sharePointConfig.messages.noGuidanceNotesAvailable);
+                    }
+                })
+                .fail(function (err) {
+                    SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
+                    console.info(JSON.stringify(err));
+                });
+            }
+        };
+
     }
 
 
