@@ -146,7 +146,7 @@
                 var currentResult = $(this).parent().find('.wgll-checkbox-result').prop('checked');
                 var currentReasonForFailure = $(this).parent().find('.wgll-criteria-reason-for-failure-textarea').val();
                 SharePointJSOMService.updateListItem(sharePointConfig.lists.answers, currentAnswerId, {
-                    "1WGLLResult": currentResult.toString(), "WGLLReasonForFailure": currentReasonForFailure
+                    "WGLLResult": currentResult.toString(), "WGLLReasonForFailure": currentReasonForFailure
                 }, $scope.successOnAnswerUpdate, $scope.failureOnAnswerUpdate);
             });
             SP.UI.Notify.addNotification(sharePointConfig.messages.onReviewSubmit, false);
@@ -247,6 +247,33 @@
                 }
             });
             return validated;
+        };
+
+        $scope.showFurtherGuidance = function (furtherGuidanceDivId, store, subset, criteria) {
+            if ($('#' + furtherGuidanceDivId).hasClass('show')) {
+                $('#' + furtherGuidanceDivId).removeClass('show');
+                $('#' + furtherGuidanceDivId).addClass('hidden');
+            }
+            else {
+                $('#' + furtherGuidanceDivId).removeClass('hidden');
+                $('#' + furtherGuidanceDivId).addClass('show');
+                var guidanceFilter = "(WGLLStore/Title eq '" + store + "') and (WGLLSubset/Title eq '" + 
+                    subset + "') and (WGLLCriteria/Title eq '" + criteria + "')";
+                $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, sharePointConfig.lists.guidance,
+                    'WGLLGuidanceNotes', '', guidanceFilter, ''))
+                .done(function (jsonObject) {
+                    if (jsonObject.d.results.length > 0) {
+                        $('#' + furtherGuidanceDivId).html(jsonObject.d.results[0]["WGLLGuidanceNotes"]);
+                    }
+                    else {
+                        $('#' + furtherGuidanceDivId).html(sharePointConfig.messages.noGuidanceNotesAvailable);
+                    }
+                })
+                .fail(function (err) {
+                    SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
+                    console.info(JSON.stringify(err));
+                });
+            }
         };
 
     }

@@ -29,7 +29,17 @@
                 <div class="form-group checkbox pull-right">
                     <input id="wgllresultcheckbox{{ $parent.$index }}{{ $index }}" disabled="" class="wgll-checkbox-result" ng-checked="answer.result == 'true'" type="checkbox" />&#160;Pass
                 </div>
+                <a ng-click="showFurtherGuidance('wgllFurtherGuidanceDiv'+$parent.$index+$index, store, subset.title, answer.title)" class="wgll-store-guidance-link" title="View further guidance for {{ currentUsersStore }} on this criteria">
+                    <span style="width: 20px; height: 20px; overflow: hidden; display: inline-block; position: relative;">
+                        <img src="/_layouts/15/images/spcommon.png?rev=1" style="left: -194px; top: -173px; position: absolute;" alt="Refresh current Reviews image" />
+                    </span>
+                </a>
                 <div class="form-group wgll-criteria-detail-container" ng-bind-html="answer.detail"></div>
+                <div class="form-group wgll-criteria-further-guidance wgll-rounded-border bg-info hide" id="wgllFurtherGuidanceDiv{{$parent.$index}}{{$index}}">
+                    <p style="text-align:center">
+                        <img src="/_layouts/15/images/loading16.gif?rev=1" alt="loading criteria further guidance image" />
+                    </p>
+                </div>
                 <div class="form-group alert alert-error bg-warning wgll-reason-for-failure-container" ng-hide="answer.result == 'true'">
                     <label for="wgllreasonforfailure{{$parent.$index}}{{$index}}" class="">Reason for failure:</label>
                     <div id="wgllreasonforfailure{{$parent.$index}}{{$index}}" class="form-group wgll-reason-for-failure-container" ng-bind-html="answer.reasonForFailure"></div>

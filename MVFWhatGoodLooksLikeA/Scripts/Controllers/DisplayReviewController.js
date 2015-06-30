@@ -127,6 +127,34 @@
             $(nextDivId).removeClass("ng-hide");
             $(nextDivId).addClass("ng-show");
         };
+
+        $scope.showFurtherGuidance = function (furtherGuidanceDivId, store, subset, criteria) {
+            if ($('#' + furtherGuidanceDivId).hasClass('show')) {
+                $('#' + furtherGuidanceDivId).removeClass('show');
+                $('#' + furtherGuidanceDivId).addClass('hidden');
+            }
+            else {
+                $('#' + furtherGuidanceDivId).removeClass('hidden');
+                $('#' + furtherGuidanceDivId).addClass('show');
+                var guidanceFilter = "(WGLLStore/Title eq '" + store + "') and (WGLLSubset/Title eq '" +
+                    subset + "') and (WGLLCriteria/Title eq '" + criteria + "')";
+                $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, sharePointConfig.lists.guidance,
+                    'WGLLGuidanceNotes', '', guidanceFilter, ''))
+                .done(function (jsonObject) {
+                    if (jsonObject.d.results.length > 0) {
+                        $('#' + furtherGuidanceDivId).html(jsonObject.d.results[0]["WGLLGuidanceNotes"]);
+                    }
+                    else {
+                        $('#' + furtherGuidanceDivId).html(sharePointConfig.messages.noGuidanceNotesAvailable);
+                    }
+                })
+                .fail(function (err) {
+                    SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
+                    console.info(JSON.stringify(err));
+                });
+            }
+        };
+
     }
 
 }]);
