@@ -3,7 +3,13 @@
     <input class="btn" type="button" value="Net Promoter Score" ng-click="goTo('/NPS')" />
     <div class="wgll-rounded-border">
         <table class="table">
-            <caption>Current Reviews</caption>
+            <caption>Current Reviews 
+            <a href="#" ng-click="goTo('/')" title="Refresh current Reviews list">
+                <span style="width: 16px; height: 16px; overflow: hidden; display: inline-block; position: relative;">
+                    <img src="/_layouts/15/images/spcommon.png?rev=1" style="left: -135px; top: -111px; position: absolute;" alt="Refresh current Reviews image"/>
+                </span>
+            </a>
+            </caption>
             <thead>
                 <tr>
                     <th>Review ID</th>

@@ -146,7 +146,7 @@
                 var currentResult = $(this).parent().find('.wgll-checkbox-result').prop('checked');
                 var currentReasonForFailure = $(this).parent().find('.wgll-criteria-reason-for-failure-textarea').val();
                 SharePointJSOMService.updateListItem(sharePointConfig.lists.answers, currentAnswerId, {
-                    "WGLLResult": currentResult.toString(), "WGLLReasonForFailure": currentReasonForFailure
+                    "1WGLLResult": currentResult.toString(), "WGLLReasonForFailure": currentReasonForFailure
                 }, $scope.successOnAnswerUpdate, $scope.failureOnAnswerUpdate);
             });
             SP.UI.Notify.addNotification(sharePointConfig.messages.onReviewSubmit, false);
@@ -161,6 +161,10 @@
             //empty as does not require logic
         };
 
+        $scope.successOnRevert = function(jsonObject){
+            SP.UI.Notify.addNotification(sharePointConfig.messages.onReviewSave, false);
+        };
+
         $scope.failureOnUpdate = function (jsonObject) {
             SP.UI.Notify.addNotification(sharePointConfig.messages.onSaveError, false);
             console.info("$scope.failureOnUpdate: " + JSON.stringify(jsonObject));
@@ -168,15 +172,24 @@
 
         $scope.failureOnSubmit = function (jsonObject) {
             SP.UI.Notify.addNotification(sharePointConfig.messages.onSubmitError, false);
-            console.info("$scope.failureOnUpdate: " + JSON.stringify(jsonObject));
+            console.info("$scope.failureOnSubmit: " + JSON.stringify(jsonObject));
         };
 
-        $scope.failureOnAnswerUpdate = function () {
+        $scope.failureOnAnswerUpdate = function (jsonObject) {
             if (answerSaveFailure == 0) {
                 SP.UI.Notify.addNotification(sharePointConfig.messages.onSaveAnswerError, false);
+                SharePointJSOMService.updateListItem(sharePointConfig.lists.reviews, $scope.reviewId, {
+                    "WGLLSubmittedDate": "",
+                    "WGLLStatus": "Saved"
+                }, $scope.successOnRevert, $scope.failureOnRevert);
             }
             answerSaveFailure++;
             console.info("$scope.failureOnAnswerUpdate: " + JSON.stringify(jsonObject));
+        };
+
+        $scope.failureOnRevert = function (jsonObject) {
+            SP.UI.Notify.addNotification(sharePointConfig.messages.onSubmitError, false);
+            console.info("$scope.failureOnRevert: " + JSON.stringify(jsonObject));
         };
 
         //Routing

@@ -22,7 +22,8 @@ var sharePointConfig = {
         criteria: "Criteria",
         answers: "Answers",
         reviews: "Reviews",
-        nps: "NPS"
+        nps: "NPS",
+        images: "WGLL Application Images"
         },
     fields: {
         sharepoint: {
@@ -46,6 +47,10 @@ var sharePointConfig = {
             stores: "Stores",
             subset: "Subset",
             visitType: "VisitType"
+        },
+        images: {
+            reviewId: "WGLLReviewId",
+            answerId: "AnswerId"
         },
         reviews: {
             notes: "WGLLNotes",
@@ -74,6 +79,7 @@ var sharePointConfig = {
     },
     messages: {
         defaultError: "An error has occurred whilst retrieving data. <br />Please ensure you are connected to the network and refresh the page.",
+        fileReaderError: "This browser does not support the FileReader API. ",
         onGetStoreError: "Unable to locate your current Store. ",
         onNPSEnabledError: "Net Promoter Score has not been enabled for your store. ",
         onNPSSubmit: "Net Promoter Score has been submitted. ",

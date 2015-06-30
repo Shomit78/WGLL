@@ -326,6 +326,43 @@
             });
             return validated;
         };
+
+        $scope.uploadImage = function(btnId, imageFile) {
+            if (!window.FileReader) {
+                SP.UI.Notify.addNotification(sharePointConfig.messages.fileReaderError, false);
+            }
+            else {
+                if (saved) {
+                    //The answer Id will already exist on the form
+                }
+                else {
+                    //The form needs saved to generate the answer Ids
+                    /*var notes = $('textarea#wgllReviewNotesTextarea').val();
+                    var summary = $('textarea#wgllReviewVisitSummaryTextarea').val();
+                    SharePointJSOMService.addListItem(sharePointConfig.lists.reviews, {
+                        "WGLLRegion": currentRegion,
+                        "WGLLStore": currentStore,
+                        "WGLLVisitType": currentVisitType,
+                        "WGLLStatus": "Saved",
+                        "WGLLNotes": notes,
+                        "WGLLVisitSummary": summary
+                    }, $scope.successOnImageUploadSave, $scope.failureOnImageUploadSave);
+                    SP.UI.Notify.addNotification(sharePointConfig.messages.onReviewSave, false);
+                    $('#wgllFileAdd00').closest('.wgll-criteria-container').find('.wgll-criteria-title-label').attr('answerid')*/
+                }
+            }
+        };
+
+        $scope.showUploadImage = function (imageUploadDivId) {
+            if ($('#' + imageUploadDivId).hasClass('show')) {
+                $('#' + imageUploadDivId).removeClass('show');
+                $('#' + imageUploadDivId).addClass('hidden');
+            }
+            else {
+                $('#' + imageUploadDivId).removeClass('hidden');
+                $('#' + imageUploadDivId).addClass('show');
+            }
+        }
     }
 
 
