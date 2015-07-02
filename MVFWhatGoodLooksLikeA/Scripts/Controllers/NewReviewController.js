@@ -34,7 +34,7 @@
                     sharePointConfig.fields.criteria.detail + ',' + sharePointConfig.fields.criteria.nonNegotiable + ',' +
                     sharePointConfig.fields.criteria.order + ',' + sharePointConfig.fields.criteria.subset + '/' +
                     sharePointConfig.fields.sharepoint.id + ',' + sharePointConfig.fields.criteria.stores + '/' +
-                    sharePointConfig.fields.sharepoint.title + ',' + sharePointConfig.fields.criteria.visitType + '/' + 
+                    sharePointConfig.fields.sharepoint.title + ',' + sharePointConfig.fields.criteria.visitType + '/' +
                     sharePointConfig.fields.sharepoint.title,
                     sharePointConfig.fields.criteria.subset + '/' + sharePointConfig.fields.sharepoint.id + ',' +
                     sharePointConfig.fields.criteria.stores + '/' + sharePointConfig.fields.sharepoint.id + ',' +
