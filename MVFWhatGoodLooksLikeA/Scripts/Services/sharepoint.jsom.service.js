@@ -313,4 +313,45 @@
             failure(data);
         });
     };
+
+    this.addFileToFolder = function addFileToFolder(arrayBuffer, reviewId, fileInput) {
+        var parts = fileInput[0].value.split('\\');
+        var fileName = parts[parts.length - 1];
+        var urlArray = hostweburl.split('/');
+        urlArray.splice(0, 3);
+        var url = ""
+        for (i = 0; i < urlArray.length; i++) {
+            url += "/" + urlArray[i];
+        }
+        var folderUrl = url + "/" + sharePointConfig.lists.images;
+
+        var fileCollectionEndpoint = appweburl + "/_api/SP.AppContextSite(@target)/web/getfolderbyserverrelativeurl('" + folderUrl + "')/files" +
+            "/add(overwrite=true, url='" + fileName + "')?@target='" + hostweburl + "'";
+
+        return jQuery.ajax({
+            url: fileCollectionEndpoint,
+            type: "POST",
+            data: arrayBuffer,
+            processData: false,
+            headers: {
+                "accept": "application/json;odata=verbose",
+                "X-RequestDigest": jQuery("#__REQUESTDIGEST").val(),
+                "content-length": arrayBuffer.byteLength
+            }
+        });
+    };
+
+    this.getFileBuffer = function (fileInput) {
+        var deferred = jQuery.Deferred();
+        var reader = new FileReader();
+        reader.onloadend = function (e) {
+            deferred.resolve(e.target.result);
+        }
+        reader.onerror = function (e) {
+            deferred.reject(e.target.error);
+        }
+        reader.readAsArrayBuffer(fileInput[0].files[0]);
+        return deferred.promise();
+    };
+
 });

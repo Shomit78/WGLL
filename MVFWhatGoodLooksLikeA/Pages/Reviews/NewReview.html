@@ -31,6 +31,11 @@
                     <img src="/_layouts/15/images/spcommon.png?rev=1" style="left: -194px; top: -173px; position: absolute;" alt="Refresh current Reviews image" />
                 </span>
             </a>
+            <a href="" ng-click="showUploadImage('wgllUploadImage'+$parent.$index+$index)" title="Add an image">
+                <span style="width: 20px; height: 17px; overflow: hidden; display: inline-block; position: relative;">
+                    <img src="/_layouts/15/images/spcommon.png?rev=1" style="left: -125px; top: -213px; position: absolute;" alt="Refresh current Reviews image" />
+                </span>
+            </a>
             <div class="form-group wgll-criteria-detail-container" ng-bind-html="criteria.detail"></div>
             <div class="form-group wgll-rounded-border bg-info wgll-criteria-further-guidance hide" criteriaid="{{ criteria.id }}" id="wgllFurtherGuidanceDiv{{$parent.$index}}{{$index}}">
             </div>
@@ -41,20 +46,14 @@
                     <span class="error">* This field is required</span>
                 </div>
             </div>
-            <div class="form-group bg-info wgll-rounded-border hide" >
-                <h5>Images
-                    <a href="" ng-click="showUploadImage('wgllUploadImage'+$parent.$index+$index)" class="pull-right" title="Add an image">
-                        <span style="width: 20px; height: 20px; overflow: hidden; display: inline-block; position: relative;">
-                            <img src="/_layouts/15/images/spcommon.png?rev=1" style="left: -131px; top: -134px; position: absolute;" alt="Refresh current Reviews image" />
-                        </span>
-                    </a>                
-                </h5>
+            <div id="wgllUploadImageDiv{{$parent.$index}}{{$index}}" class="form-group bg-info wgll-rounded-border show">
+                <h5>Images</h5>
                 <div></div>
                 <div id="wgllUploadImage{{$parent.$index}}{{$index}}" class="form-group bg-warning clearfix hide wgll-rounded-border">
                     <h6>Upload an image</h6>
                     <input class="form-control" id="wgllFile{{$parent.$index}}{{$index}}" type="file" /><br />
                     <input class="form-control" id="wgllFileDisplayName{{$parent.$index}}{{$index}}" type="text" value="Enter a unique name" /><br />
-                    <input class="btn pull-right" id="wgllFileAdd{{$parent.$index}}{{$index}}" type="button" value="Upload" ng-click="uploadImage('wgllFileAdd'+$parent.$index+$index,'wgllFile'+$parent.$index+$index)" />
+                    <input class="btn pull-right" id="wgllFileAdd{{$parent.$index}}{{$index}}" type="button" value="Upload" ng-click="uploadImage('wgllFileAdd'+$parent.$index+$index,'wgllFileDisplayName'+$parent.$index+$index,'wgllFile'+$parent.$index+$index)" />
                 </div>
             </div>
         </div>

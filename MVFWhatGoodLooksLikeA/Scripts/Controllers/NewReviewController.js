@@ -387,22 +387,59 @@
             return validated;
         };
 
-        $scope.uploadImage = function(btnId, imageFile) {
+        $scope.uploadImage = function(btnId, imageDisplayName, imageFile) {
             if (!window.FileReader) {
                 SP.UI.Notify.addNotification(sharePointConfig.messages.fileReaderError, false);
             }
             else {
                 if (saved) {
-                    var answerId = $('#' + btnId).closest('.wgll-criteria-container').find('.wgll-criteria-title-label').attr('answerid');
-                    //Add file to library using review id and answer id
-                    //Confirm complete.
-                    //Then need to display the uploaded images as links that open in new tabs.
+                    var answerId =
+                        $('#' + btnId).closest('.wgll-criteria-container').find('.wgll-criteria-title-label').attr('answerid');
+                    console.log("Attempting image uploaded for " + reviewId + " answer " + answerId);
+                    var fileInput = $('#' + imageFile);
+                    var newName = $('#' + imageDisplayName).val();
+                    $.when(SharePointJSOMService.getFileBuffer(fileInput))
+                        .done(function(arrayBuffer) {
+                            $.when(SharePointJSOMService.addFileToFolder(arrayBuffer, reviewId, fileInput))
+                            .done(function (listItem, status, xhr) {
+                                console.info("done");
+                            })
+                            .fail(function (err) {
+                                console.error(JSON.stringify(err));
+                            });
+                        })
+                        .fail(function(err) {
+                            console.error(JSON.stringify(err));
+                        });
+                    /*var getFile = getFileBuffer(fileInput);
+                    getFile.done(function (arrayBuffer) {
+                        var addFile = SharePointJSOMService.addFileToFolder(arrayBuffer, reviewId, fileInput);
+                        addFile.done(function (file, status, xhr) {
+                            console.info("done uploading image please check!!");
+                            var getItem = getListItem(file.d.ListItemAllFields.__deferred.uri);
+                            getItem.done(function (listItem, status, xhr) {
+                                var changeItem = updateListItem(listItem.d.__metadata);
+                                changeItem.done(function (data, status, xhr) {
+                                    alert('file uploaded and updated');
+                                });
+                                changeItem.fail(onError);
+                            });
+                            getItem.fail(onError);
+                        });
+                        addFile.fail(onError);
+                    });
+                    getFile.fail(onError);*/
                 }
                 else {
                     alert(sharePointConfig.messages.onFileUploadNotSavedError);
                 }
             }
         };
+
+        // Display error messages. 
+        function onError(error) {
+            console.error(error.responseText);
+        }
 
         $scope.displayImageLinks = function (imageDivId) {
             //Fetch the latest uploaded images for the images div closest to the upload button clicked or after deleteImage called.
