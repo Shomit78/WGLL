@@ -100,13 +100,16 @@
             else {
                 $('.wgll-criteria-title-label').each(function () {
                     var currentAnswerId = $(this).attr("answerid");
-                    var currentResult = "Default";
+                    var currentResult = "Null";
                     var criteriaPassControl = $(this).parent().find('.wgll-checkbox-result-pass');
                     if ($(criteriaPassControl).is(':checked')) {
                         currentResult = "Pass";
                     }
                     else {
-                        currentResult = "Fail";
+                        var criteriaFailControl = $(this).parent().find('.wgll-checkbox-result-fail');
+                        if ($(criteriaFailControl).is(':checked')) {
+                            currentResult = "Fail";
+                        }
                     }
                     var currentReasonForFailure = $(this).parent().find('.wgll-criteria-reason-for-failure-textarea').val();
                     SharePointJSOMService.updateListItem(sharePointConfig.lists.answers, currentAnswerId, {
@@ -142,13 +145,16 @@
                     var summary = $('textarea#wgllReviewVisitSummaryTextarea').val();
                     $('.wgll-criteria-title-label').each(function () {
                         var currentAnswerId = $(this).attr("answerid");
-                        var currentResult = "Default";
+                        var currentResult = "Null";
                         var criteriaPassControl = $(this).parent().find('.wgll-checkbox-result-pass');
                         if ($(criteriaPassControl).is(':checked')) {
                             currentResult = "Pass";
                         }
                         else {
-                            currentResult = "Fail";
+                            var criteriaFailControl = $(this).parent().find('.wgll-checkbox-result-fail');
+                            if ($(criteriaFailControl).is(':checked')) {
+                                currentResult = "Fail";
+                            }
                         }
                         var currentReasonForFailure = $(this).parent().find('.wgll-criteria-reason-for-failure-textarea').val();
                         SharePointJSOMService.updateListItem(sharePointConfig.lists.answers, currentAnswerId, {
@@ -207,13 +213,16 @@
                         var criteriaOrder = $(this).find('.wgll-criteria-title-label').attr('order');
                         var criteriaDetail = $(this).find('.wgll-criteria-detail-container').text();
                         //Need to do a check on both checkboxes to get result
-                        var currentResult = "Default";
+                        var currentResult = "Null";
                         var criteriaPassControl = $(this).find('.wgll-checkbox-result-pass');
                         if ($(criteriaPassControl).is(':checked')) {
                             currentResult = "Pass";
                         }
                         else {
-                            currentResult = "Fail";
+                            var criteriaFailControl = $(this).parent().find('.wgll-checkbox-result-fail');
+                            if ($(criteriaFailControl).is(':checked')) {
+                                currentResult = "Fail";
+                            }
                         }
                         var criteriaReasonForFailure = $(this).find('.wgll-criteria-reason-for-failure-textarea').val()
                         SharePointJSOMService.addAnswer(sharePointConfig.lists.answers, {

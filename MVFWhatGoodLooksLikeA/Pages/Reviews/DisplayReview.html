@@ -27,7 +27,12 @@
             <div class="form-group wgll-criteria-container" ng-repeat="answer in subset.answers" title="{{ subset.title }}" subtitle="{{ answer.title }}">
                 <label for="wgllresultcheckbox{{ $parent.$index }}{{ $index }}" class="wgll-criteria-title-label" nonnegotiable="{{ answer.nonNegotiable }}">{{ answer.title }}</label>
                 <div class="form-group checkbox pull-right">
-                    <input id="wgllresultcheckbox{{ $parent.$index }}{{ $index }}" disabled="" class="wgll-checkbox-result" ng-checked="answer.result == 'true'" type="checkbox" />&#160;Pass
+                    <label class="checkbox-inline" for="wgllresultcheckbox{{ $parent.$index }}{{ $index }}">
+                        <input id="wgllresultcheckbox{{ $parent.$index }}{{ $index }}" disabled="" class="wgll-checkbox-result" ng-checked="answer.result == 'Pass'" type="checkbox" />&#160;Pass
+                    </label>
+                    <label class="checkbox-inline" for="wgllResultCheckboxFail{{ $parent.$index }}{{ $index }}">
+                        <input id="wgllResultCheckboxFail{{ $parent.$index }}{{ $index }}" disabled="" class="wgll-checkbox-result" ng-checked="answer.result == 'Fail'" type="checkbox" ng-model="failed">&nbsp;Fail
+                    </label>
                 </div>
                 <a ng-click="showFurtherGuidance('wgllFurtherGuidanceDiv'+$parent.$index+$index, store, subset.title, answer.title)" class="wgll-store-guidance-link" title="View further guidance for {{ currentUsersStore }} on this criteria">
                     <span style="width: 20px; height: 20px; overflow: hidden; display: inline-block; position: relative;">
