@@ -76,6 +76,24 @@
                                 });
                                 //$scope is not updating so force with this command
                                 if (!$scope.$$phase) { $scope.$apply(); }
+                                $('.wgll-criteria-container').each(function () {
+                                    console.info("do each");
+                                    var failControl = $(this).find('.wgll-checkbox-result-fail');
+                                    console.info($(failControl).attr('id'));
+                                    if ($(failControl).is(':checked')) {
+                                        console.info("checked");
+                                        //Show the textarea
+                                        $(this).find('.wgll-reason-for-failure-container').removeClass('hidden');
+                                        $(this).find('.wgll-reason-for-failure-container').addClass('show');
+                                        $(this).find('.wgll-reason-for-failure-container').attr('ng-required', 'true');
+                                    }
+                                    else {
+                                        console.error("un-checked");
+                                        $(this).find('.wgll-reason-for-failure-container').attr('ng-required', 'false');
+                                        $(this).find('.wgll-reason-for-failure-container').removeClass('show');
+                                        $(this).find('.wgll-reason-for-failure-container').addClass('hidden');
+                                    }
+                                });
                             })
                            .fail(function (err) {
                                SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
@@ -130,7 +148,17 @@
         $scope.successOnUpdate = function (jsonObject) {
             $('.wgll-criteria-title-label').each(function () {
                 var currentAnswerId = $(this).attr("answerid");
-                var currentResult = $(this).parent().find('.wgll-checkbox-result').prop('checked');
+                var currentResult = "Null";
+                var criteriaPassControl = $(this).parent().find('.wgll-checkbox-result-pass');
+                if ($(criteriaPassControl).is(':checked')) {
+                    currentResult = "Pass";
+                }
+                else {
+                    var criteriaFailControl = $(this).parent().find('.wgll-checkbox-result-fail');
+                    if ($(criteriaFailControl).is(':checked')) {
+                        currentResult = "Fail";
+                    }
+                }
                 var currentReasonForFailure = $(this).parent().find('.wgll-criteria-reason-for-failure-textarea').val();
                 SharePointJSOMService.updateListItem(sharePointConfig.lists.answers, currentAnswerId, {
                     "WGLLResult": currentResult.toString(), "WGLLReasonForFailure": currentReasonForFailure
@@ -143,7 +171,17 @@
         $scope.successOnSubmit = function (jsonObject) {
             $('.wgll-criteria-title-label').each(function () {
                 var currentAnswerId = $(this).attr("answerid");
-                var currentResult = $(this).parent().find('.wgll-checkbox-result').prop('checked');
+                var currentResult = "Null";
+                var criteriaPassControl = $(this).parent().find('.wgll-checkbox-result-pass');
+                if ($(criteriaPassControl).is(':checked')) {
+                    currentResult = "Pass";
+                }
+                else {
+                    var criteriaFailControl = $(this).parent().find('.wgll-checkbox-result-fail');
+                    if ($(criteriaFailControl).is(':checked')) {
+                        currentResult = "Fail";
+                    }
+                }
                 var currentReasonForFailure = $(this).parent().find('.wgll-criteria-reason-for-failure-textarea').val();
                 SharePointJSOMService.updateListItem(sharePointConfig.lists.answers, currentAnswerId, {
                     "WGLLResult": currentResult.toString(), "WGLLReasonForFailure": currentReasonForFailure
@@ -219,29 +257,57 @@
             $(nextDivId).addClass("ng-show");
         };
 
-        //Shows and hides the Reason for Failure textarea depending on Pass result
-        $scope.showHideTextArea = function (checked, textAreaDivId) {
-            if (checked) {
+        $scope.toggleFail = function (failCheckboxId, passed, textAreaDivId) {
+            if (passed) {
+                //Hide the Reason for Failure textarea as not required
                 $('#' + textAreaDivId).attr('ng-required', 'false');
                 $('#' + textAreaDivId).removeClass('show');
                 $('#' + textAreaDivId).addClass('hidden');
+                var checked = $('input[id=' + failCheckboxId + ']').is(':checked');
+                if (checked) {
+                    //Remove check from fail checkbox
+                    $('input[id=' + failCheckboxId + ']').attr("checked", false);
+                }
             }
-            else {
+        };
+
+        $scope.togglePass = function (passCheckboxId, failed, textAreaDivId) {
+            if (failed) {
+                //Show the Reason for Failure textarea as is required
                 $('#' + textAreaDivId).removeClass('hidden');
                 $('#' + textAreaDivId).addClass('show');
                 $('#' + textAreaDivId).attr('ng-required', 'true');
+                var checked = $('input[id=' + passCheckboxId + ']').is(':checked');
+                if (checked) {
+                    //Remove check from pass checkbox
+                    $('input[id=' + passCheckboxId + ']').attr("checked", false);
+                }
+            }
+            else {
+                //Hide the Reason for Failure textarea as not required
+                $('#' + textAreaDivId).attr('ng-required', 'false');
+                $('#' + textAreaDivId).removeClass('show');
+                $('#' + textAreaDivId).addClass('hidden');
             }
         };
 
         function validate() {
             var validated = true;
             $('.wgll-criteria-container').each(function () {
-                var result = $(this).find('.wgll-checkbox-result');
-                if (!$(result).is(":checked")) {
-                    //check if textarea is empty then return false
-                    var reason = $(this).find('.wgll-criteria-reason-for-failure-textarea');
-                    var currentText = $(reason).text();
-                    if ((currentText == "") || (currentText == "Enter a reason for the failure here...")) {
+                var passControl = $(this).find('.wgll-checkbox-result-pass');
+                var failControl = $(this).find('.wgll-checkbox-result-fail');
+                if (!$(passControl).is(":checked")) {
+                    //Pass has not been checked - check if fail has been checked
+                    if ($(failControl).is(":checked")) {
+                        //Fail has been checked so see if textarea has been filled out
+                        var reason = $(this).find('.wgll-criteria-reason-for-failure-textarea');
+                        var currentText = $(reason).text();
+                        if ((currentText == "") || (currentText == "Enter a reason for the failure here...")) {
+                            validated = false;
+                        }
+                    }
+                    else {
+                        //Fail has not been checked in some cases so return false;
                         validated = false;
                     }
                 }

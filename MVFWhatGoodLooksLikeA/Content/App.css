@@ -5,6 +5,7 @@
 .wgll-review-row { cursor: pointer; }
 .wgll-rounded-border { border-radius: 5px;border: 1px solid silver; padding:5px; margin-top: 5px;}
 .wgll-reason-for-failure-container { border-radius:5px; padding:5px;}
+.wgll-criteria-title-label { font-size: 1.2em; }
 .error { color: red; font-weight: bold; }
 .nobreak
 {

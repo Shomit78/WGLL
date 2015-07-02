@@ -28,10 +28,17 @@
             <div class="form-group wgll-criteria-container" ng-repeat="answer in subset.answers" title="{{ subset.title }}" subtitle="{{ answer.title }}">
                 <label for="wgllresultcheckbox{{ $parent.$index }}{{ $index }}" class="wgll-criteria-title-label" nonnegotiable="{{ answer.nonNegotiable }}" answerid="{{ answer.id }}">{{ answer.title }}</label>
                 <div class="form-group checkbox pull-right">
-                    <input id="wgllresultcheckbox{{ $parent.$index }}{{ $index }}" ng-model="answer.checked" ng-change="showHideTextArea(answer.checked, 'wgllTextAreaDiv'+$parent.$index+$index)" class="wgll-checkbox-result" ng-checked="answer.result == 'true'" type="checkbox" />&#160;Pass
+                    <label class="checkbox-inline" for="wgllResultCheckbox{{ $parent.$index }}{{ $index }}">
+                        <input id="wgllResultCheckbox{{ $parent.$index }}{{ $index }}" ng-model="passed" ng-checked="answer.result == 'Pass'" class="wgll-checkbox-result wgll-checkbox-result-pass" type="checkbox"
+                               ng-click="toggleFail('wgllResultCheckboxFail'+$parent.$index+$index, passed, 'wgllTextAreaDiv'+$parent.$index+$index)">&nbsp;Pass
+                    </label>
+                    <label class="checkbox-inline" for="wgllResultCheckboxFail{{ $parent.$index }}{{ $index }}">
+                        <input id="wgllResultCheckboxFail{{ $parent.$index }}{{ $index }}" ng-checked="answer.result == 'Fail'" class="wgll-checkbox-result wgll-checkbox-result-fail" type="checkbox" ng-model="failed"
+                               ng-click="togglePass('wgllResultCheckbox'+$parent.$index+$index, failed, 'wgllTextAreaDiv'+$parent.$index+$index)">&nbsp;Fail
+                    </label>
                 </div>
                 <a ng-click="showFurtherGuidance('wgllFurtherGuidanceDiv'+$parent.$index+$index, store, subset.title, answer.title)" class="wgll-store-guidance-link" title="View further guidance for {{ currentUsersStore }} on this criteria">
-                    <span style="width: 20px; height: 20px; overflow: hidden; display: inline-block; position: relative;">
+                    <span style="width: 20px; height: 17px; overflow: hidden; display: inline-block; position: relative;">
                         <img src="/_layouts/15/images/spcommon.png?rev=1" style="left: -194px; top: -173px; position: absolute;" alt="Refresh current Reviews image" />
                     </span>
                 </a>
@@ -41,7 +48,7 @@
                         <img src="/_layouts/15/images/loading16.gif?rev=1" alt="loading criteria further guidance image" />
                     </p>
                 </div>
-                <div class="form-group alert alert-error bg-warning wgll-reason-for-failure-container" id="wgllTextAreaDiv{{$parent.$index}}{{$index}}" ng-hide="answer.result == 'true'">
+                <div class="form-group hide alert alert-error bg-warning wgll-reason-for-failure-container" id="wgllTextAreaDiv{{$parent.$index}}{{$index}}">
                     <label for="wgllreasonforfailure{{$parent.$index}}{{$index}}" class="">Reason for failure:</label>
                     <textarea id="wgllreasonforfailure{{$parent.$index}}{{$index}}" ng-required="true" class="form-control wgll-criteria-reason-for-failure-textarea" ng-bind-html="answer.reasonForFailure" placeholder="Enter a reason for the failure here..."></textarea>
                     <div class="required pull-right" ng-hide="criteria.checked">
