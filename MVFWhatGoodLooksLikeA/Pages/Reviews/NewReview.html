@@ -17,9 +17,13 @@
         <div class="form-group wgll-criteria-container" ng-repeat="criteria in subset.criteria" title="{{ subset.title }}" subtitle="{{ criteria.title }}">
             <label for="wgllresultcheckbox{{ $index }}" title="{{ criteria.title }}" class="wgll-criteria-title-label" order="{{ criteria.order }}" nonnegotiable="{{ criteria.nonNegotiable }}">{{ criteria.title }}</label>
             <div class="form-group checkbox pull-right" title="{{ criteria.title }}">
-                <label>
-                    <input id="wgllResultCheckbox{{ $index }}" class="wgll-checkbox-result" type="checkbox"
-                           ng-model="criteria.checked" ng-change="showHideTextArea(criteria.checked, 'wgllTextAreaDiv'+$parent.$index+$index)">&#160;Pass
+                <label class="checkbox-inline" for="wgllResultCheckbox{{ $parent.$index }}{{ $index }}">
+                    <input id="wgllResultCheckbox{{ $parent.$index }}{{ $index }}" ng-model="passed" class="wgll-checkbox-result wgll-checkbox-result-pass" type="checkbox"
+                           ng-click="toggleFail('wgllResultCheckboxFail'+$parent.$index+$index, passed, 'wgllTextAreaDiv'+$parent.$index+$index)">&nbsp;Pass
+                </label>
+                <label class="checkbox-inline" for="wgllResultCheckboxFail{{ $parent.$index }}{{ $index }}">
+                    <input id="wgllResultCheckboxFail{{ $parent.$index }}{{ $index }}" class="wgll-checkbox-result wgll-checkbox-result-fail" type="checkbox" ng-model="failed"
+                           ng-click="togglePass('wgllResultCheckbox'+$parent.$index+$index, failed, 'wgllTextAreaDiv'+$parent.$index+$index)">&nbsp;Fail
                 </label>
             </div>
             <a ng-click="showFurtherGuidance('wgllFurtherGuidanceDiv'+$parent.$index+$index, criteria.id)" class="wgll-store-guidance-link" title="View further guidance for {{ currentUsersStore }} on this criteria">
@@ -33,14 +37,14 @@
                     <img src="/_layouts/15/images/loading16.gif?rev=1" alt="loading criteria further guidance image" />
                 </p>
             </div>
-            <div class="form-group show clearfix bg-warning wgll-reason-for-failure-container wgll-rounded-border" id="wgllTextAreaDiv{{ $parent.$index }}{{ $index }}" title="{{ criteria.title }}">
+            <div class="form-group hide clearfix bg-warning wgll-reason-for-failure-container wgll-rounded-border" id="wgllTextAreaDiv{{ $parent.$index }}{{ $index }}" title="{{ criteria.title }}">
                 <label for="wgllTextArea{{ $index }}">Reason for failure</label>
                 <textarea name="wgllReasonForFailure{{$index}}" id="wgllTextArea{{ $index }}" ng-required="true" class="form-control wgll-criteria-reason-for-failure-textarea" rows="2" ng-model="criteria.reasonforfailuretext" placeholder="Enter a reason for the failure here..."></textarea>
                 <div class="required pull-right" ng-hide="criteria.checked">
                     <span class="error">* This field is required</span>
                 </div>
             </div>
-            <div class="form-group bg-info wgll-rounded-border" >
+            <div class="form-group bg-info wgll-rounded-border hide" >
                 <h5>Images
                     <a href="" ng-click="showUploadImage('wgllUploadImage'+$parent.$index+$index)" class="pull-right" title="Add an image">
                         <span style="width: 20px; height: 20px; overflow: hidden; display: inline-block; position: relative;">
