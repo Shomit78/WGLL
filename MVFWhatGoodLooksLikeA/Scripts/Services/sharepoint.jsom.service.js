@@ -220,6 +220,22 @@
             }
         });
     };
+
+    this.getFile = function (serverRelativeUrl, complete, failure) {
+        var restQueryUrl = appweburl + "/_api/SP.AppContextSite(@target)/web/getFileByServerRelativeUrl('" + serverRelativeUrl + "')?@select=ID,FileLeafRef&@target='" + hostweburl + "'";
+
+        $.ajax({
+            url: restQueryUrl,
+            method: "GET",
+            headers: { "Accept": "application/json; odata=verbose" },
+            success: function (data) {
+                complete(data);
+            },
+            error: function (data) {
+                failure(data);
+            }
+        });
+    };
     
     this.updateListItem = function (listName, id, metadata, success, failure) {
 
@@ -314,7 +330,7 @@
         });
     };
 
-    this.addFileToFolder = function addFileToFolder(arrayBuffer, reviewId, fileInput) {
+    this.addFileToFolder = function addFileToFolder(arrayBuffer, store, fileInput, success, failure) {
         var parts = fileInput[0].value.split('\\');
         var fileName = parts[parts.length - 1];
         var urlArray = hostweburl.split('/');
@@ -323,12 +339,12 @@
         for (i = 0; i < urlArray.length; i++) {
             url += "/" + urlArray[i];
         }
-        var folderUrl = url + "/" + sharePointConfig.lists.images;
+        var folderUrl = url + "/" + sharePointConfig.lists.images + "/" + store;
 
         var fileCollectionEndpoint = appweburl + "/_api/SP.AppContextSite(@target)/web/getfolderbyserverrelativeurl('" + folderUrl + "')/files" +
             "/add(overwrite=true, url='" + fileName + "')?@target='" + hostweburl + "'";
 
-        return jQuery.ajax({
+        $.ajax({
             url: fileCollectionEndpoint,
             type: "POST",
             data: arrayBuffer,
@@ -337,6 +353,12 @@
                 "accept": "application/json;odata=verbose",
                 "X-RequestDigest": jQuery("#__REQUESTDIGEST").val(),
                 "content-length": arrayBuffer.byteLength
+            },
+            success: function(data) {
+                success(data);
+            },
+            error: function (data) {
+                failure(data);
             }
         });
     };

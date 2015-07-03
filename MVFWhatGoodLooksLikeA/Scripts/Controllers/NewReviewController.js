@@ -400,9 +400,9 @@
                     var newName = $('#' + imageDisplayName).val();
                     $.when(SharePointJSOMService.getFileBuffer(fileInput))
                         .done(function(arrayBuffer) {
-                            $.when(SharePointJSOMService.addFileToFolder(arrayBuffer, reviewId, fileInput))
-                            .done(function (listItem, status, xhr) {
-                                console.info("done");
+                            $.when(SharePointJSOMService.addFileToFolder(arrayBuffer, currentStore,
+                                fileInput, $scope.successOnFileAdd, $scope.failureOnFileAdd))
+                            .done(function (jsonObject) {
                             })
                             .fail(function (err) {
                                 console.error(JSON.stringify(err));
@@ -411,29 +411,37 @@
                         .fail(function(err) {
                             console.error(JSON.stringify(err));
                         });
-                    /*var getFile = getFileBuffer(fileInput);
-                    getFile.done(function (arrayBuffer) {
-                        var addFile = SharePointJSOMService.addFileToFolder(arrayBuffer, reviewId, fileInput);
-                        addFile.done(function (file, status, xhr) {
-                            console.info("done uploading image please check!!");
-                            var getItem = getListItem(file.d.ListItemAllFields.__deferred.uri);
-                            getItem.done(function (listItem, status, xhr) {
-                                var changeItem = updateListItem(listItem.d.__metadata);
-                                changeItem.done(function (data, status, xhr) {
-                                    alert('file uploaded and updated');
-                                });
-                                changeItem.fail(onError);
-                            });
-                            getItem.fail(onError);
-                        });
-                        addFile.fail(onError);
-                    });
-                    getFile.fail(onError);*/
                 }
                 else {
                     alert(sharePointConfig.messages.onFileUploadNotSavedError);
                 }
             }
+        };
+
+        $scope.successOnFileAdd = function (jsonObject) {
+            angular.forEach(jsonObject, function (file) {
+                $.when(SharePointJSOMService.getFile(file.ServerRelativeUrl, $scope.successOnGetFile, $scope.failureOnGetFile))
+                .done(function (jsonObject) {
+                    //Now need to update the list item with reviewId and answerId.
+                })
+                .fail(function (err) {
+                    console.error(JSON.stringify(err));
+                });
+            });
+        };
+        
+        $scope.successOnGetFile = function (jsonObject) {
+            angular.forEach(jsonObject, function (file) {
+                console.log(file.ID);
+            });
+        };
+
+        $scope.failureOnFileAdd = function (jsonObject) {
+            console.info("$scope.failureOnFileAdd: " + JSON.stringify(jsonObject));
+        };
+
+        $scope.failureOnGetFile = function (jsonObject) {
+            console.info("$scope.failureOnGetFile: " + JSON.stringify(jsonObject));
         };
 
         // Display error messages. 

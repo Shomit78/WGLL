@@ -31,7 +31,7 @@
                     <img src="/_layouts/15/images/spcommon.png?rev=1" style="left: -194px; top: -173px; position: absolute;" alt="Refresh current Reviews image" />
                 </span>
             </a>
-            <a href="" ng-click="showUploadImage('wgllUploadImage'+$parent.$index+$index)" title="Add an image">
+            <a href="" class="hide" ng-click="showUploadImage('wgllUploadImage'+$parent.$index+$index)" title="Add an image">
                 <span style="width: 20px; height: 17px; overflow: hidden; display: inline-block; position: relative;">
                     <img src="/_layouts/15/images/spcommon.png?rev=1" style="left: -125px; top: -213px; position: absolute;" alt="Refresh current Reviews image" />
                 </span>
@@ -46,7 +46,7 @@
                     <span class="error">* This field is required</span>
                 </div>
             </div>
-            <div id="wgllUploadImageDiv{{$parent.$index}}{{$index}}" class="form-group bg-info wgll-rounded-border show">
+            <div id="wgllUploadImageDiv{{$parent.$index}}{{$index}}" class="form-group bg-info wgll-rounded-border hide">
                 <h5>Images</h5>
                 <div></div>
                 <div id="wgllUploadImage{{$parent.$index}}{{$index}}" class="form-group bg-warning clearfix hide wgll-rounded-border">
