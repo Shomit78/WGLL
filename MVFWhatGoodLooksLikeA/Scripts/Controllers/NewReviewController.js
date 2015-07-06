@@ -12,11 +12,13 @@
         var answerSaveFailure = 0;
         var reviewId, reviewListItemId;
         var subsetFilter = sharePointConfig.fields.subsets.active + " eq 1";
+        var p_btnId, p_imageFile, p_imageDisplayName, p_imageDiv, p_imageId, p_imageAnswerId;
 
         //$scope variables
         $scope.subsets = [];
         $scope.answers = [];
         $scope.currentUsersStore = $routeParams.store;
+        $scope.imageFolderUrl = "";
         
         //Get all active subsets from subset list including detail ordered by subset order
         $.when(SharePointJSOMService.getItemsFromHostWebWithParams($scope, sharePointConfig.lists.subsets,
@@ -64,7 +66,7 @@
                 })
                 .fail(function (err) {
                     SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
-                    console.info(JSON.stringify(err));
+                    console.error(JSON.stringify(err));
                 });
                 $scope.subsets.push({
                     title: subset.Title,
@@ -79,7 +81,7 @@
         })
         .fail(function (err) {
             SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
-            console.info(JSON.stringify(err));
+            console.error(JSON.stringify(err));
         });
 
         $scope.save = function () {
@@ -96,6 +98,7 @@
                     "WGLLVisitSummary": summary
                 }, $scope.successOnSave, $scope.failureOnSave);
                 SP.UI.Notify.addNotification(sharePointConfig.messages.onReviewSave, false);
+                scrollTop();
             }
             else {
                 $('.wgll-criteria-title-label').each(function () {
@@ -118,6 +121,7 @@
                 });
                 SP.UI.Notify.addNotification(sharePointConfig.messages.onReviewSave, false);
                 $('.wgll-button-disabled').removeAttr("disabled");
+                scrollTop();
             }
         };
 
@@ -172,6 +176,7 @@
             else {
                 SP.UI.Notify.addNotification(sharePointConfig.messages.onSubmitValidationError, false);
             }
+            scrollTop();
         };
 
         $scope.goTo = function (path) {
@@ -278,17 +283,17 @@
 
         $scope.failureOnUpdate = function (jsonObject) {
             SP.UI.Notify.addNotification(sharePointConfig.messages.onSaveError, false);
-            console.info("$scope.failureOnUpdate: " + JSON.stringify(jsonObject));
+            console.error("$scope.failureOnUpdate: " + JSON.stringify(jsonObject));
         };
 
         $scope.failureOnSave = function (jsonObject) {
             SP.UI.Notify.addNotification(sharePointConfig.messages.onSaveError, false);
-            console.info("$scope.failureOnSave: " + JSON.stringify(jsonObject));
+            console.error("$scope.failureOnSave: " + JSON.stringify(jsonObject));
         };
 
         $scope.failureOnReviewUpdate = function (jsonObject) {
             SP.UI.Notify.addNotification(sharePointConfig.messages.onSaveError, false);
-            console.info("$scope.failureOnReviewUpdate: " + JSON.stringify(jsonObject));
+            console.error("$scope.failureOnReviewUpdate: " + JSON.stringify(jsonObject));
         };
 
         $scope.failureOnSaveAnswers = function (jsonObject) {
@@ -296,7 +301,7 @@
                 SP.UI.Notify.addNotification(sharePointConfig.messages.onSaveAnswerError, false);
             }
             answerSaveFailure++;
-            console.info("$scope.failureOnSaveAnswers: " + JSON.stringify(jsonObject));
+            console.error("$scope.failureOnSaveAnswers: " + JSON.stringify(jsonObject));
         };
 
         $scope.failureOnAnswerUpdate = function (jsonObject) {
@@ -304,7 +309,7 @@
                 SP.UI.Notify.addNotification(sharePointConfig.messages.onSaveAnswerError, false);
             }
             answerSaveFailure++;
-            console.info("$scope.failureOnAnswerUpdate: " + JSON.stringify(jsonObject));
+            console.error("$scope.failureOnAnswerUpdate: " + JSON.stringify(jsonObject));
         };
 
         $scope.toggleFail = function (failCheckboxId, passed, textAreaDivId) {
@@ -350,6 +355,7 @@
             var nextDivId = '#wgllSubsetContainer' + next;
             $(nextDivId).removeClass("ng-hide");
             $(nextDivId).addClass("ng-show");
+            scrollTop();
         };
 
         //Shows and hides subset sections based on index and Back button click
@@ -361,6 +367,7 @@
             var nextDivId = '#wgllSubsetContainer' + next;
             $(nextDivId).removeClass("ng-hide");
             $(nextDivId).addClass("ng-show");
+            scrollTop();
         };
 
         function validate() {
@@ -387,20 +394,24 @@
             return validated;
         };
 
-        $scope.uploadImage = function(btnId, imageDisplayName, imageFile) {
+        $scope.uploadImage = function(btnId, imageDisplayName, imageFile, imageDiv) {
             if (!window.FileReader) {
                 SP.UI.Notify.addNotification(sharePointConfig.messages.fileReaderError, false);
             }
             else {
+                p_btnId = btnId;
+                p_imageFile = imageFile;
+                p_imageDisplayName = imageDisplayName;
+                p_imageDiv = imageDiv;
                 if (saved) {
-                    var answerId =
+                    p_imageAnswerId =
                         $('#' + btnId).closest('.wgll-criteria-container').find('.wgll-criteria-title-label').attr('answerid');
-                    console.log("Attempting image uploaded for " + reviewId + " answer " + answerId);
+                    $scope.imageFolderUrl = "/mvf/wgll/" + sharePointConfig.lists.images + "/" + currentStore +  "/" + reviewId;
                     var fileInput = $('#' + imageFile);
                     var newName = $('#' + imageDisplayName).val();
                     $.when(SharePointJSOMService.getFileBuffer(fileInput))
                         .done(function(arrayBuffer) {
-                            $.when(SharePointJSOMService.addFileToFolder(arrayBuffer, currentStore,
+                            $.when(SharePointJSOMService.addFileToFolder(arrayBuffer, $scope.imageFolderUrl,
                                 fileInput, $scope.successOnFileAdd, $scope.failureOnFileAdd))
                             .done(function (jsonObject) {
                             })
@@ -419,29 +430,97 @@
         };
 
         $scope.successOnFileAdd = function (jsonObject) {
-            angular.forEach(jsonObject, function (file) {
-                $.when(SharePointJSOMService.getFile(file.ServerRelativeUrl, $scope.successOnGetFile, $scope.failureOnGetFile))
-                .done(function (jsonObject) {
-                    //Now need to update the list item with reviewId and answerId.
-                })
-                .fail(function (err) {
-                    console.error(JSON.stringify(err));
-                });
-            });
+            showImageUploadSuccess(p_imageDiv);
+            p_imageId = jsonObject.d.ListItemAllFields.ID;
+            SharePointJSOMService.updateFileMetadata(sharePointConfig.lists.images, p_imageId.toString(), {
+                "WGLLReviewId": reviewId.toString(), "WGLLAnswerId": p_imageAnswerId.toString()
+            }, $scope.successOnImageUpdate, $scope.failureOnImageUpdate);
+
+        };
+
+        $scope.successOnImageUpdate = function (jsonObject) {
+            //Get image files and display correctly
+        };
+
+        $scope.failureOnImageUpdate = function (jsonObject) {
+            console.error("$scope.failureOnFileAdd: " + JSON.stringify(jsonObject));
         };
         
         $scope.successOnGetFile = function (jsonObject) {
             angular.forEach(jsonObject, function (file) {
-                console.log(file.ID);
             });
         };
 
         $scope.failureOnFileAdd = function (jsonObject) {
-            console.info("$scope.failureOnFileAdd: " + JSON.stringify(jsonObject));
+            console.error("$scope.failureOnFileAdd: " + JSON.stringify(jsonObject));
+            //Create folder using store first
+            var storeFolderUrl = "/mvf/wgll/" + sharePointConfig.lists.images + "/" + currentStore;
+            SharePointJSOMService.createFolder(sharePointConfig.lists.images, { "ServerRelativeUrl": storeFolderUrl },
+                $scope.successOnCreateStoreFolder, $scope.failureOnCreateStoreFolder);
+        };
+
+        $scope.successOnCreateStoreFolder = function (jsonObject) {
+            SharePointJSOMService.createFolder(sharePointConfig.lists.images, { "ServerRelativeUrl": $scope.imageFolderUrl },
+                $scope.successOnCreateReviewIdFolder, $scope.failureOnCreateReviewIdFolder);
+        };
+
+        $scope.failureOnCreateStoreFolder = function (jsonObject) {
+            SharePointJSOMService.createFolder(sharePointConfig.lists.images, { "ServerRelativeUrl": $scope.imageFolderUrl },
+                $scope.successOnCreateReviewIdFolder, $scope.failureOnCreateReviewIdFolder);
+        };
+
+        $scope.successOnCreateReviewIdFolder = function (jsonObject) {
+            if (saved) {
+                var answerId =
+                    $('#' + p_btnId).closest('.wgll-criteria-container').find('.wgll-criteria-title-label').attr('answerid');
+                var fileInput = $('#' + p_imageFile);
+                var newName = $('#' + p_imageDisplayName).val();
+                $.when(SharePointJSOMService.getFileBuffer(fileInput))
+                    .done(function (arrayBuffer) {
+                        $.when(SharePointJSOMService.addFileToFolder(arrayBuffer, $scope.imageFolderUrl,
+                            fileInput, $scope.successOnFileAdd, $scope.failureOnFileAdd))
+                        .done(function (jsonObject) {
+                        })
+                        .fail(function (err) {
+                            console.error(JSON.stringify(err));
+                        });
+                    })
+                    .fail(function (err) {
+                        console.error(JSON.stringify(err));
+                    });
+            }
+            else {
+                alert(sharePointConfig.messages.onFileUploadNotSavedError);
+            }
+        };
+
+        $scope.failureOnCreateReviewIdFolder = function (jsonObject) {
+            if (saved) {
+                var answerId =
+                    $('#' + p_btnId).closest('.wgll-criteria-container').find('.wgll-criteria-title-label').attr('answerid');
+                var fileInput = $('#' + p_imageFile);
+                var newName = $('#' + p_imageDisplayName).val();
+                $.when(SharePointJSOMService.getFileBuffer(fileInput))
+                    .done(function (arrayBuffer) {
+                        $.when(SharePointJSOMService.addFileToFolder(arrayBuffer, $scope.imageFolderUrl,
+                            fileInput, $scope.successOnFileAdd, $scope.failureOnFileAdd))
+                        .done(function (jsonObject) {
+                        })
+                        .fail(function (err) {
+                            console.error(JSON.stringify(err));
+                        });
+                    })
+                    .fail(function (err) {
+                        console.error(JSON.stringify(err));
+                    });
+            }
+            else {
+                alert(sharePointConfig.messages.onFileUploadNotSavedError);
+            }
         };
 
         $scope.failureOnGetFile = function (jsonObject) {
-            console.info("$scope.failureOnGetFile: " + JSON.stringify(jsonObject));
+            console.error("$scope.failureOnGetFile: " + JSON.stringify(jsonObject));
         };
 
         // Display error messages. 
@@ -489,11 +568,34 @@
                 })
                 .fail(function (err) {
                     SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
-                    console.info(JSON.stringify(err));
+                    console.error(JSON.stringify(err));
                 });
             }
         };
 
+        $scope.getImages = function () {
+            $('.wgll-criteria-title-label').each(function () {
+                var imageCount = 0;
+                var currentAnswerId = $(this).attr("answerid");
+            });
+        };
+    }
+
+    function showImageUploadSuccess(imageUploadDiv) {
+        if ($('#' + imageUploadDiv).hasClass('show')) {
+            $('#' + imageUploadDiv).removeClass('show');
+            $('#' + imageUploadDiv).addClass('hidden');
+        }
+        else {
+            $('#' + imageUploadDiv).removeClass('hidden');
+            $('#' + imageUploadDiv).addClass('show');
+        }
+        SP.UI.Notify.addNotification(sharePointConfig.messages.onImageUploaded, false);
+        scrollTop();
+    }
+
+    function scrollTop() {
+        $('#s4-workspace').scrollTop(0);
     }
 
 

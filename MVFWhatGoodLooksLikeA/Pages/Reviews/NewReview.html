@@ -1,11 +1,11 @@
 ﻿<form id="wgll-review-form">
-    <div class="input-group">
+    <div class="btn-group">
         <input class="btn" type="button" value="Cancel" ng-click="goTo('/')" />
         <input class="btn wgll-button-disabled" type="button" value="Save" ng-click="save()" disabled="" />
         <input class="btn wgll-button-disabled wgll-button-submit-disabled" type="button" value="Submit" ng-click="submit()" disabled="" />
     </div>
     <div id="wgllSubsetContainer{{ $index }}" class="form-group wgll-subset-container clearfix" ng-repeat="subset in subsets" ng-hide="!$first">
-        <div class="input-group pull-right">
+        <div class="btn-group pull-right" role="group">
             <input class="btn" type="button" value="Back" ng-click="moveBack('wgllSubsetContainer'+$index, $index)" ng-disabled="$first" />
             <input class="btn" type="button" value="Next" ng-click="moveNext('wgllSubsetContainer'+$index, $index)" ng-disabled="$last" />
         </div>
@@ -15,6 +15,22 @@
         </h3>
         <p ng-bind-html="subset.detail"></p>
         <div class="form-group wgll-criteria-container" ng-repeat="criteria in subset.criteria" title="{{ subset.title }}" subtitle="{{ criteria.title }}">
+            <ul class="nav nav-pills pull-right" style="margin-left:5px;" role="tablist">
+                <li role="presentation">
+                    <a ng-click="showFurtherGuidance('wgllFurtherGuidanceDiv'+$parent.$index+$index, criteria.id)" criteriaid="{{ criteria.id }}" class="wgll-store-guidance-link" title="View further guidance for {{ currentUsersStore }} on this criteria">
+                        <span style="width: 20px; height: 17px; overflow: hidden; display: inline-block; position: relative;">
+                            <img src="/_layouts/15/images/spcommon.png?rev=1" style="left: -194px; top: -173px; position: absolute;" alt="Refresh current Reviews image" />
+                        </span>
+                    </a>
+                </li>
+                <li role="presentation">
+                    <a href="" class="show" ng-click="showUploadImage('wgllUploadImage'+$parent.$index+$index)" title="Add an image">
+                        <span style="width: 20px; height: 17px; overflow: hidden; display: inline-block; position: relative;">
+                            <img src="/_layouts/15/images/spcommon.png?rev=1" style="left: -125px; top: -213px; position: absolute;" alt="Refresh current Reviews image" />
+                        </span>
+                    </a>
+                </li>
+            </ul>
             <label for="wgllresultcheckbox{{ $index }}" title="{{ criteria.title }}" class="wgll-criteria-title-label" order="{{ criteria.order }}" nonnegotiable="{{ criteria.nonNegotiable }}">{{ criteria.title }}</label>
             <div class="form-group checkbox pull-right" title="{{ criteria.title }}">
                 <label class="checkbox-inline" for="wgllResultCheckbox{{ $parent.$index }}{{ $index }}">
@@ -26,16 +42,6 @@
                            ng-click="togglePass('wgllResultCheckbox'+$parent.$index+$index, failed, 'wgllTextAreaDiv'+$parent.$index+$index)">&nbsp;Fail
                 </label>
             </div>
-            <a ng-click="showFurtherGuidance('wgllFurtherGuidanceDiv'+$parent.$index+$index, criteria.id)" criteriaid="{{ criteria.id }}" class="wgll-store-guidance-link" title="View further guidance for {{ currentUsersStore }} on this criteria">
-                <span style="width: 20px; height: 17px; overflow: hidden; display: inline-block; position: relative;">
-                    <img src="/_layouts/15/images/spcommon.png?rev=1" style="left: -194px; top: -173px; position: absolute;" alt="Refresh current Reviews image" />
-                </span>
-            </a>
-            <a href="" class="hide" ng-click="showUploadImage('wgllUploadImage'+$parent.$index+$index)" title="Add an image">
-                <span style="width: 20px; height: 17px; overflow: hidden; display: inline-block; position: relative;">
-                    <img src="/_layouts/15/images/spcommon.png?rev=1" style="left: -125px; top: -213px; position: absolute;" alt="Refresh current Reviews image" />
-                </span>
-            </a>
             <div class="form-group wgll-criteria-detail-container" ng-bind-html="criteria.detail"></div>
             <div class="form-group wgll-rounded-border bg-info wgll-criteria-further-guidance hide" criteriaid="{{ criteria.id }}" id="wgllFurtherGuidanceDiv{{$parent.$index}}{{$index}}">
             </div>
@@ -46,18 +52,18 @@
                     <span class="error">* This field is required</span>
                 </div>
             </div>
-            <div id="wgllUploadImageDiv{{$parent.$index}}{{$index}}" class="form-group bg-info wgll-rounded-border hide">
+            <div id="wgllUploadImageDiv{{$parent.$index}}{{$index}}" class="form-group bg-info wgll-rounded-border">
                 <h5>Images</h5>
                 <div></div>
-                <div id="wgllUploadImage{{$parent.$index}}{{$index}}" class="form-group bg-warning clearfix hide wgll-rounded-border">
+                <div id="wgllUploadImage{{$parent.$index}}{{$index}}" class="form-group bg-warning clearfix hide wgll-rounded-border" >
                     <h6>Upload an image</h6>
                     <input class="form-control" id="wgllFile{{$parent.$index}}{{$index}}" type="file" /><br />
                     <input class="form-control" id="wgllFileDisplayName{{$parent.$index}}{{$index}}" type="text" value="Enter a unique name" /><br />
-                    <input class="btn pull-right" id="wgllFileAdd{{$parent.$index}}{{$index}}" type="button" value="Upload" ng-click="uploadImage('wgllFileAdd'+$parent.$index+$index,'wgllFileDisplayName'+$parent.$index+$index,'wgllFile'+$parent.$index+$index)" />
+                    <input class="btn pull-right" id="wgllFileAdd{{$parent.$index}}{{$index}}" type="button" value="Upload" ng-click="uploadImage('wgllFileAdd'+$parent.$index+$index,'wgllFileDisplayName'+$parent.$index+$index,'wgllFile'+$parent.$index+$index, 'wgllUploadImage'+$parent.$index+$index)" />
                 </div>
             </div>
         </div>
-        <div class="input-group pull-right">
+        <div class="btn-group pull-right" role="group">
             <input class="btn" type="button" value="Back" ng-click="moveBack('wgllSubsetContainer'+$index, $index)" ng-disabled="$first" />
             <input class="btn" type="button" value="Next" ng-click="moveNext('wgllSubsetContainer'+$index, $index)" ng-disabled="$last" />
         </div>
@@ -72,9 +78,10 @@
             <textarea id="wgllReviewNotesTextarea" class="form-control" placeholder="Enter any review notes here..."></textarea>
         </div>
     </div>
-    <div class="input-group">
+    <div class="btn-group">
         <input class="btn" type="button" value="Cancel" ng-click="goTo('/')" />
         <input class="btn wgll-button-disabled" type="button" value="Save" ng-click="save()" disabled="" />
         <input class="btn wgll-button-disabled wgll-button-submit-disabled" type="button" value="Submit" ng-click="submit()" disabled="" />
     </div>
+    <a href="" id="clickMe" ng-click="moveTop()">Click Me</a>
 </form>

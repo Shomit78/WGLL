@@ -274,6 +274,43 @@
 
     };
 
+    this.updateFileMetadata = function (listName, id, metadata, success, failure) {
+
+        JSRequest.EnsureSetup();
+        hostweburl = decodeURIComponent(JSRequest.QueryString["SPHostUrl"]);
+        appweburl = decodeURIComponent(JSRequest.QueryString["SPAppWebUrl"]);
+
+        var restQueryUrl = appweburl + "/_api/SP.AppContextSite(@target)/web/lists/getByTitle('" + listName + "')/items(" + id + ")?@target='" + hostweburl + "'";
+        var item = $.extend({
+            "__metadata": { "type": "SP.ListItem" }
+        }, metadata);
+
+        this.getListItem(restQueryUrl, listName, function (data) {
+            $.ajax({
+                url: restQueryUrl,
+                type: "POST",
+                contentType: "application/json;odata=verbose",
+                data: JSON.stringify(item),
+                headers: {
+                    "Accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "X-HTTP-Method": "MERGE",
+                    "If-Match": data.d.__metadata.etag
+                },
+                success: function (data) {
+                    success(data);
+                },
+                error: function (data) {
+                    failure(data);
+                }
+            });
+
+        }, function (data) {
+            failure(data);
+        });
+
+    };
+
     this.getListItemWithId = function (url, id, listName, success, failure) {
 
         JSRequest.EnsureSetup();
@@ -330,7 +367,7 @@
         });
     };
 
-    this.addFileToFolder = function addFileToFolder(arrayBuffer, store, fileInput, success, failure) {
+    this.addFileToFolder = function addFileToFolder(arrayBuffer, folderUrl, fileInput, success, failure) {
         var parts = fileInput[0].value.split('\\');
         var fileName = parts[parts.length - 1];
         var urlArray = hostweburl.split('/');
@@ -339,10 +376,10 @@
         for (i = 0; i < urlArray.length; i++) {
             url += "/" + urlArray[i];
         }
-        var folderUrl = url + "/" + sharePointConfig.lists.images + "/" + store;
+        //var folderUrl = url + "/" + sharePointConfig.lists.images + "/" + store;
 
         var fileCollectionEndpoint = appweburl + "/_api/SP.AppContextSite(@target)/web/getfolderbyserverrelativeurl('" + folderUrl + "')/files" +
-            "/add(overwrite=true, url='" + fileName + "')?@target='" + hostweburl + "'";
+            "/add(overwrite=true, url='" + fileName + "')?$expand=ListItemAllFields&@target='" + hostweburl + "'";
 
         $.ajax({
             url: fileCollectionEndpoint,
@@ -362,6 +399,36 @@
             }
         });
     };
+
+    this.createFolder = function (listName, metadata, success, failure) {
+
+        JSRequest.EnsureSetup();
+        hostweburl = decodeURIComponent(JSRequest.QueryString["SPHostUrl"]);
+        appweburl = decodeURIComponent(JSRequest.QueryString["SPAppWebUrl"]);
+        var restQueryUrl = appweburl + "/_api/SP.AppContextSite(@target)/web/folders?@target='" + hostweburl + "'";
+
+        var item = $.extend({
+            "__metadata": { "type": "SP.Folder" }
+        }, metadata);
+
+        $.ajax({
+            url: restQueryUrl,
+            type: "POST",
+            contentType: "application/json;odata=verbose",
+            data: JSON.stringify(item),
+            headers: {
+                "Accept": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+            },
+            success: function (data) {
+                success(data);
+            },
+            error: function (data) {
+                failure(data);
+            }
+        });
+
+    }
 
     this.getFileBuffer = function (fileInput) {
         var deferred = jQuery.Deferred();
