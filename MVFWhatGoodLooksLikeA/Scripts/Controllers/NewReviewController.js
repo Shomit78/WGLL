@@ -12,7 +12,7 @@
         var answerSaveFailure = 0;
         var reviewId, reviewListItemId;
         var subsetFilter = sharePointConfig.fields.subsets.active + " eq 1";
-        var p_btnId, p_imageFile, p_imageDisplayName, p_imageDiv, p_imageId, p_imageAnswerId;
+        var p_btnId, p_imageFile, p_imageDiv, p_imageId, p_imageAnswerId;
 
         //$scope variables
         $scope.subsets = [];
@@ -394,21 +394,19 @@
             return validated;
         };
 
-        $scope.uploadImage = function(btnId, imageDisplayName, imageFile, imageDiv) {
+        $scope.uploadImage = function(btnId, imageFile, imageDiv) {
             if (!window.FileReader) {
                 SP.UI.Notify.addNotification(sharePointConfig.messages.fileReaderError, false);
             }
             else {
                 p_btnId = btnId;
                 p_imageFile = imageFile;
-                p_imageDisplayName = imageDisplayName;
                 p_imageDiv = imageDiv;
                 if (saved) {
                     p_imageAnswerId =
                         $('#' + btnId).closest('.wgll-criteria-container').find('.wgll-criteria-title-label').attr('answerid');
                     $scope.imageFolderUrl = "/mvf/wgll/" + sharePointConfig.lists.images + "/" + currentStore +  "/" + reviewId;
                     var fileInput = $('#' + imageFile);
-                    var newName = $('#' + imageDisplayName).val();
                     $.when(SharePointJSOMService.getFileBuffer(fileInput))
                         .done(function(arrayBuffer) {
                             $.when(SharePointJSOMService.addFileToFolder(arrayBuffer, $scope.imageFolderUrl,
@@ -439,7 +437,7 @@
         };
 
         $scope.successOnImageUpdate = function (jsonObject) {
-            //Get image files and display correctly
+            getImages(currentStore, reviewId);
         };
 
         $scope.failureOnImageUpdate = function (jsonObject) {
@@ -474,7 +472,6 @@
                 var answerId =
                     $('#' + p_btnId).closest('.wgll-criteria-container').find('.wgll-criteria-title-label').attr('answerid');
                 var fileInput = $('#' + p_imageFile);
-                var newName = $('#' + p_imageDisplayName).val();
                 $.when(SharePointJSOMService.getFileBuffer(fileInput))
                     .done(function (arrayBuffer) {
                         $.when(SharePointJSOMService.addFileToFolder(arrayBuffer, $scope.imageFolderUrl,
@@ -499,7 +496,6 @@
                 var answerId =
                     $('#' + p_btnId).closest('.wgll-criteria-container').find('.wgll-criteria-title-label').attr('answerid');
                 var fileInput = $('#' + p_imageFile);
-                var newName = $('#' + p_imageDisplayName).val();
                 $.when(SharePointJSOMService.getFileBuffer(fileInput))
                     .done(function (arrayBuffer) {
                         $.when(SharePointJSOMService.addFileToFolder(arrayBuffer, $scope.imageFolderUrl,
@@ -573,12 +569,14 @@
             }
         };
 
-        $scope.getImages = function () {
-            $('.wgll-criteria-title-label').each(function () {
-                var imageCount = 0;
-                var currentAnswerId = $(this).attr("answerid");
+        $scope.deleteImage = function (url) {
+            SharePointJSOMService.deleteFile(url, function (jsonObject) {
+                //should refresh getImages, but need current store and review id;
+            }, function (err) {
+                SP.UI.Notify.addNotification(sharePointConfig.messages.deleteImageError, false);
+                console.error(JSON.stringify(err));
             });
-        };
+        }
     }
 
     function showImageUploadSuccess(imageUploadDiv) {
@@ -598,5 +596,38 @@
         $('#s4-workspace').scrollTop(0);
     }
 
-
+    function getImages(currentStore, reviewId) {
+        $.when(SharePointJSOMService.getImagesFromHostWebFolder($scope,
+                    "/mvf/wgll/" + sharePointConfig.lists.images + "/" + currentStore + "/" + reviewId))
+                .done(function (jsonObject) {
+                    $('.wgll-criteria-title-label').each(function () {
+                        var imageCount = 0;
+                        var imageHtml = "";
+                        var currentAnswerId = $(this).attr("answerid");
+                        angular.forEach(jsonObject.d.results, function (image) {
+                            if (currentAnswerId == image.ListItemAllFields.WGLLAnswerId) {
+                                imageHtml += '<div class="col-xs-4 col-md-2"><a href="' + image.ServerRelativeUrl +
+                                    '" class="thumbnail" target="_blank"><img src="' + image.ServerRelativeUrl +
+                                    '" alt="' + image.Name + '"></a><div class="caption"><h6>' + image.Name + 
+                                    '</h6><p><button class="btn btn-primary" type="button" onclick="deleteImage(\'' +
+                                    image.ServerRelativeUrl + '\')">Delete</button></p></div></div>';
+                                imageCount++;
+                            }
+                        });
+                        if (imageCount > 0) {
+                            $(this).parent().find('.row').html(imageHtml);
+                            $(this).parent().find('.wgll-images-div-container').removeClass('hide');
+                            $(this).parent().find('.wgll-images-div-container').addClass('show');
+                        }
+                        else {
+                            $(this).parent().find('.wgll-images-div-container').removeClass('show');
+                            $(this).parent().find('.wgll-images-div-container').addClass('hide');
+                        }
+                    });
+                })
+                .fail(function (err) {
+                    SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
+                    console.error(JSON.stringify(err));
+                });
+    }
 }]);

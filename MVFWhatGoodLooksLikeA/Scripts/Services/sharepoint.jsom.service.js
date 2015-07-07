@@ -400,6 +400,33 @@
         });
     };
 
+    this.deleteFile = function (fileRelativeUrl, success, failure) {
+
+        JSRequest.EnsureSetup();
+        hostweburl = decodeURIComponent(JSRequest.QueryString["SPHostUrl"]);
+        appweburl = decodeURIComponent(JSRequest.QueryString["SPAppWebUrl"]);
+
+        var restQueryUrl = appweburl + "/_api/SP.AppContextSite(@target)/web/GetFileByServerRelativeUrl('" + fileRelativeUrl + "')?@target='" + hostweburl + "'";
+        
+        $.ajax({
+            url: restQueryUrl,
+            type: "POST",
+            headers: {
+                "Accept": "application/json;odata=verbose",
+                "X-Http-Method": "DELETE",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                "If-Match": data.__metadata.etag
+            },
+            success: function (data) {
+                success(data);
+            },
+            error: function (data) {
+                failure(data);
+            }
+        });
+    };
+
+
     this.createFolder = function (listName, metadata, success, failure) {
 
         JSRequest.EnsureSetup();
@@ -441,6 +468,30 @@
         }
         reader.readAsArrayBuffer(fileInput[0].files[0]);
         return deferred.promise();
+    };
+
+    //Get items from a list returning only Title and ID
+    this.getImagesFromHostWebFolder = function ($scope, folderUrl) {
+        var deferred = $.Deferred();
+        JSRequest.EnsureSetup();
+        hostweburl = decodeURIComponent(JSRequest.QueryString["SPHostUrl"]);
+        appweburl = decodeURIComponent(JSRequest.QueryString["SPAppWebUrl"]);
+
+        var restQueryUrl = appweburl + "/_api/SP.AppContextSite(@target)/web/GetFolderByServerRelativeUrl('" + folderUrl + "')/files?$expand=ListItemAllFields&@target='" + hostweburl + "'";
+
+        var executor = new SP.RequestExecutor(appweburl);
+        executor.executeAsync({
+            url: restQueryUrl,
+            method: "GET",
+            headers: { "Accept": "application/json; odata=verbose" },
+            success: function (data, textStatus, xhr) {
+                deferred.resolve(JSON.parse(data.body));
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                deferred.reject(JSON.stringify(xhr));
+            }
+        });
+        return deferred;
     };
 
 });

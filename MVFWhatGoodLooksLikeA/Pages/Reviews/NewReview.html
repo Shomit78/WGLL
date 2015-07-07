@@ -31,7 +31,7 @@
                     </a>
                 </li>
             </ul>
-            <label for="wgllresultcheckbox{{ $index }}" title="{{ criteria.title }}" class="wgll-criteria-title-label" order="{{ criteria.order }}" nonnegotiable="{{ criteria.nonNegotiable }}">{{ criteria.title }}</label>
+            <label for="wgllresultcheckbox{{ $parent.$index }}{{ $index }}" title="{{ criteria.title }}" class="wgll-criteria-title-label" order="{{ criteria.order }}" nonnegotiable="{{ criteria.nonNegotiable }}">{{ criteria.title }}</label>
             <div class="form-group checkbox pull-right" title="{{ criteria.title }}">
                 <label class="checkbox-inline" for="wgllResultCheckbox{{ $parent.$index }}{{ $index }}">
                     <input id="wgllResultCheckbox{{ $parent.$index }}{{ $index }}" ng-model="passed" class="wgll-checkbox-result wgll-checkbox-result-pass" type="checkbox"
@@ -52,14 +52,13 @@
                     <span class="error">* This field is required</span>
                 </div>
             </div>
-            <div id="wgllUploadImageDiv{{$parent.$index}}{{$index}}" class="form-group bg-info wgll-rounded-border">
-                <h5>Images</h5>
-                <div></div>
-                <div id="wgllUploadImage{{$parent.$index}}{{$index}}" class="form-group bg-warning clearfix hide wgll-rounded-border" >
-                    <h6>Upload an image</h6>
-                    <input class="form-control" id="wgllFile{{$parent.$index}}{{$index}}" type="file" /><br />
-                    <input class="form-control" id="wgllFileDisplayName{{$parent.$index}}{{$index}}" type="text" value="Enter a unique name" /><br />
-                    <input class="btn pull-right" id="wgllFileAdd{{$parent.$index}}{{$index}}" type="button" value="Upload" ng-click="uploadImage('wgllFileAdd'+$parent.$index+$index,'wgllFileDisplayName'+$parent.$index+$index,'wgllFile'+$parent.$index+$index, 'wgllUploadImage'+$parent.$index+$index)" />
+            <div id="wgllUploadImage{{$parent.$index}}{{$index}}" class="input-group bg-warning clearfix hide wgll-rounded-border">
+                <input class="form-control" id="wgllFile{{$parent.$index}}{{$index}}" type="file" /><br />
+                <br />
+                <button class="btn btn-default pull-right" id="wgllFileAdd{{$parent.$index}}{{$index}}" type="button" ng-click="uploadImage('wgllFileAdd'+$parent.$index+$index,'wgllFile'+$parent.$index+$index, 'wgllUploadImage'+$parent.$index+$index)">Upload</button>
+            </div>
+            <div id="wgllUploadImageDiv{{$parent.$index}}{{$index}}" class="form-group bg-warning wgll-rounded-border hide wgll-images-div-container">
+                <div class="row">
                 </div>
             </div>
         </div>
