@@ -133,6 +133,10 @@
             $location.path(path);
         };
 
+        $scope.scrollTop = function() {
+            $('#s4-workspace').scrollTop(0);
+        }
+
         //Shows and hides subset sections based on index and Next button click
         $scope.moveNext = function (currentDivId, index) {
             $('#' + currentDivId).removeClass("ng-show");
@@ -142,6 +146,7 @@
             var nextDivId = '#wgllSubsetContainer' + next;
             $(nextDivId).removeClass("ng-hide");
             $(nextDivId).addClass("ng-show");
+            $scope.scrollTop();
         };
 
         //Shows and hides subset sections based on index and Back button click
@@ -153,6 +158,7 @@
             var nextDivId = '#wgllSubsetContainer' + next;
             $(nextDivId).removeClass("ng-hide");
             $(nextDivId).addClass("ng-show");
+            $scope.scrollTop();
         };
 
         $scope.showFurtherGuidance = function (furtherGuidanceDivId, store, subset, criteria) {
