@@ -25,6 +25,15 @@
             <h3><span class="wgll-subset-order-span">{{ $index + 1}}).</span>&#160;<span class="wgll-subset-title-span">{{ subset.title }}</span></h3>
             <p ng-bind-html="subset.detail"></p>
             <div class="form-group wgll-criteria-container" ng-repeat="answer in subset.answers" title="{{ subset.title }}" subtitle="{{ answer.title }}">
+                <ul class="nav nav-pills pull-right" style="margin-left:5px;" role="tablist">
+                    <li role="presentation">
+                        <a ng-click="showFurtherGuidance('wgllFurtherGuidanceDiv'+$parent.$index+$index, criteria.id)" criteriaid="{{ criteria.id }}" class="wgll-store-guidance-link" title="View further guidance for {{ currentUsersStore }} on this criteria">
+                            <span style="width: 20px; height: 17px; overflow: hidden; display: inline-block; position: relative;">
+                                <img src="/_layouts/15/images/spcommon.png?rev=1" style="left: -194px; top: -173px; position: absolute;" alt="Refresh current Reviews image" />
+                            </span>
+                        </a>
+                    </li>
+                </ul>
                 <label for="wgllresultcheckbox{{ $parent.$index }}{{ $index }}" class="wgll-criteria-title-label" nonnegotiable="{{ answer.nonNegotiable }}">{{ answer.title }}</label>
                 <div class="form-group checkbox pull-right">
                     <label class="checkbox-inline" for="wgllresultcheckbox{{ $parent.$index }}{{ $index }}">
@@ -34,11 +43,6 @@
                         <input id="wgllResultCheckboxFail{{ $parent.$index }}{{ $index }}" disabled="" class="wgll-checkbox-result" ng-checked="answer.result == 'Fail'" type="checkbox" ng-model="failed">&nbsp;Fail
                     </label>
                 </div>
-                <a ng-click="showFurtherGuidance('wgllFurtherGuidanceDiv'+$parent.$index+$index, store, subset.title, answer.title)" class="wgll-store-guidance-link" title="View further guidance for {{ currentUsersStore }} on this criteria">
-                    <span style="width: 20px; height: 17px; overflow: hidden; display: inline-block; position: relative;">
-                        <img src="/_layouts/15/images/spcommon.png?rev=1" style="left: -194px; top: -173px; position: absolute;" alt="Refresh current Reviews image" />
-                    </span>
-                </a>
                 <div class="form-group wgll-criteria-detail-container" ng-bind-html="answer.detail"></div>
                 <div class="form-group wgll-criteria-further-guidance wgll-rounded-border bg-info hide" id="wgllFurtherGuidanceDiv{{$parent.$index}}{{$index}}">
                     <p style="text-align:center">
@@ -48,6 +52,20 @@
                 <div class="form-group alert alert-error bg-warning wgll-reason-for-failure-container" ng-hide="answer.result != 'Fail'">
                     <label for="wgllreasonforfailure{{$parent.$index}}{{$index}}" class="">Reason for failure:</label>
                     <div id="wgllreasonforfailure{{$parent.$index}}{{$index}}" class="form-group wgll-reason-for-failure-container" ng-bind-html="answer.reasonForFailure"></div>
+                </div>
+                <div id="wgllUploadImageDiv{{$parent.$index}}{{$index}}" ng-show="answer.images.length > 0" class="form-group bg-warning wgll-rounded-border wgll-images-div-container">
+                    <div class="row" ng-repeat="image in answer.images">
+                        <div class="col-xs-4 col-md-2">
+                            <a href="{{ image.serverRelativeUrl }}" class="thumbnail" target="_blank">
+                                <img src="{{ image.serverRelativeUrl }}" alt="{{ image.name }}">
+                            </a>
+                            <div class="caption">
+                                <h6>
+                                    {{ image.name }}
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="btn-group pull-right">
