@@ -415,7 +415,7 @@
                 "Accept": "application/json;odata=verbose",
                 "X-Http-Method": "DELETE",
                 "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                "If-Match": data.__metadata.etag
+                "If-Match": "*"
             },
             success: function (data) {
                 success(data);

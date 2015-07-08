@@ -149,6 +149,20 @@
             }, $scope.successOnUpdate, $scope.failureOnUpdate);
         };
 
+        $scope.deleteImage = function(serverRelativeUrl) {
+            var r = confirm("Do you want to delete this image?");
+            if (r == true) {
+                SharePointJSOMService.deleteFile(serverRelativeUrl,
+                    function (jsonObject) {
+                    },
+                    function (err) {
+                        SP.UI.Notify.addNotification(sharePointConfig.messages.deleteImageError, false);
+                        console.error(JSON.stringify(err));
+                    });
+                $scope.refresh();
+            }
+        };
+
         $scope.submit = function () {
             var validated = validate();
             if (validated) {
@@ -506,7 +520,6 @@
                         angular.forEach(subset.answers, function (answer) {
                             var answerImages = [];
                             angular.forEach(jsonObject.d.results, function (image) {
-                                console.warn(answer.id + ": " + image.ListItemAllFields.WGLLAnswerId);
                                 if (answer.id == image.ListItemAllFields.WGLLAnswerId) {
                                     answerImages.push({
                                         name: image.Name,

@@ -72,15 +72,18 @@
                     <button class="btn btn-default pull-right" id="wgllFileAdd{{$parent.$index}}{{$index}}" type="button" ng-click="uploadImage('wgllFileAdd'+$parent.$index+$index,'wgllFile'+$parent.$index+$index, 'wgllUploadImage'+$parent.$index+$index)">Upload</button>
                 </div>
                 <div id="wgllUploadImageDiv{{$parent.$index}}{{$index}}" ng-show="answer.images.length > 0" class="form-group bg-warning wgll-rounded-border wgll-images-div-container">
-                    <div class="row">
-                        <div class="col-xs-4 col-md-2" ng-repeat="image in answer.images">
+                    <div class="row container">
+                        <div class="col-xs-4 col-md-2 bg-success wgll-rounded-border" ng-repeat="image in answer.images">
                             <a href="{{ image.serverRelativeUrl }}" class="thumbnail" target="_blank">
                                 <img src="{{ image.serverRelativeUrl }}" alt="{{ image.name }}" />
                             </a>
-                            <div class="caption">
+                            <div class="caption text-center">
                                 <h6>
                                     {{ image.name }}
                                 </h6>
+                                <p>
+                                    <button type="button" class="btn btn-danger btn-xs" ng-click="deleteImage(image.serverRelativeUrl)">X</button>
+                                </p>
                             </div>
                         </div>
                     </div>

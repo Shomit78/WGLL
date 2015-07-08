@@ -79,7 +79,8 @@ var sharePointConfig = {
 
     },
     messages: {
-        defaultError: "An error has occurred whilst retrieving data. <br />Please ensure you are connected to the network and refresh the page.",
+        defaultError: "An error has occurred whilst retrieving data. <br />Please ensure you are connected to the network and refresh the page. ",
+        deleteImageError: "An error has occurred deleting the image. <br />Please ensure you are connected to the network and try again. ",
         fileReaderError: "This browser does not support the FileReader API. ",
         onImageUploaded: "The image has been succesfully uploaded and saved to this Review. ",
         noGuidanceNotesAvailable: "<h6>No further guidance notes specific to this store have been found for this criteria.</h6>",
