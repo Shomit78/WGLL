@@ -69,7 +69,6 @@
                                                 var answerImages = [];
                                                 angular.forEach(images, function (img) {
                                                     if (img.answerId == criteria.id) {
-                                                        console.log("match on: " + img.name);
                                                         answerImages.push({
                                                             name: img.name,
                                                             serverRelativeUrl: img.serverRelativeUrl,
@@ -101,18 +100,14 @@
                                         //$scope is not updating so force with this command
                                         if (!$scope.$$phase) { $scope.$apply(); }
                                         $('.wgll-criteria-container').each(function () {
-                                            console.info("do each");
                                             var failControl = $(this).find('.wgll-checkbox-result-fail');
-                                            console.info($(failControl).attr('id'));
                                             if ($(failControl).is(':checked')) {
-                                                console.info("checked");
                                                 //Show the textarea
                                                 $(this).find('.wgll-reason-for-failure-container').removeClass('hidden');
                                                 $(this).find('.wgll-reason-for-failure-container').addClass('show');
                                                 $(this).find('.wgll-reason-for-failure-container').attr('ng-required', 'true');
                                             }
                                             else {
-                                                console.error("un-checked");
                                                 $(this).find('.wgll-reason-for-failure-container').attr('ng-required', 'false');
                                                 $(this).find('.wgll-reason-for-failure-container').removeClass('show');
                                                 $(this).find('.wgll-reason-for-failure-container').addClass('hidden');
@@ -121,7 +116,7 @@
                                     })
                                    .fail(function (err) {
                                        SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
-                                       console.info(JSON.stringify(err));
+                                       console.error(JSON.stringify(err));
                                    });
                                //$scope is not updating so force with this command
                                if (!$scope.$$phase) { $scope.$apply(); }
@@ -129,19 +124,19 @@
                            })
                            .fail(function (err) {
                                SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
-                               console.info(JSON.stringify(err));
+                               console.error(JSON.stringify(err));
                            });
                         //$scope is not updating so force with this command
                         if (!$scope.$$phase) { $scope.$apply(); }
                             })
                 .fail(function (err) {
                     SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
-                    console.info(JSON.stringify(err));
+                    console.error(JSON.stringify(err));
                 });
             })
             .fail(function (err) {
                 SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
-                console.info(JSON.stringify(err));
+                console.error(JSON.stringify(err));
             });
 
         $scope.save = function () {
@@ -234,12 +229,12 @@
 
         $scope.failureOnUpdate = function (jsonObject) {
             SP.UI.Notify.addNotification(sharePointConfig.messages.onSaveError, false);
-            console.info("$scope.failureOnUpdate: " + JSON.stringify(jsonObject));
+            console.error("$scope.failureOnUpdate: " + JSON.stringify(jsonObject));
         };
 
         $scope.failureOnSubmit = function (jsonObject) {
             SP.UI.Notify.addNotification(sharePointConfig.messages.onSubmitError, false);
-            console.info("$scope.failureOnSubmit: " + JSON.stringify(jsonObject));
+            console.error("$scope.failureOnSubmit: " + JSON.stringify(jsonObject));
         };
 
         $scope.failureOnAnswerUpdate = function (jsonObject) {
@@ -251,12 +246,12 @@
                 }, $scope.successOnRevert, $scope.failureOnRevert);
             }
             answerSaveFailure++;
-            console.info("$scope.failureOnAnswerUpdate: " + JSON.stringify(jsonObject));
+            console.error("$scope.failureOnAnswerUpdate: " + JSON.stringify(jsonObject));
         };
 
         $scope.failureOnRevert = function (jsonObject) {
             SP.UI.Notify.addNotification(sharePointConfig.messages.onSubmitError, false);
-            console.info("$scope.failureOnRevert: " + JSON.stringify(jsonObject));
+            console.error("$scope.failureOnRevert: " + JSON.stringify(jsonObject));
         };
 
         //Routing
@@ -383,7 +378,7 @@
                 })
                 .fail(function (err) {
                     SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
-                    console.info(JSON.stringify(err));
+                    console.error(JSON.stringify(err));
                 });
             }
         };
@@ -444,7 +439,7 @@
         };
 
         $scope.successOnImageUpdate = function (jsonObject) {
-            $scope.getImages();
+            $scope.refresh();
         };
 
         $scope.failureOnImageUpdate = function (jsonObject) {
@@ -502,39 +497,33 @@
             $scope.scrollTop();
         }
 
-        $scope.getImages = function () {
-            /*
+        $scope.refresh = function () {
+            //Get the Review from the Reviews list using the reviewId from the query string
             $.when(SharePointJSOMService.getImagesFromHostWebFolder($scope,
-                        "/mvf/wgll/" + sharePointConfig.lists.images + "/" + $scope.store + "/" + $scope.title))
-                    .done(function (jsonObject) {
-                        $('.wgll-criteria-title-label').each(function () {
-                            var imageCount = 0;
-                            var imageHtml = "";
-                            var currentAnswerId = $(this).attr("answerid");
+                     "/mvf/wgll/" + sharePointConfig.lists.images + "/" + $scope.store + "/" + $scope.title))
+                .done(function (jsonObject) {
+                    angular.forEach($scope.subsets, function (subset) {
+                        angular.forEach(subset.answers, function (answer) {
+                            var answerImages = [];
                             angular.forEach(jsonObject.d.results, function (image) {
-                                if (currentAnswerId == image.ListItemAllFields.WGLLAnswerId) {
-                                    imageHtml += '<div class="col-xs-4 col-md-2"><a href="' + image.ServerRelativeUrl +
-                                        '" class="thumbnail" target="_blank"><img src="' + image.ServerRelativeUrl +
-                                        '" alt="' + image.Name + '"></a><div class="caption"><h6>' + image.Name +
-                                        '</h6></div></div>';
-                                    imageCount++;
+                                console.warn(answer.id + ": " + image.ListItemAllFields.WGLLAnswerId);
+                                if (answer.id == image.ListItemAllFields.WGLLAnswerId) {
+                                    answerImages.push({
+                                        name: image.Name,
+                                        serverRelativeUrl: image.ServerRelativeUrl,
+                                        answerId: image.ListItemAllFields.WGLLAnswerId
+                                    })
                                 }
                             });
-                            if (imageCount > 0) {
-                                $(this).parent().find('.row').html(imageHtml);
-                                $(this).parent().find('.wgll-images-div-container').removeClass('hide');
-                                $(this).parent().find('.wgll-images-div-container').addClass('show');
-                            }
-                            else {
-                                $(this).parent().find('.wgll-images-div-container').removeClass('show');
-                                $(this).parent().find('.wgll-images-div-container').addClass('hide');
-                            }
+                            answer.images = answerImages;
                         });
-                    })
-                    .fail(function (err) {
-                        SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
-                        console.error(JSON.stringify(err));
-                    });*/
+                    });
+                    if (!$scope.$$phase) { $scope.$apply(); }
+                })
+            .fail(function (err) {
+                SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
+                console.error(JSON.stringify(err));
+            });
         };
 
     }

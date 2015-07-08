@@ -98,26 +98,26 @@
                                     })
                                    .fail(function (err) {
                                        SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
-                                       console.info(JSON.stringify(err));
+                                       console.error(JSON.stringify(err));
                                    });
                                //$scope is not updating so force with this command
                                if (!$scope.$$phase) { $scope.$apply(); }
                            })
                            .fail(function (err) {
                                SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
-                               console.info(JSON.stringify(err));
+                               console.error(JSON.stringify(err));
                            });
                     })
                     .fail(function (jsonObject) {
                         SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
-                        console.info(JSON.stringify(err));
+                        console.error(JSON.stringify(err));
                     });
                 //$scope is not updating so force with this command
                 if (!$scope.$$phase) { $scope.$apply(); }
             })
             .fail(function (err) {
                 SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
-                console.info(JSON.stringify(err));
+                console.error(JSON.stringify(err));
             });
 
         $scope.successGetReview = function () {
@@ -183,7 +183,7 @@
                 })
                 .fail(function (err) {
                     SP.UI.Notify.addNotification(sharePointConfig.messages.defaultError, false);
-                    console.info(JSON.stringify(err));
+                    console.error(JSON.stringify(err));
                 });
             }
         };
