@@ -5,14 +5,10 @@
         <input class="btn wgll-button-disabled wgll-button-submit-disabled" type="button" value="Submit" ng-click="submit()" disabled="" />
     </div>
     <div id="wgllSubsetContainer{{ $index }}" class="form-group wgll-subset-container clearfix" ng-repeat="subset in subsets" ng-hide="!$first">
-        <div class="btn-group pull-right" role="group">
+        <div class="btn-group pull-right wgll-navigation-buttons" role="group">
             <input class="btn" type="button" value="Back" ng-click="moveBack('wgllSubsetContainer'+$index, $index)" ng-disabled="$first" />
             <input class="btn" type="button" value="Next" ng-click="moveNext('wgllSubsetContainer'+$index, $index)" ng-disabled="$last" />
         </div>
-        <h3>
-            <span class="wgll-subset-order-span">{{ $index + 1}}).</span>&#160;
-            <span class="wgll-subset-title-span">{{ subset.title }}</span>
-        </h3>
         <p ng-bind-html="subset.detail"></p>
         <div class="form-group wgll-criteria-container" ng-repeat="criteria in subset.criteria" title="{{ subset.title }}" subtitle="{{ criteria.title }}">
             <ul class="nav nav-pills pull-right" style="margin-left:5px;" role="tablist">
