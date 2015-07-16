@@ -19,11 +19,14 @@
             <div id="wgllReviewVisitTypeInput{{$index}}" class="form-control">{{ visitType }}</div>
         </div>
         <div id="wgllSubsetContainer{{ $index }}" class="form-group wgll-subset-container clearfix" ng-repeat="subset in subsets" ng-hide="!$first">
-            <div class="btn-group pull-right">
+            <div class="btn-group pull-right wgll-navigation-buttons">
                 <input class="btn" type="button" value="Back" ng-click="moveBack('wgllSubsetContainer'+$index, $index)" ng-disabled="$first" />
                 <input class="btn" type="button" value="Next" ng-click="moveNext('wgllSubsetContainer'+$index, $index)" ng-disabled="$last" />
             </div>
-            <h3><span class="wgll-subset-order-span">{{ $index + 1}}).</span>&#160;<span class="wgll-subset-title-span">{{ subset.title }}</span></h3>
+            <h3 class="hide">
+                <span class="wgll-subset-order-span">{{ $index + 1}}).</span>&#160;
+                <span class="wgll-subset-title-span">{{ subset.title }}</span>
+            </h3>
             <p ng-bind-html="subset.detail"></p>
             <div class="form-group wgll-criteria-container" ng-repeat="answer in subset.answers" title="{{ subset.title }}" subtitle="{{ answer.title }}">
                 <ul class="nav nav-pills pull-right" style="margin-left:5px;" role="tablist">
@@ -59,7 +62,7 @@
                         <img src="/_layouts/15/images/loading16.gif?rev=1" alt="loading criteria further guidance image" />
                     </p>
                 </div>
-                <div class="form-group hide bg-warning wgll-reason-for-failure-container wgll-rounded-border" id="wgllTextAreaDiv{{$parent.$index}}{{$index}}">
+                <div class="form-group hide bg-warning wgll-reason-for-failure-container wgll-rounded-border clearfix" id="wgllTextAreaDiv{{$parent.$index}}{{$index}}">
                     <label for="wgllreasonforfailure{{$parent.$index}}{{$index}}" class="">Reason for failure:</label>
                     <textarea id="wgllreasonforfailure{{$parent.$index}}{{$index}}" ng-required="true" class="form-control wgll-criteria-reason-for-failure-textarea" ng-bind-html="answer.reasonForFailure" placeholder="Enter a reason for the failure here..."></textarea>
                     <div class="required pull-right" ng-hide="criteria.checked">
