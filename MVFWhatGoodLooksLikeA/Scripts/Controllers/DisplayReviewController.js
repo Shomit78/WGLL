@@ -22,7 +22,7 @@
                 });
                 var images = [];
                 $.when(SharePointJSOMService.getImagesFromHostWebFolder($scope,
-                         "/mvf/wgll/" + sharePointConfig.lists.images + "/" + $scope.store + "/" + $scope.title))
+                         "/sites/wgll/" + sharePointConfig.lists.images + "/" + $scope.store + "/" + $scope.title))
                     .done(function (jsonObject) {
                         angular.forEach(jsonObject.d.results, function (image) {
                             images.push({

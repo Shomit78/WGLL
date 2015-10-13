@@ -407,7 +407,7 @@
                 if (saved) {
                     p_imageAnswerId =
                         $('#' + btnId).closest('.wgll-criteria-container').find('.wgll-criteria-title-label').attr('answerid');
-                    $scope.imageFolderUrl = "/mvf/wgll/" + sharePointConfig.lists.images + "/" + currentStore +  "/" + reviewId;
+                    $scope.imageFolderUrl = "/sites/wgll/" + sharePointConfig.lists.images + "/" + currentStore +  "/" + reviewId;
                     var fileInput = $('#' + imageFile);
                     $.when(SharePointJSOMService.getFileBuffer(fileInput))
                         .done(function(arrayBuffer) {
@@ -454,7 +454,7 @@
         $scope.failureOnFileAdd = function (jsonObject) {
             console.error("$scope.failureOnFileAdd: " + JSON.stringify(jsonObject));
             //Create folder using store first
-            var storeFolderUrl = "/mvf/wgll/" + sharePointConfig.lists.images + "/" + currentStore;
+            var storeFolderUrl = "/sites/wgll/" + sharePointConfig.lists.images + "/" + currentStore;
             SharePointJSOMService.createFolder(sharePointConfig.lists.images, { "ServerRelativeUrl": storeFolderUrl },
                 $scope.successOnCreateStoreFolder, $scope.failureOnCreateStoreFolder);
         };
@@ -565,7 +565,7 @@
 
         $scope.getImages = function () {
             $.when(SharePointJSOMService.getImagesFromHostWebFolder($scope,
-                        "/mvf/wgll/" + sharePointConfig.lists.images + "/" + currentStore + "/" + reviewId))
+                        "/sites/wgll/" + sharePointConfig.lists.images + "/" + currentStore + "/" + reviewId))
                     .done(function (jsonObject) {
                         $('.wgll-criteria-title-label').each(function () {
                             var imageCount = 0;

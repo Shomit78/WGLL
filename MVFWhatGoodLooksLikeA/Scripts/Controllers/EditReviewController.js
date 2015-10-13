@@ -26,7 +26,7 @@
                 });
                 var images = [];
                 $.when(SharePointJSOMService.getImagesFromHostWebFolder($scope,
-                         "/mvf/wgll/" + sharePointConfig.lists.images + "/" + $scope.store + "/" + $scope.title))
+                         "/sites/wgll/" + sharePointConfig.lists.images + "/" + $scope.store + "/" + $scope.title))
                     .done(function (jsonObject) {
                         angular.forEach(jsonObject.d.results, function (image) {
                             images.push({
@@ -407,7 +407,7 @@
                 p_imageDiv = imageDiv;
                 p_imageAnswerId =
                     $('#' + btnId).closest('.wgll-criteria-container').find('.wgll-criteria-title-label').attr('answerid');
-                $scope.imageFolderUrl = "/mvf/wgll/" + sharePointConfig.lists.images + "/" + $scope.store + "/" + $scope.title;
+                $scope.imageFolderUrl = "/sites/wgll/" + sharePointConfig.lists.images + "/" + $scope.store + "/" + $scope.title;
                 var fileInput = $('#' + imageFile);
                 $.when(SharePointJSOMService.getFileBuffer(fileInput))
                     .done(function (arrayBuffer) {
@@ -437,7 +437,7 @@
         $scope.failureOnFileAdd = function (jsonObject) {
             console.error("$scope.failureOnFileAdd: " + JSON.stringify(jsonObject));
             //Create folder using store first
-            var storeFolderUrl = "/mvf/wgll/" + sharePointConfig.lists.images + "/" + $scope.store;
+            var storeFolderUrl = "/sites/wgll/" + sharePointConfig.lists.images + "/" + $scope.store;
             SharePointJSOMService.createFolder(sharePointConfig.lists.images, { "ServerRelativeUrl": storeFolderUrl },
                 $scope.successOnCreateStoreFolder, $scope.failureOnCreateStoreFolder);
         };
@@ -514,7 +514,7 @@
         $scope.refresh = function () {
             //Get the Review from the Reviews list using the reviewId from the query string
             $.when(SharePointJSOMService.getImagesFromHostWebFolder($scope,
-                     "/mvf/wgll/" + sharePointConfig.lists.images + "/" + $scope.store + "/" + $scope.title))
+                     "/sites/wgll/" + sharePointConfig.lists.images + "/" + $scope.store + "/" + $scope.title))
                 .done(function (jsonObject) {
                     angular.forEach($scope.subsets, function (subset) {
                         angular.forEach(subset.answers, function (answer) {
