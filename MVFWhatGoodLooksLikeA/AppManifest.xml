@@ -3,7 +3,7 @@
 <App xmlns="http://schemas.microsoft.com/sharepoint/2012/app/manifest"
      Name="MVFWhatGoodLooksLikeA"
      ProductID="{2e6aff8b-c5bf-4d17-b74c-94f4cee2ecfa}"
-     Version="1.7.2.0"
+     Version="1.7.3.0"
      SharePointMinVersion="15.0.0.0"
 >
   <Properties>
